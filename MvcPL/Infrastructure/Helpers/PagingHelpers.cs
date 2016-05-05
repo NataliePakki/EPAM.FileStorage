@@ -1,25 +1,18 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
 using MvcPL.Models;
 
 namespace MvcPL.Infrastructure.Helpers {
     public static class PagingHelpers {
-        public static MvcHtmlString PageLinks(this HtmlHelper html, PageInfo pageInfo, Func<int, string> pageUrl) {
+        public static MvcHtmlString PageLinks(this AjaxHelper html, PageInfo pageInfo, string actionName, string controllerName, string updateTargetId) {
             StringBuilder result = new StringBuilder();
             for(int i = 1; i <= pageInfo.TotalPages; i++) {
-                TagBuilder tag = new TagBuilder("a");
-                tag.MergeAttribute("href", pageUrl(i));
-                tag.InnerHtml = i.ToString();
-
-                if(i == pageInfo.PageNumber) {
-                    tag.AddCssClass("selected");
-                    tag.AddCssClass("btn-primary");
-                }
-                tag.AddCssClass("btn btn-default");
-                result.Append(tag);
+                string cl = i == pageInfo.PageNumber ? "btn btn-primary selected" : "btn btn-default";
+                string link = html.ActionLink(i.ToString(),actionName, controllerName,new {page = i}, new AjaxOptions {UpdateTargetId = updateTargetId}, new {@class = cl}).ToString();
+                result.Append(link);
             }
-            return MvcHtmlString.Create(result.ToString());
+           return MvcHtmlString.Create(result.ToString());
         }
     }
 }

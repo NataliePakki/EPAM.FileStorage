@@ -1,4 +1,5 @@
-﻿@model MvcPL.Models.TableViewModel
+﻿@using MvcPL.Infrastructure.Helpers
+@model MvcPL.Models.TableViewModel
 @if (ViewBag.IsEmpty) {
     <div class="alert alert-info">
         <strong>Info!</strong>
@@ -28,10 +29,11 @@
             </table>
         </div>
         <div class="btn-group">
-            @for (int i = 1; i <= Model.PageInfo.TotalPages; i++) {
+            @Ajax.PageLinks(Model.PageInfo,"GetFilesPage","File","table");
+            @*@for (int i = 1; i <= Model.PageInfo.TotalPages; i++) {
                 string cl = i == Model.PageInfo.PageNumber ? "btn btn-primary selected" : "btn btn-default";
                 @Ajax.ActionLink(i.ToString(), "GetFilesPage", "File", new {page = i}, new AjaxOptions {UpdateTargetId = "table"}, new {@class = cl})
-            }
+            }*@
 
         </div>
     </div>
