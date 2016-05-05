@@ -1,0 +1,38 @@
+﻿@model MvcPL.Models.TableViewModel
+@if (ViewBag.IsEmpty) {
+    <div class="alert alert-info">
+        <strong>Info!</strong>
+        No files avaible.
+    </div>
+} else {
+    <div class="form-group text-center">
+        <div class="col-md-12 form-block">
+
+            <table id="list-files" data-toggle="table" class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th data-field="name" data-sortable="true">
+                        @Html.DisplayName("File name")
+                    </th>
+                    <th data-field="user-name" data-sortable="true">
+                        @Html.DisplayName("User name")
+                    </th>
+                    <th data-field="time-added" data-sortable="true">
+                        @Html.DisplayName("Creation Date")
+                    </th>
+                </tr>
+                </thead>
+                <tbody id="filesRow">
+                @Html.Partial("_FileRows", Model)
+                </tbody>
+            </table>
+        </div>
+        <div class="btn-group">
+            @for (int i = 1; i <= Model.PageInfo.TotalPages; i++) {
+                string cl = i == Model.PageInfo.PageNumber ? "btn btn-primary selected" : "btn btn-default";
+                @Ajax.ActionLink(i.ToString(), "GetFilesPage", "File", new {page = i}, new AjaxOptions {UpdateTargetId = "table"}, new {@class = cl})
+            }
+
+        </div>
+    </div>
+}

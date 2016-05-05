@@ -1,0 +1,15 @@
+﻿@model MvcPL.Models.TableViewModel
+    @foreach(var item in Model.Files) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreationDate)
+        </td>
+
+    </tr>
+}
