@@ -8,7 +8,7 @@ namespace BLL.Interfacies.Services {
         IEnumerable<FileEntity> GetAllFileEntities(string userName);
         IEnumerable<FileEntity> GetAllFileEntities(int userId);
         IEnumerable<FileEntity> GetAllPublicFileEntities();
-        IEnumerable<FileEntity> FindFileBySubstring(string s);
+        IEnumerable<FileEntity> FindFilesBySubstring(string s);
         void CreateFile(FileEntity file);
         void UpdateFile(FileEntity file);
         void DeleteFile(FileEntity file);

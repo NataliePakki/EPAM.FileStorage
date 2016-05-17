@@ -32,7 +32,7 @@ namespace BLL.Services {
             return _repository.GetPublicFiles().Select(file => file.ToBllFile());
         }
 
-        public IEnumerable<FileEntity> FindFileBySubstring(string s) {
+        public IEnumerable<FileEntity> FindFilesBySubstring(string s) {
             return _repository.SearchBySubstring(s).Select(file => file.ToBllFile());
         }
 

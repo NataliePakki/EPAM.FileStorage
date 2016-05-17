@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
@@ -16,33 +19,45 @@ namespace MvcPL.Controllers
             this._userService = userService;
         }
 
-        public ActionResult Index(int page = 1) {
-            return View(page);
-        }
-        
-        public PartialViewResult GetFilesPage(int page = 1) {
-            int pageSize = 1;
+        //public ActionResult Index(TableViewModel tvm) {
+        //    return View(tvm);
+        //}
+        // GET: File
 
+        public ActionResult Index(string search = null, bool allFiles = true, int page = 1) {
+            var tvm = CreateTableViewModel(allFiles,page,search);
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_FileTable", tvm);
+            }
+            return View(tvm);
+        }
+
+       
+        //TODO: CHANGE
+        [NonAction]
+        public TableViewModel CreateTableViewModel(bool allFiles, int page, string searchstring = null) {
+           int pageSize = 3;
             var userEmail = User.Identity.Name;
             var currentUser = _userService.GetUserEntityByEmail(userEmail);
-            var userId =  currentUser.Id;
-
-            var publicfiles = _fileService.GetAllPublicFileEntities().ToList();
-            var userfiles = _fileService.GetAllFileEntities(userId).ToList();
-
-            publicfiles.AddRange(userfiles);
+            var userId = currentUser.Id;
+            var files = new List<FileEntity>();
+            if (!String.IsNullOrEmpty(searchstring)) {
+                files = _fileService.FindFilesBySubstring(searchstring).ToList();
+            } else {
+                files.AddRange(allFiles ? _fileService.GetAllPublicFileEntities().ToList() : _fileService.GetAllFileEntities(userId).ToList());
+            }
 
             var tvm = new TableViewModel() {
+                AllFiles = allFiles,
                 PageInfo = new PageInfo {
                     PageNumber = page,
                     PageSize = pageSize,
-                    TotalItems = publicfiles.Count
+                    TotalItems = files.Count
                 },
-                Files = publicfiles.Skip((page - 1) * pageSize).Take(10).Select(f => f.ToMvcFile()).ToList()
+                Files = files.Skip((page - 1) * pageSize).Take(10).Select(f => f.ToMvcFile()).ToList()
             };
-
-            ViewBag.IsEmpty = publicfiles.Count == 0;
-            return PartialView("_FileTable", tvm);
+            ViewBag.IsEmpty = files.Count == 0;
+            return tvm;
         }
     }
 

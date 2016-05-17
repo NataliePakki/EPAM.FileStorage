@@ -51,9 +51,17 @@ namespace DAL.Concrete {
         }
 
         public IEnumerable<DalFile> SearchBySubstring(string subsrting) {
-            return _context.Set<File>()
+            var files = _context.Set<File>()
                 .Where(a => a.Name.Contains(subsrting))
-                .Select(file => file.ToDalFile());
+                .Select(file => new DalFile() {
+                    Id = file.Id,
+                    Name = file.Name,
+                    IsPublic = file.IsPublic,
+                    TimeAdded = file.TimeAdded,
+                    UserId = file.UserId,
+                    UserName = file.User.Email
+                    });
+            return files;
         }
 
         public ICollection<DalFile> GetFilesByUserName(string userName) {

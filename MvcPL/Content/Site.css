@@ -128,34 +128,45 @@ textarea {
   background: #fff;
   min-height: 460px;
 }
-/*.btn-upload {
+
+/*Search*/
+ #search_form {
+    float: right;
+    margin-top: 9px;
+    width: 250px;
+}
+
+.search_form {
+    margin-left: 200px;
+    margin-bottom: 20px;
+    width: 230px;
+    height: 30px;
     position: relative;
-    overflow: hidden;
-    display: inline-block
+    left: 10px;
+    float: left;
+    line-height: 22px;
 }
-.btn-upload input[type=file] {
+
+    .search_form input {
+        position: absolute;
+        width: 200px;
+        float: Left;
+        margin-left: 0px;
+        -webkit-transition: all 0.7s ease-in-out;
+        -moz-transition: all 0.7s ease-in-out;
+        -o-transition: all 0.7s ease-in-out;
+        transition: all 0.7s ease-in-out;
+        height: 30px;
+        line-height: 18px;
+        padding: 0 2px 0 2px;
+        border-radius:1px;
+    }
+
+     
+
+#btnSearch {
+    height: 30px;
     position: absolute;
-    opacity: 0;
-    z-index: 0;
-    max-width: 100%;
-    height: 100%;
-    display: block;
+    right: 0;
+    border-radius:1px;
 }
-.btn-upload .btn {
-    padding: 8px 20px;
-    background: #337ab7;
-    border: 1px solid #2e6da4;
-    color: #fff;
-    border: 0;
-}
-.btn-upload:hover .btn {
-    padding: 8px 20px;
-    background: #2e6da4;
-    color: #fff;
-    border: 0;
-}*/
-
-
-
-
-

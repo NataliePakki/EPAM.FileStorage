@@ -10,13 +10,25 @@ namespace MvcPL.Controllers {
         public HomeController(IFileService fileService) {
             this._fileService = fileService;
         }
-        public ActionResult Index(int page = 1) {
-            return View(page);
-        }
-   
-        public PartialViewResult GetFilesPage(int page = 1) {
-            int pageSize = 1;
 
+        public ActionResult Index(int page = 1) {
+            var tvm = CreateTableViewModel(page);
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_FileTable", tvm);
+            }
+            return View(tvm);
+        }
+        public ActionResult GetFilesPage(int page = 1) {
+            var tvm = CreateTableViewModel(page);
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_FileTable", tvm);
+            }
+            return View("Index", tvm);
+        }
+        //TODO: CHANGE
+        [NonAction]
+        public TableViewModel CreateTableViewModel(int page) {
+            int pageSize = 1;
             var publicfiles = _fileService.GetAllPublicFileEntities().ToList();
 
             var tvm = new TableViewModel() {
@@ -27,10 +39,10 @@ namespace MvcPL.Controllers {
                 },
                 Files = publicfiles.Skip((page - 1) * pageSize).Take(10).Select(f => f.ToMvcFile()).ToList()
             };
-
             ViewBag.IsEmpty = publicfiles.Count == 0;
-            return PartialView("_FileRows", tvm);
+            return tvm;
         }
+
 
     }
 }
