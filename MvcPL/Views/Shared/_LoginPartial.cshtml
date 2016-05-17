@@ -4,29 +4,16 @@
     {
         @Html.AntiForgeryToken()
         <ul class="nav navbar-nav navbar-right">
-            @*<li>
-                <input style="padding: 22px 12px" type="text" id="SearchValue" name="SearchValue" class="form-control" />
-            </li>*@
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle welcomLink" data-toggle="dropdown" title="Manage">Welcome, @User.Identity.Name <span class="caret"></span></a>
-                <div class="dropdown-menu">
-                    <ul>
-                      
-                            <li>@Html.ActionLink("Edit profile", "Index", "Home")</li>
-                        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                    </ul>
-                </div>
-            </li>
+            <li>@Html.ActionLink("Edit Profile", "Edit", "User", routeValues: null, htmlAttributes: new {id = "editLink"})</li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            
         </ul>
     }
 }
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>
-            @*<input style="padding: 22px 12px" type="text" id="SearchValue" name="SearchValue" class="form-control" />*@
-        </li>
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>
+      <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>
     </ul>
 }

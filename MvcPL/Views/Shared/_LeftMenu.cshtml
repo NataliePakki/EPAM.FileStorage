@@ -1,57 +1,57 @@
 ﻿@using System.Drawing
 @using MvcPL.Infrastructure.Mappers
+@{
+    ViewBag.Title = "Files";
+    AjaxOptions ajaxOptions = new AjaxOptions {
+        UpdateTargetId = "edituser"
+    };
+}
 <div class="col-md-3">
-<div class="profile-sidebar">
-    <!-- SIDEBAR USERPIC -->
-    <div class="profile-userpic">
-        @if (@Session["Photo"] == null) {
-            <img src="~/Content/images/default_avatar.png" class="img-responsive" alt=""/>
-        } else {
-            
-            @Html.Raw("<img class=\"img-responsive\" style = \"height: 200px; width: 200px;\" src=\"data:image/jpeg;base64," + Convert.ToBase64String(((Byte[])Session["Photo"])) + "\" />")
-        }
-    </div>
-    <!-- END SIDEBAR USERPIC -->
-    <!-- SIDEBAR USER TITLE -->
-    <div class="profile-usertitle">
-        <div class="profile-usertitle-name">
-            @if (User.Identity.Name != null) {
-                @User.Identity.Name
+    <div class="profile-sidebar">
+        <!-- SIDEBAR USERPIC -->
+        <div class="profile-userpic">
+            @if (@Session["Photo"] == null) {
+                <img src="~/Content/images/default_avatar.png" class="img-responsive" alt=""/>
             } else {
-                @Html.Label("Anonim")
-            }
 
-        </div>
-        <div class="profile-usertitle-job">
-            @(User.IsInRole("user") ? Html.Label("User") : Html.Label("Guest"))
-          </div>
-    </div>
-    <!-- END SIDEBAR USER TITLE -->
-    <!-- SIDEBAR MENU -->
-    <div class="profile-usermenu">
-        <ul class="nav">
-            <li class="active">
-                <a href="@Url.Action("Index","File")">
-                    <i class="glyphicon glyphicon-home"></i>
-                    All Files
-                </a>
-            </li>
-            @if(User.Identity.IsAuthenticated) { 
-            <li>
-                <a href="#" target="_blank">
-                    <i class="glyphicon glyphicon-file"></i>
-                    My Files
-                </a>
-            </li>
-            <li>
-                <a href="@Url.Action("Edit","User")" target="_blank">
-                    <i class="glyphicon glyphicon-file"></i>
-                    User Configuration
-                </a>
-            </li>
+                @Html.Raw("<img class=\"img-responsive\" style = \"height: 200px; width: 200px;\" src=\"data:image/jpeg;base64," + Convert.ToBase64String(((Byte[]) Session["Photo"])) + "\" />")
             }
-        </ul>
+        </div>
+        <!-- END SIDEBAR USERPIC -->
+        <!-- SIDEBAR USER TITLE -->
+        <div class="profile-usertitle">
+            <div class="profile-usertitle-name">
+                @if (User.Identity.Name != null) {
+                    @User.Identity.Name
+                } else {
+                    @Html.Label("Anonim")
+                }
+
+            </div>
+            <div class="profile-usertitle-job">
+                @(User.IsInRole("user") ? Html.Label("User") : Html.Label("Guest"))
+            </div>
+        </div>
+        <!-- END SIDEBAR USER TITLE -->
+        <!-- SIDEBAR MENU -->
+        <div class="profile-usermenu" id ="menu">
+            <ul class="nav">
+                <li class="active">
+                    @Ajax.ActionLink("All Files", "Index", "File", new AjaxOptions() {UpdateTargetId = "table"})
+                    @*<i class="glyphicon glyphicon-home"></i>*@
+                </li>
+                @if (User.Identity.IsAuthenticated) {
+                    <li>
+                        @Ajax.ActionLink("My Files", "Index", "File", new {allFiles = false, page = 1}, new AjaxOptions() {UpdateTargetId = "table"})
+                        @*<i class="glyphicon glyphicon-file"></i>*@
+                    </li>
+                    <li>
+                        @*<i class="glyphicon glyphicon-file"></i>*@
+                        @Ajax.ActionLink("User Edit", "Edit", "User", new AjaxOptions() {UpdateTargetId = "edituser"})@*//TODO: think about this*@
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- END MENU -->
     </div>
-    <!-- END MENU -->
 </div>
-    </div>

@@ -1,5 +1,4 @@
-﻿@using MvcPL.Infrastructure.Helpers
-
+﻿@model MvcPL.Models.TableViewModel
 @{
     ViewBag.Title = "Files";
     AjaxOptions ajaxOptions = new AjaxOptions {
@@ -15,7 +14,8 @@
 @section Body{
     <hr />
     <div id="table">
-        @Html.Action("GetFilesPage", "File", new { page = Model })
+        @Html.Partial("_FileTable", Model)
+        @*@Html.Action("GetFilesPage", "File", new { page = Model })*@
     </div>
 }
 @section Styles {
@@ -24,5 +24,4 @@
 }
 @section Scripts {
     <script src="@Url.Content("~/Scripts/bootstrap-table.js")"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 }
