@@ -20,7 +20,7 @@ namespace MvcPL {
                       "~/Scripts/bootstrap.js", 
                       "~/Scripts/bootstrap-table.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/menu.js"));
+                      "~/Scripts/Site.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

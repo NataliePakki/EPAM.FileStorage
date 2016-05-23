@@ -39,7 +39,7 @@ namespace MvcPL.Controllers {
                     if(Url.IsLocalUrl(returnUrl)) {
                         return Redirect(returnUrl);
                     } else {
-                        return RedirectToAction("Index", "File");
+                        return RedirectToAction("AllPublicFiles", "File");
                     }
                 } else {
                     ModelState.AddModelError("", "Incorrect login or password.");
@@ -94,7 +94,7 @@ namespace MvcPL.Controllers {
         public ActionResult LogOff() {
             FormsAuthentication.SignOut();
             Session["Photo"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("AllPublicFiles", "File");
         }
 
     }

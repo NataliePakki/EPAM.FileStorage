@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
 
-namespace MvcPL.Controllers
-{
+namespace MvcPL.Controllers {
     [Authorize(Roles = "User")]
     public class FileController : Controller {
         private readonly IFileService _fileService;
@@ -23,42 +24,69 @@ namespace MvcPL.Controllers
         //    return View(tvm);
         //}
         // GET: File
-
-        public ActionResult Index(string search = null, bool allFiles = true, int page = 1) {
-            var tvm = CreateTableViewModel(allFiles,page,search);
-            if(Request.IsAjaxRequest()) {
-                return PartialView("_FileTable", tvm);
+        [AllowAnonymous]
+        public ActionResult AllPublicFiles(string search = null, int page = 1) {
+            var files = new List<FileEntity>();
+            if(!String.IsNullOrEmpty(search)) {
+                files = _fileService.FindFilesBySubstring(search).ToList();
+            } else {
+                files.AddRange(_fileService.GetAllPublicFileEntities().ToList());
             }
-            return View(tvm);
+            var pageInfo = new PageInfo {
+                PageNumber = page,
+                PageSize = 3,
+                TotalItems = files.Count
+            };
+            var tvm = files.ToMvcTable(pageInfo);
+            ViewBag.IsEmpty = files.Count == 0;
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_AllPublicFileTable", tvm);
+            }
+            return View("AllPublicFiles",tvm);
         }
-
-       
-        //TODO: CHANGE
-        [NonAction]
-        public TableViewModel CreateTableViewModel(bool allFiles, int page, string searchstring = null) {
-           int pageSize = 3;
+        public ActionResult UserFiles(string search = null, int page = 1) {
             var userEmail = User.Identity.Name;
             var currentUser = _userService.GetUserEntityByEmail(userEmail);
             var userId = currentUser.Id;
             var files = new List<FileEntity>();
-            if (!String.IsNullOrEmpty(searchstring)) {
-                files = _fileService.FindFilesBySubstring(searchstring).ToList();
+            if(!String.IsNullOrEmpty(search)) {
+                files = _fileService.FindFilesBySubstring(search).ToList();
+                files = files.Where(file => file.UserId == userId).ToList();
             } else {
-                files.AddRange(allFiles ? _fileService.GetAllPublicFileEntities().ToList() : _fileService.GetAllFileEntities(userId).ToList());
+                files.AddRange( _fileService.GetAllFileEntities(userId).ToList());
             }
-
-            var tvm = new TableViewModel() {
-                AllFiles = allFiles,
-                PageInfo = new PageInfo {
-                    PageNumber = page,
-                    PageSize = pageSize,
-                    TotalItems = files.Count
-                },
-                Files = files.Skip((page - 1) * pageSize).Take(10).Select(f => f.ToMvcFile()).ToList()
+            var pageInfo = new PageInfo {
+                PageNumber = page,
+                PageSize = 3,
+                TotalItems = files.Count
             };
             ViewBag.IsEmpty = files.Count == 0;
-            return tvm;
+            var tvm = files.ToMvcTable(pageInfo);
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_UserFileTable", tvm);
+            }
+
+            return View(tvm);
         }
-    }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file) {
+            if(file != null && file.ContentLength > 0)
+                try {
+                    string path = AppDomain.CurrentDomain.BaseDirectory + "UploadedFiles/";
+                    string filename = Path.GetFileName(file.FileName);
+                    if (filename != null) {
+                        file.SaveAs(Path.Combine(path, filename));
+                    }
+                } catch(Exception ex) {
+                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                } else {
+                ViewBag.Message = "You have not specified a file.";
+            }
+            return RedirectToAction("UserFiles");
+        }
+
+       
+        }
 
 }

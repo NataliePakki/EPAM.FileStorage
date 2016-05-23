@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;

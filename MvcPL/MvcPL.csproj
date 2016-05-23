@@ -184,7 +184,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FileController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ModelValidationController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -232,10 +231,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\register.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\menu.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -250,21 +248,20 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LeftMenu.cshtml" />
-    <Content Include="Views\File\Index.cshtml" />
-    <Content Include="Views\Shared\_FileTable.cshtml" />
-    <Content Include="Views\Shared\_FileRows.cshtml" />
+    <Content Include="Views\File\AllPublicFiles.cshtml" />
+    <Content Include="Views\File\_AllPublicFileTable.cshtml" />
+    <Content Include="Views\File\_FileRows.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\Shared\_EditUser.cshtml" />
+    <Content Include="Views\File\UserFiles.cshtml" />
+    <Content Include="Views\File\_UserFileTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="UploadedFiles\" />
     <Folder Include="Views\ModelValidation\" />
   </ItemGroup>
   <ItemGroup>

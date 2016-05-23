@@ -1,0 +1,55 @@
+﻿@model MvcPL.Models.TableViewModel
+@{
+    ViewBag.Title = "My Files";
+}
+@section Header{
+    <h2>My Files: </h2>
+}
+@section Body{
+    <hr />
+    <div class="form-group text-center">
+        <div class="col-md-12 form-block">
+            <div class="col-md-7">
+                @using(Html.BeginForm("UserFiles", "File", FormMethod.Get)) {
+                    <div class="search_form">
+                        <input type="text" id="searchUserFiles" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" />
+                        <button type="submit" id="btnSearch" class="btn btn-primary btn-sm">Search</button>
+                    </div>
+                }
+            </div>
+            @using(Html.BeginForm("Upload", "File", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <form>
+                            @*<input type="text" class="form-control" placeholder="Select your avatar" id="inputFileVisible">*@
+                            <input type="file" style="display: none" name="file" id="file" />
+                            <button class="btn btn-primary" style="display: none" type="submit" id="addFileBtn">+</button>
+                            <button class="btn btn-primary" type="button" id="fileBtn">+</button>
+                        </form>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+
+
+
+    <div id="table">
+        @Html.Partial("_UserFileTable", Model)
+        @*@Html.Action("GetFilesPage", "File", new {page = Model})*@
+    </div>
+
+}
+@section Styles {
+    <link href="@Url.Content("~/Content/bootstrap-table.css")" rel="stylesheet" type="text/css" />
+
+}
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/bootstrap-table.js")"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}
+
+

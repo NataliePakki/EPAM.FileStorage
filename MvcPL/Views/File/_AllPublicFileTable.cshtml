@@ -31,7 +31,7 @@
         <div class="btn-group">
             @for (int i = 1; i <= Model.PageInfo.TotalPages; i++) {
                 string cl = i == Model.PageInfo.PageNumber ? "btn btn-primary selected" : "btn btn-default";
-                @Ajax.ActionLink(i.ToString(), "Index", "File", new {page = i}, new AjaxOptions {UpdateTargetId = "table"}, new {@class = cl});
+                @Ajax.ActionLink(i.ToString(), "AllPublicFiles", "File", new {page = i}, new AjaxOptions {UpdateTargetId = "table"}, new {@class = cl});
             }
         </div>
     </div>

@@ -129,6 +129,7 @@ textarea {
   min-height: 460px;
 }
 
+
 /*Search*/
  #search_form {
     float: right;
@@ -137,7 +138,7 @@ textarea {
 }
 
 .search_form {
-    margin-left: 200px;
+    margin-left: 180px;
     margin-bottom: 20px;
     width: 230px;
     height: 30px;
@@ -169,4 +170,7 @@ textarea {
     position: absolute;
     right: 0;
     border-radius:1px;
+}
+#fileBtn {
+    height: 30px;
 }

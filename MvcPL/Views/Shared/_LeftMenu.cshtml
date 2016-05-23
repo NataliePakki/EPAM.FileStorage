@@ -1,10 +1,6 @@
-﻿@using System.Drawing
-@using MvcPL.Infrastructure.Mappers
-@{
+﻿@{
     ViewBag.Title = "Files";
-    AjaxOptions ajaxOptions = new AjaxOptions {
-        UpdateTargetId = "edituser"
-    };
+    
 }
 <div class="col-md-3">
     <div class="profile-sidebar">
@@ -36,18 +32,27 @@
         <!-- SIDEBAR MENU -->
         <div class="profile-usermenu" id ="menu">
             <ul class="nav">
-                <li class="active">
-                    @Ajax.ActionLink("All Files", "Index", "File", new AjaxOptions() {UpdateTargetId = "table"})
-                    @*<i class="glyphicon glyphicon-home"></i>*@
+                <li>
+                    @Html.ActionLink("All Files","AllPublicFiles","File")
                 </li>
                 @if (User.Identity.IsAuthenticated) {
                     <li>
-                        @Ajax.ActionLink("My Files", "Index", "File", new {allFiles = false, page = 1}, new AjaxOptions() {UpdateTargetId = "table"})
-                        @*<i class="glyphicon glyphicon-file"></i>*@
+                        @Html.ActionLink("My Files", "UserFiles", "File")
                     </li>
                     <li>
-                        @*<i class="glyphicon glyphicon-file"></i>*@
-                        @Ajax.ActionLink("User Edit", "Edit", "User", new AjaxOptions() {UpdateTargetId = "edituser"})@*//TODO: think about this*@
+                        @Html.ActionLink("User Edit", "Edit", "User")
+                    </li>
+                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+                        @Html.AntiForgeryToken()
+                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                        }
+                   
+                } else {
+                    <li>
+                        @Html.ActionLink("Login", "Login", "Account")
+                    </li>
+                    <li>
+                        @Html.ActionLink("Register", "Register", "Account")
                     </li>
                 }
             </ul>

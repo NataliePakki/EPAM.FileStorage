@@ -1,0 +1,41 @@
+﻿@model MvcPL.Models.TableViewModel
+@{
+    ViewBag.Title = "Files";
+    
+}
+@section Header {
+    <h2>Public files: </h2>
+}
+@section Body{
+    <hr/>
+    <div class="form-group text-center">
+        <div class="col-md-12 form-block">
+            <div class="col-md-7">
+                @using (Html.BeginForm("AllPublicFiles", "File", FormMethod.Get)) {
+                    <div class="search_form">
+                        <input type="text" id="searchAllFiles" name="search" class="form-control input-sm" maxlength="64" placeholder="Search"/>
+                        <button type="submit" id="btnSearch"class="btn btn-primary btn-sm">Search</button>
+                    </div>
+                }
+            </div>
+          </div>
+    </div>
+
+
+
+    <div id="table">
+        @Html.Partial("_AllPublicFileTable", Model)
+        @*@Html.Action("GetFilesPage", "File", new {page = Model})*@
+    </div>
+
+}
+@section Styles {
+    <link href="@Url.Content("~/Content/bootstrap-table.css")" rel="stylesheet" type="text/css" />
+
+}
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/bootstrap-table.js")"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}

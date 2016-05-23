@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using BLL.Interfacies.Entities;
 using MvcPL.Models;
 
@@ -12,7 +13,14 @@ namespace MvcPL.Infrastructure.Mappers {
             };
 
         }
-        
+        public static TableViewModel ToMvcTable(this List<FileEntity> files, PageInfo pageInfo) {
+            return new TableViewModel() {
+                PageInfo = pageInfo,
+                Files = files.Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(10).Select(f => f.ToMvcFile()).ToList()
+            };
+
+        }
+
         //public static FileEntity ToBllFile(this FileViewModel fileViewModel) {
         //    return new FileEntity() {
         //        Id = fileViewModel.Id,

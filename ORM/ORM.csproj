@@ -76,26 +76,6 @@
   <ItemGroup>
     <Compile Include="DBInitializer.cs" />
     <Compile Include="EntityModel.cs" />
-    <Compile Include="Migrations\201604291053573_cat.cs" />
-    <Compile Include="Migrations\201604291053573_cat.Designer.cs">
-      <DependentUpon>201604291053573_cat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604291345506_st.cs" />
-    <Compile Include="Migrations\201604291345506_st.Designer.cs">
-      <DependentUpon>201604291345506_st.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201604291445517_st2.cs" />
-    <Compile Include="Migrations\201604291445517_st2.Designer.cs">
-      <DependentUpon>201604291445517_st2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605021207309_sd.cs" />
-    <Compile Include="Migrations\201605021207309_sd.Designer.cs">
-      <DependentUpon>201605021207309_sd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605021252142_fdf.cs" />
-    <Compile Include="Migrations\201605021252142_fdf.Designer.cs">
-      <DependentUpon>201605021252142_fdf.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,23 +85,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201604291053573_cat.resx">
-      <DependentUpon>201604291053573_cat.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604291345506_st.resx">
-      <DependentUpon>201604291345506_st.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201604291445517_st2.resx">
-      <DependentUpon>201604291445517_st2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605021207309_sd.resx">
-      <DependentUpon>201605021207309_sd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605021252142_fdf.resx">
-      <DependentUpon>201605021252142_fdf.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

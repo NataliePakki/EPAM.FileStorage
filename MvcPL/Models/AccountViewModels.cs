@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Drawing;
 using System.Web;
 
 namespace MvcPL.Models
@@ -12,12 +11,12 @@ namespace MvcPL.Models
     }
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Enter your email.")]
         [Display(Name = "Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Enter valid email.")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Enter password.")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
