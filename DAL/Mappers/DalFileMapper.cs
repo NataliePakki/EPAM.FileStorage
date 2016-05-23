@@ -12,11 +12,13 @@ namespace DAL.Mappers {
             return new DalFile() {
                 Id = file.Id,
                 Name = file.Name,
-                Path = file.Path,
                 UserId = file.UserId,
                 UserName = file.User.Email,
                 TimeAdded = file.TimeAdded,
-                IsPublic = file.IsPublic
+                IsPublic = file.IsPublic,
+                ContentType = file.ContentType,
+                Description = file.Description,
+                Size = file.Size,
             };
         }
         public static File ToFile(this DalFile dalFile) {
@@ -25,11 +27,13 @@ namespace DAL.Mappers {
             return new File() {
                 Id = dalFile.Id,
                 Name = dalFile.Name,
-                Path = dalFile.Path,
                 UserId = dalFile.UserId,
                 TimeAdded = dalFile.TimeAdded,
-                IsPublic = dalFile.IsPublic
-            };
+                IsPublic = dalFile.IsPublic,
+                ContentType = dalFile.ContentType,
+                Description = dalFile.Description,
+                Size = dalFile.Size,
+                };
         }
         public static ICollection<DalFile> ToDalFileCollection(this IEnumerable<File> files) {
             var fileList = files.Select(f => f.ToDalFile());//TODO: if fileList = null?

@@ -9,6 +9,6 @@ namespace BLL.Interfacies.Services {
         void UpdateUser(UserEntity user);
 
         void CreateUser(UserEntity user);
-        void DeleteUser(UserEntity user);
+        void DeleteUser(int id);
     }
 }

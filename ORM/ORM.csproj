@@ -76,6 +76,10 @@
   <ItemGroup>
     <Compile Include="DBInitializer.cs" />
     <Compile Include="EntityModel.cs" />
+    <Compile Include="Migrations\201605231340131_dfd.cs" />
+    <Compile Include="Migrations\201605231340131_dfd.Designer.cs">
+      <DependentUpon>201605231340131_dfd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,6 +89,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605231340131_dfd.resx">
+      <DependentUpon>201605231340131_dfd.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

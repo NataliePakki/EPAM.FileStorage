@@ -69,24 +69,62 @@ namespace MvcPL.Controllers {
             return View(tvm);
         }
 
+        [HttpGet]
+        public ActionResult Create() {
+            return View(new CreateFileViewModel() { Description = String.Empty });
+        }
+
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file) {
-            if(file != null && file.ContentLength > 0)
-                try {
-                    string path = AppDomain.CurrentDomain.BaseDirectory + "UploadedFiles/";
-                    string filename = Path.GetFileName(file.FileName);
-                    if (filename != null) {
-                        file.SaveAs(Path.Combine(path, filename));
-                    }
-                } catch(Exception ex) {
-                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
-                } else {
-                ViewBag.Message = "You have not specified a file.";
+        public ActionResult Create(CreateFileViewModel model, HttpPostedFileBase fileBase) {
+            if(ModelState.IsValid && fileBase != null && fileBase.ContentLength > 0) {
+                byte[] fileBytes;
+                using(MemoryStream ms = new MemoryStream()) {
+                    fileBase.InputStream.CopyTo(ms);
+                    fileBytes = ms.ToArray();
+                }
+                var userEmail = User.Identity.Name;
+                var currentUser = _userService.GetUserEntityByEmail(userEmail);
+                var userId = currentUser.Id;
+                _fileService.CreateFile(new FileEntity() {
+                    Name = fileBase.FileName,
+                    Description = model.Description,
+                    ContentType = fileBase.ContentType,
+                    Size = fileBase.ContentLength,
+                    IsPublic = false,
+                    UserId = userId,
+                    TimeAdded = DateTime.Now,
+                    FileBytes = fileBytes
+                } );
+                return RedirectToAction("UserFiles","File");
+            }
+            ModelState.AddModelError("", "Choose file.");
+            return View(model);
+        }
+        public ActionResult Delete(int id) {
+            var userEmail = User.Identity.Name;
+            var currentUser = _userService.GetUserEntityByEmail(userEmail);
+            var userId = currentUser.Id;
+            var file = _fileService.GetAllFileEntities(userId).FirstOrDefault(f => f.Id == id);
+            if(file != null) {
+                _fileService.DeleteFile(file.Id);
             }
             return RedirectToAction("UserFiles");
         }
-
-       
+        public FileContentResult Download(int id) {
+            var userEmail = User.Identity.Name;
+            var currentUser = _userService.GetUserEntityByEmail(userEmail);
+            var userId = currentUser.Id;
+            var file = _fileService.GetAllFileEntities(userId).FirstOrDefault(w => w.Id == id);
+            if(file != null) {
+                return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
+            }
+            return null;
         }
+
+        
+
+
+
+    }
 
 }

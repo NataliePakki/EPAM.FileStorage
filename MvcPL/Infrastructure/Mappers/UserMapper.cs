@@ -34,9 +34,11 @@ namespace MvcPL.Infrastructure.Mappers {
                 Id = file.Id,
                 Name = file.Name,
                 UserId = file.UserId,
+                TimeAdded = file.TimeAdded,
                 IsPublic = file.IsPublic,
-                Path = file.Path,
-                TimeAdded = file.TimeAdded
+                ContentType = file.ContentType,
+                Description = file.Description,
+                Size = file.Size,
             }).ToList();
 
         }
@@ -45,11 +47,12 @@ namespace MvcPL.Infrastructure.Mappers {
             return files?.Select(file => new FileEntity() {
                 Id = file.Id,
                 Name = file.Name,
-                UserName = file.User.Email,
                 UserId = file.UserId,
+                TimeAdded = file.TimeAdded,
                 IsPublic = file.IsPublic,
-                Path = file.Path,
-                TimeAdded = file.TimeAdded
+                ContentType = file.ContentType,
+                Description = file.Description,
+                Size = file.Size,
             }).ToList();
         }
 

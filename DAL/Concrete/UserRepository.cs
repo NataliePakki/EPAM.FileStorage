@@ -56,10 +56,9 @@ namespace DAL.Concrete {
         }
 
 
-        public void Delete(DalUser entity) {
-            var user = entity.ToUser();
+        public void Delete(int id) {
+            var user = _context.Set<User>().Single(u => u.Id == id);
             user.Roles = _roleRepository.GetRolesByUserId(user.Id).ToRoleCollection();
-            user = _context.Set<User>().Single(u => u.Id == user.Id);
             _context.Set<User>().Remove(user);
             //foreach (var file in _fileRepostory.GetFilesByUserId(user.Id)) TODO: delete files, when delete user?
             //    _context.Set<File>().Remove(file.ToFile());

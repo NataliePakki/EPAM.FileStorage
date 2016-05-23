@@ -1,28 +1,4 @@
-﻿$(document).ready(function () {
-    var hidden = $('#file');
-    var visibleBtn = $('#fileBtn');
-    var submit = $('#addFileBtn');
-    visibleBtn.on('click', function () {
-        hidden.click();
-        
-    })
-    //$("form").submit(function (evt) {
-    //    evt.preventDefault();
-    //    var formData = new FormData();
-    //    formData.append('file', $('#file')[0].files[0]);
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/File/Upload",
-    //        data: { "file": formData },
-    //        cache: false,
-    //        success: function (response) {
-    //            $("#table").html(response);
-    //        }
-    //    });
-    //    return false;
-    //   submit.click();
-    //});
-});
+﻿
 $(document).ready(function () {
     var visibleText = $('#inputFileVisible');
     var hidden = $('#inputFile');
@@ -59,6 +35,22 @@ $(function () {
         return false;
     });
 });
+
+$(function () {
+    $(".delete").click(function () {
+        var id = $(".delete").id();
+        $.ajax({
+            type: "POST",
+            url: "/File/Delete",
+            data: { "id": id },
+            cache: false,
+            success: function (response) {
+                $("#table").html(response);
+            }
+        });
+        return false;
+    });
+});
 $(function () {
     $("#searchUserFiles").keyup(function () {
         var search = $("#searchUserFiles").val(); 
@@ -68,7 +60,7 @@ $(function () {
             data: { "search": search },
             cache: false,
             success: function (response) {
-                $("#table").html(response);
+                $("#userTable").html(response);
             }
         });
         return false;

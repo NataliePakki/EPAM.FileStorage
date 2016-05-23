@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 using BLL.Interfacies.Entities;
 
 namespace BLL.Interfacies.Services {
@@ -11,7 +12,7 @@ namespace BLL.Interfacies.Services {
         IEnumerable<FileEntity> FindFilesBySubstring(string s);
         void CreateFile(FileEntity file);
         void UpdateFile(FileEntity file);
-        void DeleteFile(FileEntity file);
-
+        void DeleteFile(int id);
+        byte[] GetPhysicalFile(int id);
     }
 }

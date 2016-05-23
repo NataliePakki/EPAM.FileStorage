@@ -13,7 +13,11 @@ namespace BLL.Mappers {
                 UserId = dalFile.UserId,
                 UserName = dalFile.UserName,
                 IsPublic = dalFile.IsPublic,
-                Path = dalFile.Path
+                Description = dalFile.Description,
+                ContentType = dalFile.ContentType,
+                FileBytes = dalFile.FileBytes,
+                Size = dalFile.Size
+      
             };
         }
 
@@ -27,7 +31,10 @@ namespace BLL.Mappers {
                 UserId = fileEntity.UserId,
                 UserName = fileEntity.UserName,
                 IsPublic = fileEntity.IsPublic,
-                Path = fileEntity.Path
+                Description = fileEntity.Description,
+                ContentType = fileEntity.ContentType,
+                FileBytes = fileEntity.FileBytes,
+                Size = fileEntity.Size
             };
         }
     }

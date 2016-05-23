@@ -6,6 +6,11 @@ namespace MvcPL.Models {
         public int Id { get; set; }
         [Display(Name = "File name")]
         public string Name { get; set; }
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        [Display(Name = "Size")]
+        public String Size { get; set; }
         [Display(Name = "User name")]
         public string UserName { get; set; }
         [Display(Name = "Date created")]

@@ -32,22 +32,27 @@ namespace DAL.Concrete {
             return dalFile;
 
         }
-
-
+        
         public void Create(DalFile entity) {
             var file = entity.ToFile();
             _context.Set<File>().Add(file);
         }
 
-        public void Delete(DalFile e) {
-            var file = e.ToFile();
-            file = _context.Set<File>().Single(u => u.Id == file.Id);
+        public void Delete(int id) {
+            var file = _context.Set<File>().FirstOrDefault(f => f.Id == id);
+            if(file == null)
+                return;
             _context.Set<File>().Remove(file);
+           
         }
 
 
         public void Update(DalFile entity) {
             throw new NotImplementedException();
+        }
+
+        public int GetId(DalFile file) {
+            return _context.Set<File>().First(f => f.Name == file.Name).Id;
         }
 
         public IEnumerable<DalFile> SearchBySubstring(string subsrting) {
@@ -59,7 +64,10 @@ namespace DAL.Concrete {
                     IsPublic = file.IsPublic,
                     TimeAdded = file.TimeAdded,
                     UserId = file.UserId,
-                    UserName = file.User.Email
+                    UserName = file.User.Email,
+                    Description = file.Description,
+                    Size = file.Size,
+                    ContentType = file.ContentType
                     });
             return files;
         }
@@ -83,9 +91,20 @@ namespace DAL.Concrete {
                 IsPublic = file.IsPublic,
                 TimeAdded = file.TimeAdded,
                 UserId = file.UserId,
-                UserName = file.User.Email
-                
+                UserName = file.User.Email,
+                ContentType = file.ContentType,
+                Size = file.Size,
+                Description = file.Description
             });
         }
+
+        public byte[] GetPhysicalFile(int id) {
+            var file = _context.Set<File>().FirstOrDefault(f => f.Id == id);
+            return (file == null)
+                ? null
+                : System.IO.File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + "/App_Data/Storage/" + file.Id +
+                                              "_" + file.Name);
+        }
+
     }
 }

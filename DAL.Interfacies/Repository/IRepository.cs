@@ -7,7 +7,7 @@ namespace DAL.Interfacies.Repository {
         TEntity GetById(int id);
         //TEntity GetByPredicate(Expression<Func<TEntity, bool>> f);
         void Create(TEntity entity);
-        void Delete(TEntity entity);
+        void Delete(int id);
         void Update(TEntity entity);
     }
 

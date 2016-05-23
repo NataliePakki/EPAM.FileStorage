@@ -52,12 +52,8 @@ namespace DAL.Concrete {
             return roles;
         }
 
-        public void Delete(DalRole entity) {
-            var role = new Role() {
-                Id = entity.Id,
-                Name = entity.Name
-            };
-            role = _context.Set<Role>().Single(r => r.Id == role.Id);
+        public void Delete(int id) {
+            var role = _context.Set<Role>().Single(r => r.Id == id);
             if(role == null) {
                 return;
             }
