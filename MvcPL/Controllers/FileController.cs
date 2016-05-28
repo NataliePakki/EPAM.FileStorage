@@ -73,7 +73,7 @@ namespace MvcPL.Controllers {
         public ActionResult Create() {
             return View(new CreateFileViewModel() { Description = String.Empty });
         }
-
+        
         [HttpPost]
         public ActionResult Create(CreateFileViewModel model, HttpPostedFileBase fileBase) {
             if(ModelState.IsValid && fileBase != null && fileBase.ContentLength > 0) {
@@ -100,7 +100,9 @@ namespace MvcPL.Controllers {
             ModelState.AddModelError("", "Choose file.");
             return View(model);
         }
-        public ActionResult Delete(int id) {
+
+        [HttpGet]
+        public ActionResult ConfirmDelete(int id) {
             var userEmail = User.Identity.Name;
             var currentUser = _userService.GetUserEntityByEmail(userEmail);
             var userId = currentUser.Id;
@@ -109,6 +111,20 @@ namespace MvcPL.Controllers {
                 _fileService.DeleteFile(file.Id);
             }
             return RedirectToAction("UserFiles");
+        }
+
+        public ActionResult Delete(int id) {
+            var userEmail = User.Identity.Name;
+            var currentUser = _userService.GetUserEntityByEmail(userEmail);
+            var userId = currentUser.Id;
+            var file = _fileService.GetAllFileEntities(userId).FirstOrDefault(f => f.Id == id);
+            if (Request.IsAjaxRequest()) {
+                if(file != null) {
+                    _fileService.DeleteFile(file.Id);
+                }
+                return RedirectToAction("UserFiles");
+            }
+            return View("ConfirmDelete", new DeleteViewModel() {Id = file.Id, Name = file.Name});
         }
         public FileContentResult Download(int id) {
             var userEmail = User.Identity.Name;

@@ -50,7 +50,7 @@
                             </td>
                             <td>
                                 @Html.ActionLink("Download", "Download", new {id = item.Id}) |
-                                @Ajax.ActionLink("Delete", "Delete","File", new {id = item.Id}, new AjaxOptions() { UpdateTargetId = "userTable" },  new {  id = item.Id})
+                                @Ajax.ActionLink("Delete", "Delete","File", new {id = item.Id}, new AjaxOptions() { Confirm = "Are you sure?", UpdateTargetId = "userTable" },  new {  id = item.Id})
                            </td>
                       </tr>
                     }

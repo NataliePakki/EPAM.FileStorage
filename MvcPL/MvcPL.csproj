@@ -196,6 +196,7 @@
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateFileViewModel.cs" />
+    <Compile Include="Models\DeleteViewModel.cs" />
     <Compile Include="Models\FileViewModel.cs" />
     <Compile Include="Models\PageInfo.cs" />
     <Compile Include="Models\TableViewModel.cs" />
@@ -259,6 +260,7 @@
     <Content Include="Views\File\UserFiles.cshtml" />
     <Content Include="Views\File\_UserFileTable.cshtml" />
     <Content Include="Views\File\Create.cshtml" />
+    <Content Include="Views\File\ConfirmDelete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Storage\" />
