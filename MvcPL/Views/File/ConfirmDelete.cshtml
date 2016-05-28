@@ -4,12 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header{
-    <h2>Delete</h2>
+    <h2>Confirm delete:</h2>
 
 }
+
 @section Body{
-     Are you sure to delete "@Model.Name"?
-    @Html.ActionLink("Delete", "ConfirmDelete", "File", new {id = @Model.Id}, new { @class = "btn btn-primary btn-sm" })
+<hr />
+    <div style="font-size: 30px; margin-bottom: 10px">
+        Are you sure to delete "@Model.Name"?
+    </div>
+<div class="col-md-12 form-inline">
+    @Html.ActionLink("Delete", "ConfirmDelete", "File", new { id = @Model.Id }, new { @class = "btn btn-primary btn-sm" })
     @Html.ActionLink("Cancel", "UserFiles", "File", new { @class = "btn btn-primary btn-sm" })
+    </div>
 }
 

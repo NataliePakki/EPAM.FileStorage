@@ -101,6 +101,7 @@ namespace MvcPL.Controllers {
             return View(model);
         }
 
+       
         [HttpGet]
         public ActionResult ConfirmDelete(int id) {
             var userEmail = User.Identity.Name;
@@ -118,10 +119,10 @@ namespace MvcPL.Controllers {
             var currentUser = _userService.GetUserEntityByEmail(userEmail);
             var userId = currentUser.Id;
             var file = _fileService.GetAllFileEntities(userId).FirstOrDefault(f => f.Id == id);
+            if(file == null)
+                return RedirectToAction("UserFiles");
             if (Request.IsAjaxRequest()) {
-                if(file != null) {
-                    _fileService.DeleteFile(file.Id);
-                }
+                _fileService.DeleteFile(file.Id);
                 return RedirectToAction("UserFiles");
             }
             return View("ConfirmDelete", new DeleteViewModel() {Id = file.Id, Name = file.Name});
