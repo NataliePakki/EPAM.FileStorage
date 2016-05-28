@@ -28,7 +28,7 @@ namespace MvcPL.Controllers {
         public ActionResult AllPublicFiles(string search = null, int page = 1) {
             var files = new List<FileEntity>();
             if(!String.IsNullOrEmpty(search)) {
-                files = _fileService.FindFilesBySubstring(search).ToList();
+                files = _fileService.FindFilesBySubstring(search).Where(f => f.IsPublic).ToList();
             } else {
                 files.AddRange(_fileService.GetAllPublicFileEntities().ToList());
             }
@@ -37,7 +37,7 @@ namespace MvcPL.Controllers {
                 PageSize = 3,
                 TotalItems = files.Count
             };
-            var tvm = files.ToMvcTable(pageInfo);
+            var tvm = files.ToMvcTable(pageInfo, search);
             ViewBag.IsEmpty = files.Count == 0;
             if(Request.IsAjaxRequest()) {
                 return PartialView("_AllPublicFileTable", tvm);
@@ -61,7 +61,7 @@ namespace MvcPL.Controllers {
                 TotalItems = files.Count
             };
             ViewBag.IsEmpty = files.Count == 0;
-            var tvm = files.ToMvcTable(pageInfo);
+            var tvm = files.ToMvcTable(pageInfo,search);
             if(Request.IsAjaxRequest()) {
                 return PartialView("_UserFileTable", tvm);
             }
@@ -90,7 +90,7 @@ namespace MvcPL.Controllers {
                     Description = model.Description,
                     ContentType = fileBase.ContentType,
                     Size = fileBase.ContentLength,
-                    IsPublic = false,
+                    IsPublic = model.IsPublic,
                     UserId = userId,
                     TimeAdded = DateTime.Now,
                     FileBytes = fileBytes

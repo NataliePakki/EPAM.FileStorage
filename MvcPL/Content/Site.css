@@ -29,7 +29,10 @@ textarea {
 .profile {
   margin: 20px 0;
 }
-
+#IsPublic {
+    display: block;
+    margin-top: 10px;
+}
 /* Profile sidebar */
 .profile-sidebar {
   padding: 20px 0 10px 0;

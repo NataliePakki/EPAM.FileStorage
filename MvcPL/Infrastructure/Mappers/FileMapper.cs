@@ -17,8 +17,9 @@ namespace MvcPL.Infrastructure.Mappers {
             };
 
         }
-        public static TableViewModel ToMvcTable(this List<FileEntity> files, PageInfo pageInfo) {
+        public static TableViewModel ToMvcTable(this List<FileEntity> files, PageInfo pageInfo, string searchString) {
             return new TableViewModel() {
+                SearchSubString = searchString,
                 PageInfo = pageInfo,
                 Files = files.Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(10).Select(f => f.ToMvcFile()).ToList()
             };

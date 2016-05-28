@@ -15,7 +15,7 @@
             <div class="col-md-7">
                 @using(Html.BeginForm("UserFiles", "File", FormMethod.Get)) {
                     <div class="search_form">
-                        <input type="text" id="searchUserFiles" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" />
+                       <input type="text" id="searchUserFiles" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" value=@Model.SearchSubString>
                         <button type="submit" id="btnSearch" class="btn btn-primary btn-sm">Search</button>
                     </div>
                 }
