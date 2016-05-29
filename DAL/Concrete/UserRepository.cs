@@ -79,15 +79,14 @@ namespace DAL.Concrete {
                 var loaded = _context.Set<Role>().Find(role.Id);
                 existedUser.Entity.Roles.Add(loaded);
             }
-
+            updatedUser.FileStorage = existedUser.Entity.FileStorage.ToList();
             existedUser.Collection(u => u.FileStorage).Load();
             existedUser.Entity.FileStorage.Clear();
 
-            foreach(File role in updatedUser.FileStorage) {
-                var loaded = _context.Set<File>().Find(role.Id);
+            foreach(File file in updatedUser.FileStorage) {
+                var loaded = _context.Set<File>().Find(file.Id);
                 existedUser.Entity.FileStorage.Add(loaded);
             }
-
 
             existedUser.Entity.Photo = entity.Photo;
             existedUser.Entity.Email = entity.Name;

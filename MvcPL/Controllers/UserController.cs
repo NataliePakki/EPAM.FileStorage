@@ -40,7 +40,7 @@ namespace MvcPL.Controllers
                 _userService.UpdateUser(user);
                 FormsAuthentication.SetAuthCookie(viewModel.Email, true);
                 Session["Photo"] = user.Photo.ImageToByteArray();
-                return RedirectToAction("Index", "File");
+                return RedirectToAction("Edit", "User");
             }
             return View(viewModel);
         }
@@ -52,7 +52,7 @@ namespace MvcPL.Controllers
                     && String.CompareOrdinal(viewModel.Password, viewModel.ConfirmPassword) == 0) {
                     user.Password = Crypto.HashPassword(viewModel.Password);
                     _userService.UpdateUser(user);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Edit", "User");
                 }
             }
             return RedirectToAction("Edit", "User");
