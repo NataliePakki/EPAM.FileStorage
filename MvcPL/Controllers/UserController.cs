@@ -27,6 +27,10 @@ namespace MvcPL.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserEditViewModel viewModel) {
             if(ModelState.IsValid) {
+                if(viewModel.Photo != null && !viewModel.Photo.IsImage()) {
+                    ModelState.AddModelError("", "Select jpg/png image.");
+                    return View(viewModel);
+                }
                 var userWithSameEmail = _userService.GetUserEntityByEmail(viewModel.Email);
                 if(userWithSameEmail != null && userWithSameEmail.Id != viewModel.Id) {
                     ModelState.AddModelError("", "User with this email already exist.");

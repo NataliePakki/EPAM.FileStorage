@@ -63,7 +63,10 @@ namespace MvcPL.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterViewModel viewModel) {
             if(ModelState.IsValid) {
-
+                if (viewModel.Photo!=null&&!viewModel.Photo.IsImage()) {
+                    ModelState.AddModelError("", "Select jpg/png image.");
+                    return View(viewModel);
+                }
                 var users = _userService.GetAllUserEntities().ToList();
                 var userWithSameLogin = users.Any(user => user.UserEmail.Contains(viewModel.Email));
 
@@ -78,7 +81,7 @@ namespace MvcPL.Controllers {
                 if(membershipUser != null) {
                     FormsAuthentication.SetAuthCookie(viewModel.Email, false);
                     Session["Photo"] = viewModel.Photo.HttpPostedFileBaseToByteArray();
-                    return RedirectToAction("Index", "File");
+                    return RedirectToAction("AllPublicFiles", "File");
                 } else {
                     ModelState.AddModelError("", "Error registration.");
                 }

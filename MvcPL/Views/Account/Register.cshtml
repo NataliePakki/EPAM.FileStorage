@@ -23,19 +23,28 @@
             </div>
             @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
         </div>
-            <div class="form-group text-center">
-                <div class="col-md-12 form-inline">
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control input-lg", @placeholder = "Confirm Password" })
-                </div>
-                @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "text-danger" })
+        <div class="form-group text-center">
+            <div class="col-md-12 form-inline">
+                @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control input-lg", @placeholder = "Confirm Password"})
             </div>
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new {@class = "text-danger"})
+        </div>
+        <div class="form-group text-center">
+           @Html.Label("Select Photo:", new { @class = "control-label" })
+       </div>
             <div class="form-group text-center">
                 <div class="col-md-12 form-inline">
-                   <div class="input-group">
+                    <div class="input-group">
+                        <div class="col-md-6">
+                            <input class="form-control" type="file" id="inputFile" name="Photo"/>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Photo, null, new { @class = "text-danger" })
                     </div>
-                    <input type="text" class="form-control" placeholder="Select your avatar" id="inputFileVisible">
+                    <div class="input-group">
+                    </div>
+                    @*<input type="text" class="form-control" placeholder="Select your avatar" id="inputFileVisible">
                     <input type="file" style="display: none" name="Photo" id="inputFile"/>
-                    <button class="btn btn-primary" type="button" id="inputFileBtn">Browse</button>
+                    <button class="btn btn-primary" type="button" id="inputFileBtn">Browse</button>*@
                 </div>
             </div>
 
