@@ -25,7 +25,14 @@
 
             </div>
             <div class="profile-usertitle-job">
-                @(User.IsInRole("user") ? Html.Label("User") : Html.Label("Guest"))
+                @if (User.IsInRole("User")) {
+                    Html.Label("User");
+                }
+                 else if (User.IsInRole("Admin")) {
+                    Html.Label("Admin");
+                } else {
+                     Html.Label("Guest");
+                }
             </div>
         </div>
         <!-- END SIDEBAR USER TITLE -->
@@ -33,7 +40,7 @@
         <div class="profile-usermenu" id ="menu">
             <ul class="nav">
                 <li>
-                    @Html.ActionLink("All Files","AllPublicFiles","File")
+                    @Html.ActionLink("Public Files","AllPublicFiles","File")
                 </li>
                 @if (User.Identity.IsAuthenticated) {
                     <li>
@@ -42,10 +49,16 @@
                     <li>
                         @Html.ActionLink("User Edit", "Edit", "User")
                     </li>
-                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+                    if (User.IsInRole("Administrator")) {
+                        <li>
+                        @Html.ActionLink("Users", "Users", "Admin")
+                            </li>
+                    }
+
+                    using(Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
                         @Html.AntiForgeryToken()
                             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-                        }
+               }
                    
                 } else {
                     <li>

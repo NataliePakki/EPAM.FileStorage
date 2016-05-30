@@ -23,7 +23,9 @@ namespace DAL.Concrete {
             var users = _context.Set<User>().Select(user => new DalUser() {
                 Name = user.Email,
                 Id = user.Id,
-                Password = user.Password
+                Password = user.Password,
+                Photo = user.Photo,
+                IsBlocked = user.IsBlocked
             }).ToList();
 
             foreach(var user in users) {
@@ -91,6 +93,7 @@ namespace DAL.Concrete {
             existedUser.Entity.Photo = entity.Photo;
             existedUser.Entity.Email = entity.Name;
             existedUser.Entity.Password = entity.Password;
+            existedUser.Entity.IsBlocked = entity.IsBlocked;
         }
 
 

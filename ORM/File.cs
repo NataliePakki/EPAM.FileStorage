@@ -13,7 +13,6 @@ namespace ORM {
         public bool IsPublic { get; set; }
         public DateTime TimeAdded { get; set; }
         public int UserId { get; set; }
-        public string UserName { get; set; }
         public virtual User User { get; set; }
     }
 }

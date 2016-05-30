@@ -1,0 +1,58 @@
+﻿@using MvcPL.Models
+@model MvcPL.Models.UserDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@section Header {
+<h2>
+    @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+    / @Html.ActionLink("All Users", "Users", "Admin", null, htmlAttributes: new { @style = "color: #666;" })
+    / User Details
+</h2>
+}
+
+@section Body {
+    <div class="panel panel-default text-left">
+        <div class="panel-body">
+            <div class="col-md-4">
+                @if (Model.Photo != null) {
+                    @Html.Raw("<img class=\"img-circle\" style = \"height: 200px; width: 200px;\" src=\"data:image/jpeg;base64," + Convert.ToBase64String(Model.Photo) + "\" />")
+                } else {
+                    <img src="~/Content/images/default_avatar.png" class="img-circle"/>
+                }
+            </div>
+            <div class="col-md-3">
+                @Html.HiddenFor(m => m.IsBlocked, Model.IsBlocked)
+                @Html.HiddenFor(m => m.Email, Model.Email)
+                <br/>
+                <span>User status : </span>
+                <span id="blockSign" class="glyphicon@(Model.IsBlocked ? " glyphicon-ban-circle" : " glyphicon-ok-circle")" aria-hidden="true"></span>
+                <br/>
+                @if(!(Model.Roles.Contains(Role.Administrator) || Model.Roles.Contains(Role.Moderator))) {
+                    @Html.ActionLink((Model.IsBlocked ? "Unblock " : "Block ") + "user", "BlockUser", "Admin", new {userEmail = @Model.Email }, new { @class = "btn btn-primary", id = "blockButton" })
+                }
+                </div>
+            <div class="col-md-5 form-horizontal text-left" id="userDetails">
+                <br/>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new {@class = "col-sm-4 control-label"})
+                    <div class="col-sm-6">@Model.Email</div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Roles, new { @class = "col-sm-4 control-label" })
+                    <div class="col-sm-6">@String.Join(" | ", Model.Roles.Select(t => t.ToString()))</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">User Files</label>
+                    <span class="col-sm-6"><a href="@Url.Action("UserFiles", "File", new {userId = Model.Id})" class="btn btn-sm">Show</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+

@@ -17,6 +17,7 @@ namespace BLL.Mappers
                 Id = userEntity.Id,
                 Name = userEntity.UserEmail,
                 Password = userEntity.Password,
+                IsBlocked = userEntity.IsBlocked,
                 Roles = userEntity.Roles.ToDalRoleCollection(),
                 Photo = userEntity.Photo.ImageToByteArray()
             };
@@ -29,6 +30,7 @@ namespace BLL.Mappers
                 Id = dalUser.Id,
                 UserEmail = dalUser.Name,
                 Password = dalUser.Password,
+                IsBlocked = dalUser.IsBlocked,
                 Photo = dalUser.Photo.ByteArrayToImage(),
                 Roles = dalUser.Roles.ToRoleEntityCollection()
             };

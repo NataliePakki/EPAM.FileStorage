@@ -11,7 +11,6 @@ using File = ORM.File;
 
 namespace MvcPL.Infrastructure.Mappers {
     public static class UserMapper {
-
         public static UserEditViewModel ToMvcEditUserModel(this UserEntity userEntity) {
             return new UserEditViewModel() {
                 Id = userEntity.Id,

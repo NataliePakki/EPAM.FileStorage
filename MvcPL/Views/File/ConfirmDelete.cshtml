@@ -4,7 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header{
-    <h2>Confirm delete:</h2>
+    <h2>
+        @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        / @Html.ActionLink("My Files", "UserFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        / Confirm delete
+    </h2>
 
 }
 
@@ -14,7 +18,7 @@
         Are you sure to delete "@Model.Name"?
     </div>
 <div class="col-md-12 form-inline">
-    @Html.ActionLink("Delete", "ConfirmDelete", "File", new { id = @Model.Id }, new { @class = "btn btn-primary btn-sm" })
+    @Html.ActionLink("Delete", "DeleteFile", "File", new { id = @Model.Id }, new { @class = "btn btn-primary btn-sm" })
     @Html.ActionLink("Cancel", "UserFiles", "File", new { @class = "btn btn-primary btn-sm" })
     </div>
 }

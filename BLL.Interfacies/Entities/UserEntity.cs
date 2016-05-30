@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace BLL.Interfacies.Entities {
@@ -11,6 +10,7 @@ namespace BLL.Interfacies.Entities {
         public string UserEmail { get; set; }
         public string Password { get; set; }
         public Image Photo { get; set; }
+        public bool IsBlocked { get; set; }
         public ICollection<RoleEntity> Roles { get; set; }
         public ICollection<FileEntity> FileStorage { get; set; }
     }

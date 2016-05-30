@@ -10,7 +10,9 @@ namespace DAL.Mappers {
                 Id = user.Id,
                 Password = user.Password,
                 Photo = user.Photo,
-                Roles = user.Roles.ToDalRoleCollection()
+                IsBlocked = user.IsBlocked,
+                Roles = user.Roles.ToDalRoleCollection(),
+                FileStorage = user.FileStorage.ToDalFileCollection()
             };
         }
         public static User ToUser(this DalUser dalUser) {
@@ -20,7 +22,9 @@ namespace DAL.Mappers {
                 Id = dalUser.Id,
                 Password = dalUser.Password,
                 Photo = dalUser.Photo,
+                IsBlocked = dalUser.IsBlocked,
                 Roles = dalUser.Roles.ToRoleCollection(),
+                FileStorage = dalUser.FileStorage.ToFileCollection()
             };
         }
 

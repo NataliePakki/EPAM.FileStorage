@@ -4,13 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header {
-    <h2>Create: </h2>
+    <h2>
+        @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        / @Html.ActionLink("My Files", "UserFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        / Create
+    </h2>
 }
 <hr/>
 @section Body{
     @using (Html.BeginForm("Create", "File", null, FormMethod.Post, new {enctype = "multipart/form-data"})) {
         @Html.AntiForgeryToken()
-
+        @Html.HiddenFor(m => m.UserId, new { Value = Model.UserId })
         <div class="form-horizontal">
             <hr/>
             @Html.ValidationSummary(true, "", new {@class = "text-danger"})
@@ -33,19 +37,14 @@
                     @Html.CheckBoxFor(model => model.IsPublic, new {htmlAttributes = new {@class = "form-control"}})
                     @Html.ValidationMessageFor(model => model.Description, "", new {@class = "text-danger"})
                 </div>
-
             </div>
-
-
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create"class="btn btn-primary btn-sm"/>
+                    <input type="submit" value="Create"class="btn btn-primary"/>
                 </div>
             </div>
         </div>
-        <div>
-            @Html.ActionLink("Back to List", "UserFiles")
-        </div>
+       
     }
 }
 

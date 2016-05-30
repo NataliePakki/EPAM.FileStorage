@@ -4,7 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header {
-    <h2>Edit: </h2>
+    <h2>
+        @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        / @Html.ActionLink("My Files", "UserFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        / Edit
+    </h2>
 }
 <hr />
 @section Body{
@@ -30,13 +34,11 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-primary btn-sm"/>
+                    <input type="submit" value="Edit" class="btn btn-primary"/>
                 </div>
             </div>
         </div>
-        <div>
-            @Html.ActionLink("Back to List", "UserFiles")
-        </div>
+
     }
 }
 

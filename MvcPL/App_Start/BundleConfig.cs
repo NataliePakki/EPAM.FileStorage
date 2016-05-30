@@ -19,7 +19,7 @@ namespace MvcPL {
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js", 
                       "~/Scripts/respond.js",
-                      "~/Scripts/Site.js"));
+                      "~/Scripts/site.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(

@@ -12,7 +12,7 @@ namespace DAL.Mappers {
             return new DalFile() {
                 Id = file.Id,
                 Name = file.Name,
-                UserId = file.UserId,
+                UserId = file.User.Id,
                 UserName = file.User.Email,
                 TimeAdded = file.TimeAdded,
                 IsPublic = file.IsPublic,
@@ -36,13 +36,13 @@ namespace DAL.Mappers {
                 };
         }
         public static ICollection<DalFile> ToDalFileCollection(this IEnumerable<File> files) {
-            var fileList = files.Select(f => f.ToDalFile());//TODO: if fileList = null?
-            return fileList.ToList();
+            var fileList = files?.Select(f => f.ToDalFile());
+            return fileList?.ToList();
         }
 
         public static ICollection<File> ToFileCollection(this IEnumerable<DalFile> files) {
-            var fileList = files.Select(f => f.ToFile());//TODO: if fileList = null?
-            return fileList.ToList();
+            var fileList = files?.Select(f => f.ToFile());
+            return fileList?.ToList();
         }
 
 

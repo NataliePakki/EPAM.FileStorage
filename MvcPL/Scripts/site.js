@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     $("#menu li").on("click", function () {
         $("#menu li").removeClass("active");
         $(this).addClass("active");
@@ -18,6 +17,40 @@ $(function () {
             }
         });
         return false;
+    });
+});
+$(function() {
+    $('#blockButton').click(function (event) {
+        event.preventDefault();
+        debugger;
+        var userEmail = $('#Email').val();
+        if ($("#IsBlocked").val() === 'True') {
+            $.ajax({
+                type: "Post",
+                url: '/Admin/BlockUser',
+                data: ({ 'isBlocked': false, 'userEmail': userEmail }),
+                success: function(result) {
+                    if (result === 'True') {
+                        $('#blockSign').removeClass("glyphicon-ban-circle").addClass("glyphicon-ok-circle");
+                        $('#blockButton').html('Block user');
+                        $("#IsBlocked").val("False");
+                    }
+                }
+            });
+        } else {
+            $.ajax({
+                type: "Post",
+                url: '/Admin/BlockUser',
+                data: ({ 'isBlocked': true, 'userEmail': userEmail }),
+                success: function(result) {
+                    if (result === 'True') {
+                        $('#blockSign').removeClass("glyphicon-ok-circle").addClass("glyphicon glyphicon-ban-circle");
+                        $('#blockButton').html('Unblock user');
+                        $("#IsBlocked").val("True");
+                    }
+                }
+            });
+        }
     });
 });
 

@@ -17,7 +17,6 @@ namespace BLL.Mappers {
                 ContentType = dalFile.ContentType,
                 FileBytes = dalFile.FileBytes,
                 Size = dalFile.Size
-      
             };
         }
 

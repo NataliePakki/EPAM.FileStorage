@@ -13,15 +13,27 @@ namespace MvcPL.Infrastructure.Mappers {
                 UserName = fileEntity.UserName,
                 CreationDate = fileEntity.TimeAdded,
                 Description = fileEntity.Description,
-                Size = GetSizeString(fileEntity.Size)
+                Size = GetSizeString(fileEntity.Size),
+                UserId = fileEntity.UserId
             };
 
         }
-        public static TableViewModel ToMvcTable(this List<FileEntity> files, PageInfo pageInfo, string searchString) {
+
+        public static UserDetailsViewModel ToUserDetailsModel(this UserEntity userEntity) {
+            return new UserDetailsViewModel() {
+                Email = userEntity.UserEmail,
+                Id = userEntity.Id,
+                IsBlocked = userEntity.IsBlocked,
+                Roles = userEntity.Roles.ToMvcRoleCollection(),
+                Photo = userEntity.Photo.ImageToByteArray()
+            };
+        }
+        public static TableViewModel ToMvcTable(this List<FileEntity> files, PageInfo pageInfo, string searchString, int userId = 0) {
             return new TableViewModel() {
                 SearchSubString = searchString,
                 PageInfo = pageInfo,
-                Files = files.Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(10).Select(f => f.ToMvcFile()).ToList()
+                Files = files.Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(10).Select(f => f.ToMvcFile()).ToList(),
+                UserId = userId
             };
 
         }

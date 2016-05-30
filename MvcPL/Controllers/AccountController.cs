@@ -33,7 +33,11 @@ namespace MvcPL.Controllers {
         public ActionResult Login(LoginViewModel viewModel, string returnUrl) {
             if(ModelState.IsValid) {
                 if(Membership.ValidateUser(viewModel.Email, viewModel.Password)) {
+
                     var user = _userService.GetUserEntityByEmail(viewModel.Email);
+                    if (user.IsBlocked) {
+                        return RedirectToAction("UserBlocked", "User");
+                    }
                     FormsAuthentication.SetAuthCookie(viewModel.Email, viewModel.RememberMe);
                     Session["Photo"] = user.Photo.ImageToByteArray();
                     if(Url.IsLocalUrl(returnUrl)) {

@@ -80,6 +80,14 @@
     <Compile Include="Migrations\201605231340131_dfd.Designer.cs">
       <DependentUpon>201605231340131_dfd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605301435109_SampleMigrations.cs" />
+    <Compile Include="Migrations\201605301435109_SampleMigrations.Designer.cs">
+      <DependentUpon>201605301435109_SampleMigrations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605302014575_SampleMigrations2.cs" />
+    <Compile Include="Migrations\201605302014575_SampleMigrations2.Designer.cs">
+      <DependentUpon>201605302014575_SampleMigrations2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,6 +101,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201605231340131_dfd.resx">
       <DependentUpon>201605231340131_dfd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605301435109_SampleMigrations.resx">
+      <DependentUpon>201605301435109_SampleMigrations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605302014575_SampleMigrations2.resx">
+      <DependentUpon>201605302014575_SampleMigrations2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

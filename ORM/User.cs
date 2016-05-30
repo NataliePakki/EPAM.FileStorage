@@ -19,10 +19,9 @@ namespace ORM {
         [Required]
         [MaxLength(100), MinLength(8)]
         public string Password { get; set; }
+        public bool IsBlocked { get; set; }
         public Byte[] Photo { get; set; }
-
         public virtual ICollection<Role> Roles { get; set; }
-
         public virtual ICollection<File> FileStorage { get; set; } 
     }
 }

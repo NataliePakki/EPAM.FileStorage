@@ -10,7 +10,7 @@ using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
 
 namespace MvcPL.Controllers {
-    [Authorize(Roles = "User")]
+    [Authorize]
     public class FileController : Controller {
         private readonly IFileService _fileService;
         private readonly IUserService _userService;
@@ -20,7 +20,12 @@ namespace MvcPL.Controllers {
             this._userService = userService;
         }
 
-       [AllowAnonymous]
+        private int CurrentUserId => CurrentUser.Id;
+
+        private UserEntity CurrentUser => _userService.GetUserEntityByEmail(User.Identity.Name);
+        private bool UserIsAdministrator => User.IsInRole("Administrator");
+        
+        [AllowAnonymous]
         public ActionResult AllPublicFiles(string search = null, int page = 1) {
             var files = new List<FileEntity>();
             if(!String.IsNullOrEmpty(search)) {
@@ -40,10 +45,11 @@ namespace MvcPL.Controllers {
             }
             return View("AllPublicFiles",tvm);
         }
-        public ActionResult UserFiles(string search = null, int page = 1) {
-            var userEmail = User.Identity.Name;
-            var currentUser = _userService.GetUserEntityByEmail(userEmail);
-            var userId = currentUser.Id;
+        [HttpGet]
+        public ActionResult UserFiles(int userId = 0, string search = null, int page = 1) {
+            if (!User.IsInRole("Administrator") || userId == 0) {
+                userId = CurrentUserId;
+            }
             var files = new List<FileEntity>();
             if(!String.IsNullOrEmpty(search)) {
                 files = _fileService.FindFilesBySubstring(search).ToList();
@@ -57,17 +63,17 @@ namespace MvcPL.Controllers {
                 TotalItems = files.Count
             };
             ViewBag.IsEmpty = files.Count == 0;
-            var tvm = files.ToMvcTable(pageInfo,search);
+            var tvm = files.ToMvcTable(pageInfo,search,userId);
             if(Request.IsAjaxRequest()) {
                 return PartialView("_UserFileTable", tvm);
             }
 
             return View(tvm);
         }
-
+       
         [HttpGet]
-        public ActionResult Create() {
-            return View(new CreateFileViewModel() { Description = String.Empty });
+        public ActionResult Create(int userId) {
+            return View(new CreateFileViewModel() {UserId = userId, Description = String.Empty });
         }
         
         [HttpPost]
@@ -78,50 +84,52 @@ namespace MvcPL.Controllers {
                     fileBase.InputStream.CopyTo(ms);
                     fileBytes = ms.ToArray();
                 }
-                var userEmail = User.Identity.Name;
-                var currentUser = _userService.GetUserEntityByEmail(userEmail);
-                var userId = currentUser.Id;
+                if(!UserIsAdministrator)
+                    model.UserId = CurrentUserId;
                 _fileService.CreateFile(new FileEntity() {
                     Name = fileBase.FileName,
                     Description = model.Description,
                     ContentType = fileBase.ContentType,
                     Size = fileBase.ContentLength,
                     IsPublic = model.IsPublic,
-                    UserId = userId,
+                    UserId = model.UserId,
                     TimeAdded = DateTime.Now,
                     FileBytes = fileBytes
                 } );
-                return RedirectToAction("UserFiles","File");
+                return RedirectToAction("UserFiles","File", new {userId = model.UserId});
             }
             ModelState.AddModelError("", "Choose file.");
             return View(model);
         }
 
-       
         [HttpGet]
-        public ActionResult ConfirmDelete(int id) {
-            var userEmail = User.Identity.Name;
-            var currentUser = _userService.GetUserEntityByEmail(userEmail);
-            var userId = currentUser.Id;
-            var file = _fileService.GetAllFileEntities(userId).FirstOrDefault(f => f.Id == id);
+        public ActionResult ConfirmDelete(DeleteViewModel dvm) {
+            var file = _fileService.GetAllFileEntities().FirstOrDefault(f => f.Id == dvm.Id);
+            if (file != null && (file.UserId == CurrentUserId || UserIsAdministrator)) {
+                return View(dvm);
+            }
+            return RedirectToAction("UserFiles");
+        }
+
+        public ActionResult DeleteFile(int id) {
+            var file = _fileService.GetAllFileEntities().FirstOrDefault(f => f.Id == id);
             if(file != null) {
                 _fileService.DeleteFile(file.Id);
+                return RedirectToAction("UserFiles", new {userId = file.UserId});
             }
             return RedirectToAction("UserFiles");
         }
 
         public ActionResult Delete(int id) {
-            var userEmail = User.Identity.Name;
-            var currentUser = _userService.GetUserEntityByEmail(userEmail);
-            var userId = currentUser.Id;
-            var file = _fileService.GetAllFileEntities(userId).FirstOrDefault(f => f.Id == id);
+            var file = _fileService.GetAllFileEntities().FirstOrDefault(f => f.Id == id);
             if(file == null)
-                return RedirectToAction("UserFiles");
+                return RedirectToAction("UserFiles","File");
             if (Request.IsAjaxRequest()) {
                 _fileService.DeleteFile(file.Id);
-                return RedirectToAction("UserFiles");
+                return RedirectToAction("UserFiles","File", new {userId = file.UserId});
             }
-            return View("ConfirmDelete", new DeleteViewModel() {Id = file.Id, Name = file.Name});
+            return RedirectToAction("ConfirmDelete", new DeleteViewModel() { Id = file.Id, Name = file.Name });
+
         }
         [HttpGet]
         public ActionResult Edit(int id) {
@@ -139,24 +147,20 @@ namespace MvcPL.Controllers {
                 file.Description = model.Description;
                 file.IsPublic = model.IsPublic;
                 _fileService.UpdateFile(file);
-                return RedirectToAction("UserFiles");
+                int userId = file.UserId;
+                return RedirectToAction("UserFiles", new { userId = userId});
             }
             return View("Edit", model);
         }
         public FileContentResult Download(int id) {
-            var userEmail = User.Identity.Name;
-            var currentUser = _userService.GetUserEntityByEmail(userEmail);
-            var userId = currentUser.Id;
-            var file = _fileService.GetAllFileEntities(userId).FirstOrDefault(w => w.Id == id);
+            var file = _fileService.GetAllFileEntities().FirstOrDefault(w => w.Id == id);
             if(file != null) {
-                return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
+                if(UserIsAdministrator || file.UserId == CurrentUserId || file.IsPublic)
+                    return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
             }
             return null;
         }
-
         
-
-
 
     }
 

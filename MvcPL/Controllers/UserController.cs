@@ -6,8 +6,7 @@ using BLL.Interfacies.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
 
-namespace MvcPL.Controllers
-{
+namespace MvcPL.Controllers {
     [Authorize]
     public class UserController : Controller {
         private readonly IUserService _userService;
@@ -16,14 +15,12 @@ namespace MvcPL.Controllers
             _userService = userService;
         }
 
-        [Authorize]
         public ActionResult Edit() {
             var user = _userService.GetUserEntityByEmail(User.Identity.Name).ToMvcEditUserModel();
             return View(user);
         }
 
         [HttpPost]
-        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(UserEditViewModel viewModel) {
             if(ModelState.IsValid) {
@@ -60,6 +57,15 @@ namespace MvcPL.Controllers
                 }
             }
             return RedirectToAction("Edit", "User");
+        }
+        [AllowAnonymous]
+        public ActionResult UserBlocked() {
+            return View();
+        }
+        [Authorize(Roles = "Administrator")]
+        public ActionResult Details(int userId) {
+            var userInfo = _userService.GetUserEntity(userId).ToUserDetailsModel();
+            return View(userInfo);
         }
     }
 }

@@ -1,31 +1,33 @@
 ﻿@model MvcPL.Models.TableViewModel
 @{
-    ViewBag.Title = "My Files";
+    ViewBag.Title = "User Files";
     AjaxOptions ajaxOptions = new AjaxOptions {
         UpdateTargetId = "userTable"
     };
 }
 @section Header{
-    <h2>My Files: </h2>
+    <h2>
+        @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new {@style = "color: #666;"})
+        / User Files
+    </h2>
 }
 @section Body{
     <hr />
     <div class="form-group text-center">
         <div class="col-md-12 form-block">
             <div class="col-md-7">
-                @using(Html.BeginForm("UserFiles", "File", FormMethod.Get)) {
+                @using (Html.BeginForm("UserFiles", "File", FormMethod.Get)) {
                     <div class="search_form">
-                       <input type="text" id="searchUserFiles" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" value=@Model.SearchSubString>
+                        <input type="text" id="searchUserFiles" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" value=@Model.SearchSubString>
                         <button type="submit" id="btnSearch" class="btn btn-primary btn-sm">Search</button>
                     </div>
                 }
             </div>
-                <div class="col-md-4">
-                    <div class="input-group">
-                        @Html.ActionLink("+", "Create", "File", new { @class = "btn btn-primary btn-sm" })
-                    </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    @Html.ActionLink("+", "Create", "File", new {userId = @Model.UserId}, new {@class = "btn btn-primary btn-sm"})
                 </div>
-
+            </div>
         </div>
     </div>
 

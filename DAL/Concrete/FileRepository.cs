@@ -20,9 +20,9 @@ namespace DAL.Concrete {
                 Name = file.Name,
                 IsPublic = file.IsPublic,
                 TimeAdded = file.TimeAdded,
+                ContentType = file.ContentType,
                 UserId = file.UserId,
-                UserName = file.User.Email
-
+                UserName = file.User.Email,
                 });
         }
 
@@ -32,7 +32,20 @@ namespace DAL.Concrete {
             return dalFile;
 
         }
-        
+
+        public ICollection<DalFile> GetFilesByUserName(string userName) {
+            var files = _context.Set<User>()
+               .Where(u => u.Email == userName)
+               .SelectMany(r => r.FileStorage).ToDalFileCollection();
+            return files;
+        }
+        public ICollection<DalFile> GetFilesByUserId(int userId) {
+            var files = _context.Set<User>()
+               .Where(u => u.Id == userId)
+               .SelectMany(r => r.FileStorage).ToDalFileCollection();
+            return files;
+        }
+
         public void Create(DalFile entity) {
             var file = entity.ToFile();
             _context.Set<File>().Add(file);
@@ -75,18 +88,7 @@ namespace DAL.Concrete {
             return files;
         }
 
-        public ICollection<DalFile> GetFilesByUserName(string userName) {
-            var files = _context.Set<User>()
-               .Where(u => u.Email == userName)
-               .SelectMany(r => r.FileStorage).ToDalFileCollection();
-            return files;
-        }
-        public ICollection<DalFile> GetFilesByUserId(int userId) {
-            var files = _context.Set<User>()
-               .Where(u => u.Id == userId)
-               .SelectMany(r => r.FileStorage).ToDalFileCollection();
-            return files;
-        }
+
         public IEnumerable<DalFile> GetPublicFiles() {
             return _context.Set<File>().Where(file => file.IsPublic).Select(file => new DalFile() {
                 Id = file.Id,
