@@ -43,12 +43,15 @@ namespace DAL.Concrete {
             if(file == null)
                 return;
             _context.Set<File>().Remove(file);
-           
         }
 
 
         public void Update(DalFile entity) {
-            throw new NotImplementedException();
+            var oldFile = _context.Set<File>().FirstOrDefault(f => f.Id == entity.Id);
+            if(oldFile == null)
+                return;
+            oldFile.Description = entity.Description;
+            oldFile.IsPublic = entity.IsPublic;
         }
 
         public int GetId(DalFile file) {

@@ -20,11 +20,7 @@ namespace MvcPL.Controllers {
             this._userService = userService;
         }
 
-        //public ActionResult Index(TableViewModel tvm) {
-        //    return View(tvm);
-        //}
-        // GET: File
-        [AllowAnonymous]
+       [AllowAnonymous]
         public ActionResult AllPublicFiles(string search = null, int page = 1) {
             var files = new List<FileEntity>();
             if(!String.IsNullOrEmpty(search)) {
@@ -126,6 +122,26 @@ namespace MvcPL.Controllers {
                 return RedirectToAction("UserFiles");
             }
             return View("ConfirmDelete", new DeleteViewModel() {Id = file.Id, Name = file.Name});
+        }
+        [HttpGet]
+        public ActionResult Edit(int id) {
+            var file = _fileService.GetFileEntity(id);
+            var fvm = new EditFileViewModel() {
+                Id = id,
+                Description = file.Description,
+                IsPublic = file.IsPublic
+            };
+            return View("Edit", fvm);
+        }
+        public ActionResult Edit(EditFileViewModel model) {
+            if(ModelState.IsValid) {
+                var file = _fileService.GetFileEntity(model.Id);
+                file.Description = model.Description;
+                file.IsPublic = model.IsPublic;
+                _fileService.UpdateFile(file);
+                return RedirectToAction("UserFiles");
+            }
+            return View("Edit", model);
         }
         public FileContentResult Download(int id) {
             var userEmail = User.Identity.Name;

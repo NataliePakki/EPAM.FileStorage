@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using BLL.Interfacies.Services;
 
-namespace MvcPL.Controllers
-{
+namespace MvcPL.Controllers {
     public class ModelValidationController : Controller{
         private readonly IUserService _userService;
 
@@ -28,5 +29,6 @@ namespace MvcPL.Controllers
             var result = user != null && Crypto.VerifyHashedPassword(user.Password, oldPassword);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
     }
 }
