@@ -28,7 +28,7 @@
                         @Html.DisplayName("Size")
                     </th>
                     <th data-field="download">
-                        @Html.DisplayName("Download")
+                        @Html.DisplayName("")
                     </th>
                 </tr>
                 </thead>
@@ -51,9 +51,9 @@
                             @Html.DisplayFor(modelItem => item.Size)
                         </td>
                         <td>
-                            @Html.ActionLink("Download", "Download", new {id = item.Id})
+                            @Html.ActionLink("Download", "Download", new {id = item.Id})|<a href="/File/Share/item.Id" data-toggle="modal" data-target="#myModal" data-id="@item.Id" class="btn-modal-share">Share</a>
                         </td>
-                       </tr>
+                    </tr>
                 }
                 </tbody>
             </table>
@@ -61,8 +61,28 @@
         <div class="btn-group">
             @for (int i = 1; i <= Model.PageInfo.TotalPages; i++) {
                 string cl = i == Model.PageInfo.PageNumber ? "btn btn-primary selected" : "btn btn-default";
-                @Ajax.ActionLink(i.ToString(), "AllPublicFiles", "File", new {page = i}, new AjaxOptions {UpdateTargetId = "table"}, new {@class = cl});
+                @Ajax.ActionLink(i.ToString(), "AllPublicFiles", "File", new {page = i}, new AjaxOptions {UpdateTargetId = "table"}, new {@class = cl})
+                ;
             }
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Share your file</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="textShared">
+                        Link:
+                    </div>
+                    <input type="text" class="form-control input-lg" id="SharedUrl" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 }

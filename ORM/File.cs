@@ -10,7 +10,7 @@ namespace ORM {
         public string Description { get; set; }
         public string ContentType { get; set; }
         public long Size { get; set; }
-        public bool IsPublic { get; set; }
+        public bool IsShared { get; set; }
         public DateTime TimeAdded { get; set; }
         public int UserId { get; set; }
         public virtual User User { get; set; }

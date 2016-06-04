@@ -20,6 +20,16 @@ $(function () {
     });
 });
 $(function() {
+    $(".btn-modal-share").click(function() {
+        debugger;
+        var fileId = $(this).data('id');
+        var urlInput = $("#myModal #SharedUrl");
+        urlInput.val("http://localhost:56448/File/GetShared/" + fileId);
+            urlInput.show();
+    });
+});
+
+$(function() {
     $('#blockButton').click(function (event) {
         event.preventDefault();
         debugger;

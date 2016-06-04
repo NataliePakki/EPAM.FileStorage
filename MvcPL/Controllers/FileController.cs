@@ -26,10 +26,11 @@ namespace MvcPL.Controllers {
         private bool UserIsAdministrator => User.IsInRole("Administrator");
         
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult AllPublicFiles(string search = null, int page = 1) {
             var files = new List<FileEntity>();
             if(!String.IsNullOrEmpty(search)) {
-                files = _fileService.FindFilesBySubstring(search).Where(f => f.IsPublic).ToList();
+                files = _fileService.FindFilesBySubstring(search).Where(f => f.IsShared).ToList();
             } else {
                 files.AddRange(_fileService.GetAllPublicFileEntities().ToList());
             }
@@ -91,7 +92,7 @@ namespace MvcPL.Controllers {
                     Description = model.Description,
                     ContentType = fileBase.ContentType,
                     Size = fileBase.ContentLength,
-                    IsPublic = model.IsPublic,
+                    IsShared = model.IsShared,
                     UserId = model.UserId,
                     TimeAdded = DateTime.Now,
                     FileBytes = fileBytes
@@ -120,6 +121,7 @@ namespace MvcPL.Controllers {
             return RedirectToAction("UserFiles");
         }
 
+        [HttpPost]
         public ActionResult Delete(int id) {
             var file = _fileService.GetAllFileEntities().FirstOrDefault(f => f.Id == id);
             if(file == null)
@@ -131,36 +133,54 @@ namespace MvcPL.Controllers {
             return RedirectToAction("ConfirmDelete", new DeleteViewModel() { Id = file.Id, Name = file.Name });
 
         }
+
         [HttpGet]
         public ActionResult Edit(int id) {
             var file = _fileService.GetFileEntity(id);
-            var fvm = new EditFileViewModel() {
-                Id = id,
-                Description = file.Description,
-                IsPublic = file.IsPublic
-            };
-            return View("Edit", fvm);
+            if (file != null) {
+                if (UserIsAdministrator || file.UserId == CurrentUserId) {
+                    var fvm = new EditFileViewModel() {
+                        Id = id,
+                        Description = file.Description,
+                        IsShared = file.IsShared
+                    };
+                    return View("Edit", fvm);
+                }
+            }
+            return View("Error");
         }
+        [HttpPost]
         public ActionResult Edit(EditFileViewModel model) {
             if(ModelState.IsValid) {
                 var file = _fileService.GetFileEntity(model.Id);
                 file.Description = model.Description;
-                file.IsPublic = model.IsPublic;
+                file.IsShared = model.IsShared;
                 _fileService.UpdateFile(file);
                 int userId = file.UserId;
                 return RedirectToAction("UserFiles", new { userId = userId});
             }
             return View("Edit", model);
         }
+        [AllowAnonymous]
+        [HttpGet]
         public FileContentResult Download(int id) {
             var file = _fileService.GetAllFileEntities().FirstOrDefault(w => w.Id == id);
             if(file != null) {
-                if(UserIsAdministrator || file.UserId == CurrentUserId || file.IsPublic)
+                if(UserIsAdministrator || file.UserId == CurrentUserId || file.IsShared)
                     return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
             }
             return null;
         }
-        
+
+
+        [AllowAnonymous]
+        public FileContentResult GetShared(int id) {
+            var file = _fileService.GetAllFileEntities(CurrentUser.Id).FirstOrDefault(w => w.Id == id);
+            if(file != null && file.IsShared) {
+                return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
+            }
+            return null;
+        }
 
     }
 

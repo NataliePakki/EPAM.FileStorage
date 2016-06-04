@@ -18,7 +18,7 @@ namespace DAL.Concrete {
             return _context.Set<File>().Select(file => new DalFile() {
                 Id = file.Id,
                 Name = file.Name,
-                IsPublic = file.IsPublic,
+                IsShared = file.IsShared,
                 TimeAdded = file.TimeAdded,
                 ContentType = file.ContentType,
                 UserId = file.UserId,
@@ -64,7 +64,7 @@ namespace DAL.Concrete {
             if(oldFile == null)
                 return;
             oldFile.Description = entity.Description;
-            oldFile.IsPublic = entity.IsPublic;
+            oldFile.IsShared = entity.IsShared;
         }
 
         public int GetId(DalFile file) {
@@ -77,7 +77,7 @@ namespace DAL.Concrete {
                 .Select(file => new DalFile() {
                     Id = file.Id,
                     Name = file.Name,
-                    IsPublic = file.IsPublic,
+                    IsShared = file.IsShared,
                     TimeAdded = file.TimeAdded,
                     UserId = file.UserId,
                     UserName = file.User.Email,
@@ -90,10 +90,10 @@ namespace DAL.Concrete {
 
 
         public IEnumerable<DalFile> GetPublicFiles() {
-            return _context.Set<File>().Where(file => file.IsPublic).Select(file => new DalFile() {
+            return _context.Set<File>().Where(file => file.IsShared).Select(file => new DalFile() {
                 Id = file.Id,
                 Name = file.Name,
-                IsPublic = file.IsPublic,
+                IsShared = file.IsShared,
                 TimeAdded = file.TimeAdded,
                 UserId = file.UserId,
                 UserName = file.User.Email,

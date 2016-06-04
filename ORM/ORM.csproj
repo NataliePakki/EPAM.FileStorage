@@ -76,17 +76,9 @@
   <ItemGroup>
     <Compile Include="DBInitializer.cs" />
     <Compile Include="EntityModel.cs" />
-    <Compile Include="Migrations\201605231340131_dfd.cs" />
-    <Compile Include="Migrations\201605231340131_dfd.Designer.cs">
-      <DependentUpon>201605231340131_dfd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605301435109_SampleMigrations.cs" />
-    <Compile Include="Migrations\201605301435109_SampleMigrations.Designer.cs">
-      <DependentUpon>201605301435109_SampleMigrations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605302014575_SampleMigrations2.cs" />
-    <Compile Include="Migrations\201605302014575_SampleMigrations2.Designer.cs">
-      <DependentUpon>201605302014575_SampleMigrations2.cs</DependentUpon>
+    <Compile Include="Migrations\201606031729345_sam%3be.cs" />
+    <Compile Include="Migrations\201606031729345_sam%3be.Designer.cs">
+      <DependentUpon>201606031729345_sam%3be.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="File.cs" />
@@ -99,14 +91,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605231340131_dfd.resx">
-      <DependentUpon>201605231340131_dfd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605301435109_SampleMigrations.resx">
-      <DependentUpon>201605301435109_SampleMigrations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605302014575_SampleMigrations2.resx">
-      <DependentUpon>201605302014575_SampleMigrations2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606031729345_sam%3be.resx">
+      <DependentUpon>201606031729345_sam%3be.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

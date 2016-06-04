@@ -14,7 +14,8 @@ namespace MvcPL.Infrastructure.Mappers {
                 CreationDate = fileEntity.TimeAdded,
                 Description = fileEntity.Description,
                 Size = GetSizeString(fileEntity.Size),
-                UserId = fileEntity.UserId
+                UserId = fileEntity.UserId,
+                IsShared = fileEntity.IsShared
             };
 
         }
@@ -34,6 +35,7 @@ namespace MvcPL.Infrastructure.Mappers {
                 PageInfo = pageInfo,
                 Files = files.Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(10).Select(f => f.ToMvcFile()).ToList(),
                 UserId = userId
+            
             };
 
         }

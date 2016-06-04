@@ -7,13 +7,13 @@ namespace ORM.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class dfd : IMigrationMetadata
+    public sealed partial class same : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(dfd));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(same));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605231340131_dfd"; }
+            get { return "201606031729345_sam;e"; }
         }
         
         string IMigrationMetadata.Source

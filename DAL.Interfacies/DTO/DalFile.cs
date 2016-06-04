@@ -9,7 +9,7 @@ namespace DAL.Interfacies.DTO {
         public long Size { get; set; }
         public DateTime TimeAdded { get; set; }
         public byte[] FileBytes { get; set; }
-        public bool IsPublic { get; set; }
+        public bool IsShared { get; set; }
         public string UserName { get; set; }
         public int UserId { get; set; }
     }

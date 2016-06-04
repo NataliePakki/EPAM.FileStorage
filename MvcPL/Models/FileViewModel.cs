@@ -15,7 +15,7 @@ namespace MvcPL.Models {
         public string UserName { get; set; }
         [Display(Name = "Date created")]
         public DateTime CreationDate { get; set; }
-        public bool IsPublic { get; set; }
+        public bool IsShared { get; set; }
         public int UserId { get; set; }
 
         }
