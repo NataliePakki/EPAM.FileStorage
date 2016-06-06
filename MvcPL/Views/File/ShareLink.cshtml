@@ -1,0 +1,24 @@
+﻿@model MvcPL.Models.FileViewModel
+@{
+    ViewBag.Title = "Share Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Header{
+    <h2>
+        @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        / Share Link
+    </h2>
+
+}
+@section Body{
+    <hr />
+    <div class="col-md-12 form-inline">
+        <dl class="dl-horizontal">
+            <dt>File name:</dt>
+            <dd>@Html.DisplayFor(model => model.Name)</dd>
+            <dt>Shared link:</dt>
+            http://localhost:56448/File/GetShared/@Model.Id
+        </dl>
+    </div>
+}
+

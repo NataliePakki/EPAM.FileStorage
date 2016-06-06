@@ -22,17 +22,16 @@ namespace MvcPL.Controllers {
 
         private int CurrentUserId => CurrentUser.Id;
 
-        private UserEntity CurrentUser => _userService.GetUserEntityByEmail(User.Identity.Name);
+        private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
         private bool UserIsAdministrator => User.IsInRole("Administrator");
         
         [AllowAnonymous]
-        [HttpGet]
         public ActionResult AllPublicFiles(string search = null, int page = 1) {
             var files = new List<FileEntity>();
             if(!String.IsNullOrEmpty(search)) {
-                files = _fileService.FindFilesBySubstring(search).Where(f => f.IsShared).ToList();
+                files = _fileService.GetFileEntitiesBySubstring(search).Where(f => f.IsShared).ToList();
             } else {
-                files.AddRange(_fileService.GetAllPublicFileEntities().ToList());
+                files.AddRange(_fileService.GetPublicFileEntities().ToList());
             }
             var pageInfo = new PageInfo {
                 PageNumber = page,
@@ -46,14 +45,13 @@ namespace MvcPL.Controllers {
             }
             return View("AllPublicFiles",tvm);
         }
-        [HttpGet]
         public ActionResult UserFiles(int userId = 0, string search = null, int page = 1) {
             if (!User.IsInRole("Administrator") || userId == 0) {
                 userId = CurrentUserId;
             }
             var files = new List<FileEntity>();
             if(!String.IsNullOrEmpty(search)) {
-                files = _fileService.FindFilesBySubstring(search).ToList();
+                files = _fileService.GetFileEntitiesBySubstring(search).ToList();
                 files = files.Where(file => file.UserId == userId).ToList();
             } else {
                 files.AddRange( _fileService.GetAllFileEntities(userId).ToList());
@@ -171,11 +169,23 @@ namespace MvcPL.Controllers {
             }
             return null;
         }
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Share(int id) {
+            var file = _fileService.GetAllFileEntities().FirstOrDefault(w => w.Id == id);
+            if (file != null && file.IsShared) {
+                var fvm = file.ToMvcFile();
+                if (Request.IsAjaxRequest()) {
+                    return PartialView("_ShareLinkDialog", fvm);
+                } else return View("ShareLink", fvm);
+            }
+            return View("Error");
 
+        }
 
         [AllowAnonymous]
         public FileContentResult GetShared(int id) {
-            var file = _fileService.GetAllFileEntities(CurrentUser.Id).FirstOrDefault(w => w.Id == id);
+            var file = _fileService.GetAllFileEntities().FirstOrDefault(w => w.Id == id);
             if(file != null && file.IsShared) {
                 return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
             }
