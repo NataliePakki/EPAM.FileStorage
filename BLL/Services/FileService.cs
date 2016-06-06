@@ -10,6 +10,9 @@ namespace BLL.Services {
     public class FileService : IFileService {
         private readonly IUnitOfWork _uow;
         private readonly IFileRepository _repository;
+
+        private static string FileStorageDirectory(int id, string name) => AppDomain.CurrentDomain.BaseDirectory + "/App_Data/Storage/" + id + "_" + name;
+
         public FileService(IUnitOfWork uow, IFileRepository repository) {
             this._uow = uow;
             this._repository = repository;
@@ -23,29 +26,29 @@ namespace BLL.Services {
         }
 
         public IEnumerable<FileEntity> GetAllFileEntities(string userName) {
-            return _repository.GetFilesByUserName(userName).Select(file => file.ToBllFile());
+            return _repository.GetFilesByUserEmail(userName).Select(file => file.ToBllFile());
         }
         public IEnumerable<FileEntity> GetAllFileEntities(int userId) {
             return _repository.GetFilesByUserId(userId).Select(file => file.ToBllFile());
         }
 
-        public IEnumerable<FileEntity> GetAllPublicFileEntities() {
+        public IEnumerable<FileEntity> GetPublicFileEntities() {
             return _repository.GetPublicFiles().Select(file => file.ToBllFile());
         }
 
-        public IEnumerable<FileEntity> FindFilesBySubstring(string s) {
-            return _repository.SearchBySubstring(s).Select(file => file.ToBllFile());
+        public IEnumerable<FileEntity> GetFileEntitiesBySubstring(string substring) {
+            return _repository.GetFilesBySubstring(substring).Select(file => file.ToBllFile());
         }
 
-        public void CreateFile(FileEntity file) {
-            _repository.Create(file.ToDalFile());
+        public void CreateFile(FileEntity fileEntity) {
+            _repository.Create(fileEntity.ToDalFile());
             _uow.Commit();
-            AddPhysicalFile(file);
+            AddPhysicalFile(fileEntity);
         }
 
 
-        public void UpdateFile(FileEntity file) {
-            _repository.Update(file.ToDalFile());
+        public void UpdateFile(FileEntity fileEntity) {
+            _repository.Update(fileEntity.ToDalFile());
             _uow.Commit();
         }
 
@@ -57,15 +60,24 @@ namespace BLL.Services {
         }
 
         public byte[] GetPhysicalFile(int id) {
-            return _repository.GetPhysicalFile(id);
-        }
-        private void AddPhysicalFile(FileEntity file) {
-            var id = _repository.GetId(file.ToDalFile());
-            System.IO.File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "/App_Data/Storage/" + id + "_" + file.Name, file.FileBytes);
+            var file = _repository.GetById(id);
+            return (file == null)
+                ? null
+                : System.IO.File.ReadAllBytes(FileStorageDirectory(file.Id, file.Name));
         }
 
-        private void DeletePhysicalFile(FileEntity file) {
-            System.IO.File.Delete(AppDomain.CurrentDomain.BaseDirectory + "/App_Data/Storage/" + file.Id + "_" + file.Name);
+        private void AddPhysicalFile(FileEntity file) {
+            var id = _repository.GetId(file.ToDalFile());
+            var name = file.Name;
+            var fileBytes = file.FileBytes;
+            System.IO.File.WriteAllBytes(FileStorageDirectory(id,name), fileBytes);
         }
+
+        private static void DeletePhysicalFile(FileEntity file) {
+            var id = file.Id;
+            var name = file.Name;
+            System.IO.File.Delete(FileStorageDirectory(id,name));
+        }
+
     }
 }

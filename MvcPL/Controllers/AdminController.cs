@@ -22,7 +22,7 @@ namespace MvcPL.Controllers {
         public bool BlockUser(bool isBlocked, string userEmail) {
             if (!ModelState.IsValid)
                 return false;
-            var user = _userService.GetUserEntityByEmail(userEmail);
+            var user = _userService.GetUserEntity(userEmail);
             if (user == null) {
                 return false;
             }
@@ -31,7 +31,7 @@ namespace MvcPL.Controllers {
             return true;
         }
         public ActionResult BlockUser(string userEmail) {
-            var user = _userService.GetUserEntityByEmail(userEmail);
+            var user = _userService.GetUserEntity(userEmail);
             user.IsBlocked = !user.IsBlocked;
             _userService.UpdateUser(user);
             return RedirectToAction("Details", "User", new { userId = user.Id});

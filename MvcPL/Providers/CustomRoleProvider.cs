@@ -10,7 +10,7 @@ namespace MvcPL.Providers {
         public IRoleService RoleService => (IRoleService)System.Web.Mvc.DependencyResolver.Current.GetService(typeof(IRoleService));
 
         public override bool IsUserInRole(string email, string roleName) {
-            var user = UserService.GetUserEntityByEmail(email);
+            var user = UserService.GetUserEntity(email);
 
             if(user == null)
                 return false;
@@ -27,7 +27,7 @@ namespace MvcPL.Providers {
 
         public override string[] GetRolesForUser(string email) {
             var roles = new string[] { };
-            var user = UserService.GetUserEntityByEmail(email);
+            var user = UserService.GetUserEntity(email);
 
             if(user == null)
                 return roles;

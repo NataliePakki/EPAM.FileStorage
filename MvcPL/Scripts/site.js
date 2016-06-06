@@ -20,12 +20,18 @@ $(function () {
     });
 });
 $(function() {
-    $(".btn-modal-share").click(function() {
+    $(".btn-modal-share").click(function () {
+        $.ajaxSetup({ cache: false });
+        event.preventDefault();
         debugger;
         var fileId = $(this).data('id');
-        var urlInput = $("#myModal #SharedUrl");
-        urlInput.val("http://localhost:56448/File/GetShared/" + fileId);
-            urlInput.show();
+        $.get(this.href, function (data) {
+            $("#dialogContent").html(data);
+            $("#modDialog").modal('show');
+        });
+//        var urlInput = $("#myModal #SharedUrl");
+//        urlInput.val("http://localhost:56448/File/GetShared/" + fileId);
+//            urlInput.show();
     });
 });
 

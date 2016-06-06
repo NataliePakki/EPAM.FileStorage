@@ -4,10 +4,9 @@ using BLL.Interfacies.Entities;
 namespace BLL.Interfacies.Services {
     public interface IUserService {
         UserEntity GetUserEntity(int id);
+        UserEntity GetUserEntity(string email);
         IEnumerable<UserEntity> GetAllUserEntities();
-        UserEntity GetUserEntityByEmail(string email);
         void UpdateUser(UserEntity user);
-
         void CreateUser(UserEntity user);
         void DeleteUser(int id);
     }

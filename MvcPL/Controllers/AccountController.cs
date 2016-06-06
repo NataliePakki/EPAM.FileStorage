@@ -34,7 +34,7 @@ namespace MvcPL.Controllers {
             if(ModelState.IsValid) {
                 if(Membership.ValidateUser(viewModel.Email, viewModel.Password)) {
 
-                    var user = _userService.GetUserEntityByEmail(viewModel.Email);
+                    var user = _userService.GetUserEntity(viewModel.Email);
                     if (user.IsBlocked) {
                         return RedirectToAction("UserBlocked", "User");
                     }

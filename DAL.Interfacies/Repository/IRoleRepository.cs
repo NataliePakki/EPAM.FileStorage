@@ -3,6 +3,6 @@ using DAL.Interfacies.DTO;
 
 namespace DAL.Interfacies.Repository {
     public interface IRoleRepository : IRepository<DalRole> {
-        ICollection<DalRole> GetRolesByUserId(int id);
+        ICollection<DalRole> GetRolesByUserId(int userId);
     }
 }

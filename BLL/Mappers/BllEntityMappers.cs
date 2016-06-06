@@ -19,7 +19,8 @@ namespace BLL.Mappers
                 Password = userEntity.Password,
                 IsBlocked = userEntity.IsBlocked,
                 Roles = userEntity.Roles.ToDalRoleCollection(),
-                Photo = userEntity.Photo.ImageToByteArray()
+                Photo = userEntity.Photo.ImageToByteArray(),
+                FileStorage = userEntity.FileStorage.ToDalFileCollection()
             };
         }
 

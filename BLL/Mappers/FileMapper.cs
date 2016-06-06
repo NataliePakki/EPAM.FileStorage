@@ -1,4 +1,6 @@
-﻿using BLL.Interfacies.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BLL.Interfacies.Entities;
 using DAL.Interfacies.DTO;
 
 namespace BLL.Mappers {
@@ -35,6 +37,10 @@ namespace BLL.Mappers {
                 FileBytes = fileEntity.FileBytes,
                 Size = fileEntity.Size
             };
+        }
+        public static ICollection<DalFile> ToDalFileCollection(this ICollection<FileEntity> files) {
+            var fileList = files?.Select(f => f.ToDalFile());
+            return fileList?.ToList();
         }
     }
 }

@@ -16,20 +16,20 @@ namespace BLL.Services {
         }
 
         public IEnumerable<RoleEntity> GetAllRoleEntities() {
-                return _roleRepository.GetAll().Select(role => role.ToBllRole());
+            return _roleRepository.GetAll().Select(role => role.ToBllRole());
         }
 
         public RoleEntity GetRoleEntity(int id) {
-                return _roleRepository.GetById(id).ToBllRole();
+            return _roleRepository.GetById(id).ToBllRole();
         }
 
         public IEnumerable<RoleEntity> GetAllRolesByUserId(int id) {
-                return _roleRepository.GetRolesByUserId(id).ToRoleEntityCollection();
+            return _roleRepository.GetRolesByUserId(id).ToRoleEntityCollection();
         }
 
         public void CreateRole(RoleEntity role) {
-                _roleRepository.Create(role.ToDalRole());
-                _uow.Commit();
+            _roleRepository.Create(role.ToDalRole());
+            _uow.Commit();
         }
 
     }

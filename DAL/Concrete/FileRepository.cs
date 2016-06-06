@@ -15,15 +15,16 @@ namespace DAL.Concrete {
             _context = dbContext;
         }
         public IEnumerable<DalFile> GetAll() {
-            return _context.Set<File>().Select(file => new DalFile() {
-                Id = file.Id,
-                Name = file.Name,
-                IsShared = file.IsShared,
-                TimeAdded = file.TimeAdded,
-                ContentType = file.ContentType,
-                UserId = file.UserId,
-                UserName = file.User.Email,
-                });
+            return _context.Set<File>().ToList().Select(file => file.ToDalFile());
+//            new DalFile() {
+//                Id = file.Id,
+//                Name = file.Name,
+//                IsShared = file.IsShared,
+//                TimeAdded = file.TimeAdded,
+//                ContentType = file.ContentType,
+//                UserId = file.UserId,
+//                UserName = file.User.Email,
+//                });
         }
 
         public DalFile GetById(int id) {
@@ -33,9 +34,9 @@ namespace DAL.Concrete {
 
         }
 
-        public ICollection<DalFile> GetFilesByUserName(string userName) {
+        public ICollection<DalFile> GetFilesByUserEmail(string userEmail) {
             var files = _context.Set<User>()
-               .Where(u => u.Email == userName)
+               .Where(u => u.Email == userEmail)
                .SelectMany(r => r.FileStorage).ToDalFileCollection();
             return files;
         }
@@ -63,53 +64,47 @@ namespace DAL.Concrete {
             var oldFile = _context.Set<File>().FirstOrDefault(f => f.Id == entity.Id);
             if(oldFile == null)
                 return;
-            oldFile.Description = entity.Description;
-            oldFile.IsShared = entity.IsShared;
+            oldFile = entity.ToFile();
+//            oldFile.Description = entity.Description;
+//            oldFile.IsShared = entity.IsShared;
         }
 
         public int GetId(DalFile file) {
             return _context.Set<File>().First(f => f.Name == file.Name).Id;
         }
 
-        public IEnumerable<DalFile> SearchBySubstring(string subsrting) {
+        public IEnumerable<DalFile> GetFilesBySubstring(string subsrting) {
             var files = _context.Set<File>()
-                .Where(a => a.Name.Contains(subsrting))
-                .Select(file => new DalFile() {
-                    Id = file.Id,
-                    Name = file.Name,
-                    IsShared = file.IsShared,
-                    TimeAdded = file.TimeAdded,
-                    UserId = file.UserId,
-                    UserName = file.User.Email,
-                    Description = file.Description,
-                    Size = file.Size,
-                    ContentType = file.ContentType
-                    });
+                .Where(a => a.Name.Contains(subsrting)).ToList()
+                .Select(file => file.ToDalFile());
+//                new DalFile() {
+//                    Id = file.Id,
+//                    Name = file.Name,
+//                    IsShared = file.IsShared,
+//                    TimeAdded = file.TimeAdded,
+//                    UserId = file.UserId,
+//                    UserName = file.User.Email,
+//                    Description = file.Description,
+//                    Size = file.Size,
+//                    ContentType = file.ContentType
+//                    });
             return files;
         }
 
 
         public IEnumerable<DalFile> GetPublicFiles() {
-            return _context.Set<File>().Where(file => file.IsShared).Select(file => new DalFile() {
-                Id = file.Id,
-                Name = file.Name,
-                IsShared = file.IsShared,
-                TimeAdded = file.TimeAdded,
-                UserId = file.UserId,
-                UserName = file.User.Email,
-                ContentType = file.ContentType,
-                Size = file.Size,
-                Description = file.Description
-            });
+           return _context.Set<File>().Where(file => file.IsShared).ToList().Select(file => file.ToDalFile());
+//            new DalFile() {
+//                Id = file.Id,
+//                Name = file.Name,
+//                IsShared = file.IsShared,
+//                TimeAdded = file.TimeAdded,
+//                UserId = file.UserId,
+//                UserName = file.User.Email,
+//                ContentType = file.ContentType,
+//                Size = file.Size,
+//                Description = file.Description
+//            });
         }
-
-        public byte[] GetPhysicalFile(int id) {
-            var file = _context.Set<File>().FirstOrDefault(f => f.Id == id);
-            return (file == null)
-                ? null
-                : System.IO.File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + "/App_Data/Storage/" + file.Id +
-                                              "_" + file.Name);
-        }
-
     }
 }

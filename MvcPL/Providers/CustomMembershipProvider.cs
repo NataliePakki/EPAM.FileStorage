@@ -26,7 +26,7 @@ namespace MvcPL.Providers {
         }
 
         public override bool ValidateUser(string email, string password) {
-            var user = UserService.GetUserEntityByEmail(email);
+            var user = UserService.GetUserEntity(email);
             if(user != null && Crypto.VerifyHashedPassword(user.Password, password)) {
                 return true;
             }
@@ -34,7 +34,7 @@ namespace MvcPL.Providers {
         }
 
         public override MembershipUser GetUser(string email, bool userIsOnline) {
-            var user = UserService.GetUserEntityByEmail(email);
+            var user = UserService.GetUserEntity(email);
 
             if(user == null)
                 return null;

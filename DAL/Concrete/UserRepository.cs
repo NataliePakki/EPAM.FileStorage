@@ -12,21 +12,20 @@ namespace DAL.Concrete {
         private readonly DbContext _context;
         private readonly IRoleRepository _roleRepository;
         private readonly IFileRepository _fileRepostory;
-
         public UserRepository(DbContext dbContext, IRoleRepository roleRepository, IFileRepository fileRepository) {
             _context = dbContext;
             _roleRepository = roleRepository;
             _fileRepostory = fileRepository;
         }
-
         public IEnumerable<DalUser> GetAll() {
-            var users = _context.Set<User>().Select(user => new DalUser() {
-                Name = user.Email,
-                Id = user.Id,
-                Password = user.Password,
-                Photo = user.Photo,
-                IsBlocked = user.IsBlocked
-            }).ToList();
+            var users = _context.Set<User>().ToList().Select(user => user.ToDalUser());
+//                user => new DalUser() {
+//                Name = user.Email,
+//                Id = user.Id,
+//                Password = user.Password,
+//                Photo = user.Photo,
+//                IsBlocked = user.IsBlocked
+//            }).ToList();
 
             foreach(var user in users) {
                 user.Roles = _roleRepository.GetRolesByUserId(user.Id);
@@ -62,8 +61,6 @@ namespace DAL.Concrete {
             var user = _context.Set<User>().Single(u => u.Id == id);
             user.Roles = _roleRepository.GetRolesByUserId(user.Id).ToRoleCollection();
             _context.Set<User>().Remove(user);
-            //foreach (var file in _fileRepostory.GetFilesByUserId(user.Id)) TODO: delete files, when delete user?
-            //    _context.Set<File>().Remove(file.ToFile());
         }
 
         public void Update(DalUser entity) {

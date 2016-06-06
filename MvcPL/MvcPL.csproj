@@ -268,6 +268,8 @@
     <Content Include="Views\Admin\Users.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\User\UserBlocked.cshtml" />
+    <Content Include="Views\File\ShareLink.cshtml" />
+    <Content Include="Views\File\_ShareLinkDialog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Storage\" />

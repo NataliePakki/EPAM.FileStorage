@@ -16,7 +16,7 @@ namespace MvcPL.Controllers {
         }
 
         public ActionResult Edit() {
-            var user = _userService.GetUserEntityByEmail(User.Identity.Name).ToMvcEditUserModel();
+            var user = _userService.GetUserEntity(User.Identity.Name).ToMvcEditUserModel();
             return View(user);
         }
 
@@ -28,12 +28,12 @@ namespace MvcPL.Controllers {
                     ModelState.AddModelError("", "Select jpg/png image.");
                     return View(viewModel);
                 }
-                var userWithSameEmail = _userService.GetUserEntityByEmail(viewModel.Email);
+                var userWithSameEmail = _userService.GetUserEntity(viewModel.Email);
                 if(userWithSameEmail != null && userWithSameEmail.Id != viewModel.Id) {
                     ModelState.AddModelError("", "User with this email already exist.");
                     return View(viewModel);
                 }
-                var user = _userService.GetUserEntityByEmail(User.Identity.Name);
+                var user = _userService.GetUserEntity(User.Identity.Name);
                 user.UserEmail = viewModel.Email;
                 if (viewModel.Photo != null) {
                     user.Photo = viewModel.Photo.HttpPostedFileBaseToImage();
@@ -48,7 +48,7 @@ namespace MvcPL.Controllers {
 
         public ActionResult EditPassword(UserEditViewModel viewModel) {
             if(ModelState.IsValid) {
-                var user = _userService.GetUserEntityByEmail(User.Identity.Name);
+                var user = _userService.GetUserEntity(User.Identity.Name);
                 if(Crypto.VerifyHashedPassword(user.Password, viewModel.OldPassword)
                     && String.CompareOrdinal(viewModel.Password, viewModel.ConfirmPassword) == 0) {
                     user.Password = Crypto.HashPassword(viewModel.Password);
