@@ -39,12 +39,12 @@ $(function() {
     $('#blockButton').click(function (event) {
         event.preventDefault();
         debugger;
-        var userEmail = $('#Email').val();
+        var userId = $('#Id').val();
         if ($("#IsBlocked").val() === 'True') {
             $.ajax({
                 type: "Post",
                 url: '/Admin/BlockUser',
-                data: ({ 'isBlocked': false, 'userEmail': userEmail }),
+                data: ({ 'isBlocked': false, 'userId': userId }),
                 success: function(result) {
                     if (result === 'True') {
                         $('#blockSign').removeClass("glyphicon-ban-circle").addClass("glyphicon-ok-circle");
@@ -57,7 +57,7 @@ $(function() {
             $.ajax({
                 type: "Post",
                 url: '/Admin/BlockUser',
-                data: ({ 'isBlocked': true, 'userEmail': userEmail }),
+                data: ({ 'isBlocked': true, 'userId': userId }),
                 success: function(result) {
                     if (result === 'True') {
                         $('#blockSign').removeClass("glyphicon-ok-circle").addClass("glyphicon glyphicon-ban-circle");

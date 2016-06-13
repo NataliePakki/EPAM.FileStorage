@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -7,13 +6,12 @@ using System.Linq;
 using BLL.Interfacies.Entities;
 using DAL.Interfacies.DTO;
 
-namespace BLL.Mappers
-{
+namespace BLL.Mappers {
     public static class BllEntityMappers {
         public static DalUser ToDalUser(this UserEntity userEntity) {
-            if(userEntity == null)
+            if (userEntity == null)
                 return null;
-            return new DalUser() {
+            return new DalUser {
                 Id = userEntity.Id,
                 Name = userEntity.UserEmail,
                 Password = userEntity.Password,
@@ -25,9 +23,9 @@ namespace BLL.Mappers
         }
 
         public static UserEntity ToBllUser(this DalUser dalUser) {
-            if(dalUser == null)
+            if (dalUser == null)
                 return null;
-            return new UserEntity() {
+            return new UserEntity {
                 Id = dalUser.Id,
                 UserEmail = dalUser.Name,
                 Password = dalUser.Password,
@@ -36,26 +34,27 @@ namespace BLL.Mappers
                 Roles = dalUser.Roles.ToRoleEntityCollection()
             };
         }
+
         public static DalRole ToDalRole(this RoleEntity roleEntity) {
-            if(roleEntity == null)
+            if (roleEntity == null)
                 return null;
-            return new DalRole() {
+            return new DalRole {
                 Id = roleEntity.Id,
                 Name = roleEntity.Name
             };
         }
 
         public static RoleEntity ToBllRole(this DalRole dalRole) {
-            if(dalRole == null)
+            if (dalRole == null)
                 return null;
-            return new RoleEntity() {
+            return new RoleEntity {
                 Id = dalRole.Id,
                 Name = dalRole.Name
             };
         }
 
         public static ICollection<DalRole> ToDalRoleCollection(this ICollection<RoleEntity> roles) {
-            var roleList = roles?.Select(r => new DalRole() {
+            var roleList = roles?.Select(r => new DalRole {
                 Id = r.Id,
                 Name = r.Name
             });
@@ -63,29 +62,29 @@ namespace BLL.Mappers
         }
 
         public static ICollection<RoleEntity> ToRoleEntityCollection(this ICollection<DalRole> roles) {
-            var roleList = roles?.Select(r => new RoleEntity() {
+            var roleList = roles?.Select(r => new RoleEntity {
                 Id = r.Id,
                 Name = r.Name
             });
             return roleList?.ToList();
         }
-        public static Byte[] ImageToByteArray(this Image imageIn) {
-            if(imageIn != null) {
-                MemoryStream ms = new MemoryStream();
+
+        public static byte[] ImageToByteArray(this Image imageIn) {
+            if (imageIn != null) {
+                var ms = new MemoryStream();
                 imageIn.Save(ms, ImageFormat.Jpeg);
                 return ms.ToArray();
             }
             return null;
         }
 
-        public static Image ByteArrayToImage(this Byte[] byteArrayIn) {
-            if(byteArrayIn != null) {
-                MemoryStream ms = new MemoryStream(byteArrayIn);
-                Image returnImage = Image.FromStream(ms);
+        public static Image ByteArrayToImage(this byte[] byteArrayIn) {
+            if (byteArrayIn != null) {
+                var ms = new MemoryStream(byteArrayIn);
+                var returnImage = Image.FromStream(ms);
                 return returnImage;
             }
             return null;
         }
-
     }
 }

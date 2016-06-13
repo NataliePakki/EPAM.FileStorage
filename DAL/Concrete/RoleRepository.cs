@@ -16,7 +16,7 @@ namespace DAL.Concrete {
         }
 
         public IEnumerable<DalRole> GetAll() {
-            return _context.Set<Role>().Select(role => new DalRole() {
+            return _context.Set<Role>().Select(role => new DalRole {
                 Id = role.Id,
                 Name = role.Name
             });
@@ -25,7 +25,7 @@ namespace DAL.Concrete {
 
         public DalRole GetById(int id) {
             var role = _context.Set<Role>().FirstOrDefault(r => r.Id == id);
-            return role != null ? new DalRole() {
+            return role != null ? new DalRole {
                 Id = role.Id,
                 Name = role.Name
             }
@@ -34,7 +34,7 @@ namespace DAL.Concrete {
 
 
         public void Create(DalRole entity) {
-            var role = new Role() {
+            var role = new Role {
                 Name = entity.Name
             };
             _context.Set<Role>().Add(role);
@@ -54,7 +54,7 @@ namespace DAL.Concrete {
 
         public void Delete(int id) {
             var role = _context.Set<Role>().Single(r => r.Id == id);
-            if(role == null) {
+            if (role == null) {
                 return;
             }
             _context.Set<Role>().Remove(role);

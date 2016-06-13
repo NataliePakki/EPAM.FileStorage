@@ -64,8 +64,8 @@ namespace MvcPL.Controllers {
         }
         [Authorize(Roles = "Administrator")]
         public ActionResult Details(int userId) {
-            var userInfo = _userService.GetUserEntity(userId).ToUserDetailsModel();
-            return View(userInfo);
+            var userDetailsModel = _userService.GetUserEntity(userId).ToUserDetailsModel();
+            return View(userDetailsModel);
         }
     }
 }

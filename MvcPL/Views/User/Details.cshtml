@@ -25,13 +25,13 @@
             </div>
             <div class="col-md-3">
                 @Html.HiddenFor(m => m.IsBlocked, Model.IsBlocked)
-                @Html.HiddenFor(m => m.Email, Model.Email)
+                @Html.HiddenFor(m => m.Id, Model.Id)
                 <br/>
                 <span>User status : </span>
                 <span id="blockSign" class="glyphicon@(Model.IsBlocked ? " glyphicon-ban-circle" : " glyphicon-ok-circle")" aria-hidden="true"></span>
                 <br/>
                 @if(!(Model.Roles.Contains(Role.Administrator) || Model.Roles.Contains(Role.Moderator))) {
-                    @Html.ActionLink((Model.IsBlocked ? "Unblock " : "Block ") + "user", "BlockUser", "Admin", new {userEmail = @Model.Email }, new { @class = "btn btn-primary", id = "blockButton" })
+                    @Html.ActionLink((Model.IsBlocked ? "Unblock " : "Block ") + "user", "BlockUser", "Admin", new {id = @Model.Id }, new { @class = "btn btn-primary", id = "blockButton" })
                 }
                 </div>
             <div class="col-md-5 form-horizontal text-left" id="userDetails">

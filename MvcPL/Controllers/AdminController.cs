@@ -19,22 +19,15 @@ namespace MvcPL.Controllers {
             return View(users);
         }
         [HttpPost]
-        public bool BlockUser(bool isBlocked, string userEmail) {
+        public bool BlockUser(bool isBlocked, int userId) {
             if (!ModelState.IsValid)
                 return false;
-            var user = _userService.GetUserEntity(userEmail);
-            if (user == null) {
-                return false;
-            }
-            user.IsBlocked = isBlocked;
-            _userService.UpdateUser(user);
+            _userService.BlockUser(userId);
             return true;
         }
-        public ActionResult BlockUser(string userEmail) {
-            var user = _userService.GetUserEntity(userEmail);
-            user.IsBlocked = !user.IsBlocked;
-            _userService.UpdateUser(user);
-            return RedirectToAction("Details", "User", new { userId = user.Id});
+        public ActionResult BlockUser(int id) {
+            _userService.BlockUser(id);
+            return RedirectToAction("Details", "User", new { userId = id});
         }
 
     }

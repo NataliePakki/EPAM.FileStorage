@@ -8,7 +8,7 @@ namespace BLL.Mappers {
         public static FileEntity ToBllFile(this DalFile dalFile) {
             if (dalFile == null)
                 return null;
-            return new FileEntity() {
+            return new FileEntity {
                 Id = dalFile.Id,
                 TimeAdded = dalFile.TimeAdded,
                 Name = dalFile.Name,
@@ -25,7 +25,7 @@ namespace BLL.Mappers {
         public static DalFile ToDalFile(this FileEntity fileEntity) {
             if (fileEntity == null)
                 return null;
-            return new DalFile() {
+            return new DalFile {
                 Id = fileEntity.Id,
                 TimeAdded = fileEntity.TimeAdded,
                 Name = fileEntity.Name,
@@ -38,6 +38,7 @@ namespace BLL.Mappers {
                 Size = fileEntity.Size
             };
         }
+
         public static ICollection<DalFile> ToDalFileCollection(this ICollection<FileEntity> files) {
             var fileList = files?.Select(f => f.ToDalFile());
             return fileList?.ToList();

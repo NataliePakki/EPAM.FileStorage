@@ -7,8 +7,8 @@ using DAL.Interfacies.Repository;
 
 namespace BLL.Services {
     public class RoleService : IRoleService {
-        private readonly IUnitOfWork _uow;
         private readonly IRoleRepository _roleRepository;
+        private readonly IUnitOfWork _uow;
 
         public RoleService(IUnitOfWork uow, IRoleRepository roleRepository) {
             _uow = uow;
@@ -31,6 +31,5 @@ namespace BLL.Services {
             _roleRepository.Create(role.ToDalRole());
             _uow.Commit();
         }
-
     }
 }
