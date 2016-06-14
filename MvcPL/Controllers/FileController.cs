@@ -50,19 +50,23 @@ namespace MvcPL.Controllers {
 
         [HttpGet]
         public ActionResult Create(int userId) {
-            return View(new CreateFileViewModel {UserId = userId, Description = string.Empty});
+            ViewBag.IsDialog = Request.IsAjaxRequest();
+            if (Request.IsAjaxRequest()) {
+                return PartialView("_CreateForm", new CreateFileViewModel {UserId = userId, Description = string.Empty});
+            } else
+                return View(new CreateFileViewModel { UserId = userId, Description = string.Empty });
         }
 
         [HttpPost]
         public ActionResult Create(CreateFileViewModel createFileViewModel, HttpPostedFileBase fileBase) {
-            if (ModelState.IsValid && fileBase != null && fileBase.ContentLength > 0) {
+            if (ModelState.IsValid) {
                 if (!UserIsAdministrator)
                     createFileViewModel.UserId = CurrentUserId.Value;
                 var file = createFileViewModel.ToFileEntity(fileBase);
                 _fileService.CreateFile(file);
                 return RedirectToAction("UserFiles", "File", new {userId = createFileViewModel.UserId});
             }
-            ModelState.AddModelError("", "Choose file.");
+            ViewBag.IsDialog = Request.IsAjaxRequest();
             return View(createFileViewModel);
         }
 
@@ -74,8 +78,9 @@ namespace MvcPL.Controllers {
             }
             return RedirectToAction("UserFiles");
         }
-
-        public ActionResult DeleteFile(int id) {
+        
+        [HttpPost]
+        public ActionResult ConfirmDelete(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file != null) {
                 _fileService.DeleteFile(file.Id);
@@ -84,7 +89,6 @@ namespace MvcPL.Controllers {
             return RedirectToAction("UserFiles");
         }
 
-        [HttpPost]
         public ActionResult Delete(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file == null)

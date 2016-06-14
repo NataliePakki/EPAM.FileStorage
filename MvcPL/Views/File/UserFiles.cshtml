@@ -25,7 +25,7 @@
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                    @Html.ActionLink("+", "Create", "File", new {userId = @Model.UserId}, new {@class = "btn btn-primary btn-sm"})
+                    @Html.ActionLink("+", "Create", "File", new {userId = @Model.UserId}, new { @class = "btn btn-primary btn-sm", id = "lnkCreate"})
                 </div>
             </div>
         </div>
@@ -40,4 +40,47 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function() {
+            $("#lnkCreate").on("click", function(e) {
+                e.preventDefault();
+                $("<div id='dialogContent'></div>")
+                    .addClass("dialog")
+                    .appendTo("body")
+                    .dialog({
+                        title: "Create",
+                        width: 500,
+                        height: 400,
+                        close: function() { $(this).remove() },
+                        modal: true,
+                        buttons: [
+                            {
+                                text: "Create",
+                                click: function () {
+                                    var formData = new FormData($("#form-create").get(0));
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/File/Create",
+                                        data: formData,
+                                        cache: false,
+                                        processData: false,
+                                        contentType: false,
+                                        success: function (response) {
+                                            $("#userTable").html(response);
+                                        }
+                                    });
+                                    $(this).dialog("close");
+                                }
+                            }
+                        ]
+                    })
+                    .load(this.href);
+            });
+            $(".close").on("click", function(e) {
+                e.preventDefault();
+                $(this).closest(".dialog").dialog("close");
+            });
+        });
+    </script>
+
 }

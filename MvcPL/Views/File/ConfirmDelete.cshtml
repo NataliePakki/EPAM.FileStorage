@@ -13,13 +13,18 @@
 }
 
 @section Body{
-<hr />
+    <hr/>
+    @using (Html.BeginForm("ConfirmDelete", "File", null, FormMethod.Post, new {enctype = "multipart/form-data" })) { 
+    @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
     <div style="font-size: 30px; margin-bottom: 10px">
         Are you sure to delete "@Model.Name"?
     </div>
-<div class="col-md-12 form-inline">
-    @Html.ActionLink("Delete", "DeleteFile", "File", new { id = @Model.Id }, new { @class = "btn btn-primary btn-sm" })
-    @Html.ActionLink("Cancel", "UserFiles", "File", new { @class = "btn btn-primary btn-sm" })
-    </div>
+        <div class="col-md-12 form-inline">
+            <input type="submit" value="Delete" class="btn btn-primary btn-sm"/>
+@*            @Html.ActionLink("Delete", "ConfirmDelete", "File", new {id = @Model.Id}, new {@class = "btn btn-primary btn-sm"})*@
+            @Html.ActionLink("Cancel", "UserFiles", "File", new {@class = "btn btn-primary btn-sm"})
+        </div>
+    }
 }
+
 

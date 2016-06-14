@@ -4,6 +4,7 @@
         $(this).addClass("active");
     });
 });
+
 $(function () {
     $("#searchAllFiles").keyup(function () {
         var search = $("#searchAllFiles").val();
@@ -85,15 +86,15 @@ $(function () {
         return false;
     });
 });
-$(function () {
-    $("#searchUserFiles").keyup(function () {
-        var search = $("#searchUserFiles").val(); 
+$(function() {
+    $("#searchUserFiles").keyup(function() {
+        var search = $("#searchUserFiles").val();
         $.ajax({
             type: "POST",
             url: "/File/UserFiles",
             data: { "search": search },
             cache: false,
-            success: function (response) {
+            success: function(response) {
                 $("#userTable").html(response);
             }
         });
