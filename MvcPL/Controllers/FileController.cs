@@ -23,30 +23,28 @@ namespace MvcPL.Controllers {
         private bool UserIsAdministrator => User.IsInRole("Administrator");
 
 
+
         [AllowAnonymous]
-        public ActionResult AllPublicFiles(string search = null, int page = 1) {
-           var files = _fileService.GetFiles(search).ToList();
-           var tvm = files.ToTableViewModel(page, search);
-
-            ViewBag.IsEmpty = files.Count == 0;
-            if (Request.IsAjaxRequest()) {
-                return PartialView("_AllPublicFileTable", tvm);
-            }
-            return View("AllPublicFiles", tvm);
-        }
-
-        public ActionResult UserFiles(int? userId = null, string search = null, int page = 1) {
-            if (!User.IsInRole("Administrator") || !userId.HasValue) 
+        public ActionResult Index(int? userId= null, string search = null, int page = 1) {
+            if ((userId != null && userId != CurrentUserId) && !UserIsAdministrator) {
                 userId = CurrentUserId;
-            var files = _fileService.GetFiles(search, userId).ToList();
-            var tvm = files.ToTableViewModel(page, search, userId.Value);
+            }
+            var files = _fileService.GetFiles(search,userId).ToList();
+            var tvm = files.ToTableViewModel(page, search);
+            tvm.UserId = userId;
 
             ViewBag.IsEmpty = files.Count == 0;
-            if (Request.IsAjaxRequest()) {
-                return PartialView("_UserFileTable", tvm);
+            if(Request.IsAjaxRequest()) {
+                return PartialView("_FileTable", tvm);
             }
-            return View(tvm);
+            return View("Index", tvm);
         }
+
+        [HttpGet]
+        public ActionResult UserFiles() {
+            return RedirectToAction("Index", new {userId = CurrentUserId});
+        }
+        
 
         [HttpGet]
         public ActionResult Create(int userId) {
@@ -64,7 +62,7 @@ namespace MvcPL.Controllers {
                     createFileViewModel.UserId = CurrentUserId.Value;
                 var file = createFileViewModel.ToFileEntity(fileBase);
                 _fileService.CreateFile(file);
-                return RedirectToAction("UserFiles", "File", new {userId = createFileViewModel.UserId});
+                return RedirectToAction("Index", "File", new {userId = createFileViewModel.UserId});
             }
             ViewBag.IsDialog = Request.IsAjaxRequest();
             return View(createFileViewModel);
@@ -76,7 +74,7 @@ namespace MvcPL.Controllers {
             if (file != null && (file.UserId == CurrentUserId || UserIsAdministrator)) {
                 return View(dvm);
             }
-            return RedirectToAction("UserFiles");
+            return RedirectToAction("Index", new { userId = dvm.UserId });
         }
         
         [HttpPost]
@@ -84,18 +82,18 @@ namespace MvcPL.Controllers {
             var file = _fileService.GetFileEntity(id);
             if (file != null) {
                 _fileService.DeleteFile(file.Id);
-                return RedirectToAction("UserFiles", new {userId = file.UserId});
+                return RedirectToAction("Index", new {userId = file.UserId});
             }
-            return RedirectToAction("UserFiles");
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file == null)
-                return RedirectToAction("UserFiles", "File");
+                return RedirectToAction("Index", "File");
             if (Request.IsAjaxRequest()) {
                 _fileService.DeleteFile(file.Id);
-                return RedirectToAction("UserFiles", "File", new {userId = file.UserId});
+                return RedirectToAction("Index", "File", new {userId = file.UserId});
             }
             return RedirectToAction("ConfirmDelete", new DeleteViewModel {Id = file.Id, Name = file.Name});
         }
@@ -115,7 +113,7 @@ namespace MvcPL.Controllers {
             if (ModelState.IsValid) {
                 _fileService.UpdateFile(model.ToFileEntity());
                 var userId = _fileService.GetFileEntity(model.Id).UserId;
-                return RedirectToAction("UserFiles", new {userId});
+                return RedirectToAction("Index", new {userId = userId});
             }
             return View("Edit", model);
         }

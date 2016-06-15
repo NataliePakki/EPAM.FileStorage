@@ -6,12 +6,16 @@
 });
 
 $(function () {
-    $("#searchAllFiles").keyup(function () {
-        var search = $("#searchAllFiles").val();
+    $("#searchFiles").keyup(function () {
+        var search = $("#searchFiles").val();
+        var userId = $("#userId").val();
         $.ajax({
             type: "POST",
-            url: "/File/AllPublicFiles",
-            data: { "search": search },
+            url: "/File/Index",
+            data: {
+                "search": search,
+                "userId" : userId
+            },
             cache: false,
             success: function (response) {
                 $("#table").html(response);
@@ -33,6 +37,46 @@ $(function() {
 //        var urlInput = $("#myModal #SharedUrl");
 //        urlInput.val("http://localhost:56448/File/GetShared/" + fileId);
 //            urlInput.show();
+    });
+});
+$(document).ready(function () {
+    $("#lnkCreate").on("click", function (e) {
+        e.preventDefault();
+        $("<div id='dialogContent'></div>")
+            .addClass("dialog")
+            .appendTo("body")
+            .dialog({
+                title: "Create",
+                width: 500,
+                height: 400,
+                close: function () { $(this).remove() },
+                modal: true,
+                buttons: [
+                    {
+                        text: "Create",
+                        click: function () {
+                            var formData = new FormData($("#form-create").get(0));
+                            $.ajax({
+                                type: "POST",
+                                url: "/File/Create",
+                                data: formData,
+                                cache: false,
+                                processData: false,
+                                contentType: false,
+                                success: function (response) {
+                                    $("#table").html(response);
+                                }
+                            });
+                            $(this).dialog("close");
+                        }
+                    }
+                ]
+            })
+            .load(this.href);
+    });
+    $(".close").on("click", function (e) {
+        e.preventDefault();
+        $(this).closest(".dialog").dialog("close");
     });
 });
 

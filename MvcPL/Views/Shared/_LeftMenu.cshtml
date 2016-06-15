@@ -40,7 +40,7 @@
         <div class="profile-usermenu" id ="menu">
             <ul class="nav">
                 <li>
-                    @Html.ActionLink("Public Files","AllPublicFiles","File")
+                    @Html.ActionLink("Public Files","Index","File")
                 </li>
                 @if (User.Identity.IsAuthenticated) {
                     <li>

@@ -7,7 +7,7 @@
 
 @section Header {
 <h2>
-    @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+    @Html.ActionLink("Home", "Index", "File", null, htmlAttributes: new { @style = "color: #666;" })
     / @Html.ActionLink("All Users", "Users", "Admin", null, htmlAttributes: new { @style = "color: #666;" })
     / User Details
 </h2>
@@ -47,7 +47,7 @@
 
                 <div class="form-group">
                     <label class="col-sm-4 control-label">User Files</label>
-                    <span class="col-sm-6"><a href="@Url.Action("UserFiles", "File", new {userId = Model.Id})" class="btn btn-sm">Show</a></span>
+                    <span class="col-sm-6"><a href="@Url.Action("Index", "File", new {userId = Model.Id})" class="btn btn-sm">Show</a></span>
                 </div>
             </div>
         </div>

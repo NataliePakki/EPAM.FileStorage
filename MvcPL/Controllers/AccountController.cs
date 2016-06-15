@@ -43,7 +43,7 @@ namespace MvcPL.Controllers {
                     if(Url.IsLocalUrl(returnUrl)) {
                         return Redirect(returnUrl);
                     } else {
-                        return RedirectToAction("AllPublicFiles", "File");
+                        return RedirectToAction("Index", "File");
                     }
                 } else {
                     ModelState.AddModelError("", "Incorrect login or password.");
@@ -85,7 +85,7 @@ namespace MvcPL.Controllers {
                 if(membershipUser != null) {
                     FormsAuthentication.SetAuthCookie(viewModel.Email, false);
                     Session["Photo"] = viewModel.Photo.HttpPostedFileBaseToByteArray();
-                    return RedirectToAction("AllPublicFiles", "File");
+                    return RedirectToAction("Index", "File");
                 } else {
                     ModelState.AddModelError("", "Error registration.");
                 }
@@ -101,7 +101,7 @@ namespace MvcPL.Controllers {
         public ActionResult LogOff() {
             FormsAuthentication.SignOut();
             Session["Photo"] = null;
-            return RedirectToAction("AllPublicFiles", "File");
+            return RedirectToAction("Index", "File");
         }
 
     }

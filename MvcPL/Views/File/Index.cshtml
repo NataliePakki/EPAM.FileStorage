@@ -1,0 +1,47 @@
+﻿@model MvcPL.Models.TableViewModel
+@{
+    ViewBag.Title = "Files";
+    AjaxOptions ajaxOptions = new AjaxOptions {
+        UpdateTargetId = "table"
+    };
+
+}
+@*@section Header {*@
+@*    <h2>Public files: </h2>*@
+@*}*@
+@section Body{
+    <hr />
+    <div class="form-group text-center">
+        <div class="col-md-12 form-block">
+            <div class="col-md-7">
+                @using (Html.BeginForm("Index", "File", FormMethod.Get)) {
+                    @Html.HiddenFor(m => m.UserId, new {Value = Model.UserId})
+                    <div class="search_form">
+                        <input type="text" id="searchFiles" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" value=@Model.SearchSubString>
+                        <button type="submit" id="btnSearch" class="btn btn-primary btn-sm">Search</button>
+                    </div>
+                }
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    @if (Model.UserId.HasValue) {
+                        @Html.ActionLink("+", "Create", "File", new {userId = @Model.UserId}, new {@class = "btn btn-primary btn-sm", id = "lnkCreate"})
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="table">
+        @Html.Partial("_FileTable", Model)
+    </div>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+
+
+
+

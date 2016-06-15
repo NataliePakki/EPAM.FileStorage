@@ -53,7 +53,7 @@ namespace MvcPL.Infrastructure.Mappers {
         }
 
 
-        public static TableViewModel ToTableViewModel(this List<FileEntity> files, int page, string searchString, int userId = 0) {
+        public static TableViewModel ToTableViewModel(this List<FileEntity> files, int page, string searchString, int? userId = null) {
             var pageInfo = new PageInfo {
                 PageNumber = page,
                 PageSize = 10,

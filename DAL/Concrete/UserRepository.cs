@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using DAL.Interfacies.DTO;
@@ -18,15 +17,7 @@ namespace DAL.Concrete {
             _fileRepostory = fileRepository;
         }
         public IEnumerable<DalUser> GetAll() {
-            var users = _context.Set<User>().ToList().Select(user => user.ToDalUser());
-//                user => new DalUser() {
-//                Name = user.Email,
-//                Id = user.Id,
-//                Password = user.Password,
-//                Photo = user.Photo,
-//                IsBlocked = user.IsBlocked
-//            }).ToList();
-
+            var users = _context.Set<User>().ToList().Select(user => user.ToDalUser()).ToList();
             foreach(var user in users) {
                 user.Roles = _roleRepository.GetRolesByUserId(user.Id);
             }

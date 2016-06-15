@@ -273,7 +273,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\Site.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -292,11 +292,7 @@
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Shared\_LeftMenu.cshtml" />
-    <Content Include="Views\File\AllPublicFiles.cshtml" />
-    <Content Include="Views\File\_AllPublicFileTable.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
-    <Content Include="Views\File\UserFiles.cshtml" />
-    <Content Include="Views\File\_UserFileTable.cshtml" />
     <Content Include="Views\File\Create.cshtml" />
     <Content Include="Views\File\ConfirmDelete.cshtml" />
     <Content Include="Views\File\Edit.cshtml" />
@@ -306,6 +302,8 @@
     <Content Include="Views\File\ShareLink.cshtml" />
     <Content Include="Views\File\_ShareLinkDialog.cshtml" />
     <Content Include="Views\File\_CreateForm.cshtml" />
+    <Content Include="Views\File\Index.cshtml" />
+    <Content Include="Views\File\_FileTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Storage\" />
