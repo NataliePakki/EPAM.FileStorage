@@ -71,9 +71,12 @@ namespace BLL.Services {
 
         public byte[] GetPhysicalFile(int id) {
             var file = _repository.Get(id);
-            return (file == null)
-                ? null
-                : File.ReadAllBytes(FileStorageDirectory(file.Id, file.Name));
+            if (file == null) return null;
+            try {
+                return File.ReadAllBytes(FileStorageDirectory(file.Id, file.Name));
+            } catch (FileNotFoundException) {
+                return null;
+            }
         }
 
         private static string FileStorageDirectory(int id, string name) => AppDomain.CurrentDomain.BaseDirectory + "/App_Data/Storage/" + id + "_" + name;

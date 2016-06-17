@@ -9,7 +9,7 @@ using BLL.Interfacies.Services;
 namespace MvcPL.Controllers {
     public class ModelValidationController : Controller{
         private readonly IUserService _userService;
-
+        private string CurrentUserEmail => _userService.GetUserEntity(User.Identity.Name).UserEmail;
         public ModelValidationController(IUserService userService) {
             _userService = userService;
         }
@@ -18,14 +18,14 @@ namespace MvcPL.Controllers {
         }
 
         public JsonResult IsUserEmailExist(string email) {
-            var userExist = _userService.GetAllUserEntities().Any(u => u.UserEmail == email);
-            if(string.CompareOrdinal(User.Identity.Name, email) == 0) {
+            var userExist = _userService.IsUserExist(email);
+            if(string.CompareOrdinal(CurrentUserEmail, email) == 0) {
                 userExist = false;
             }
             return Json(!userExist, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult IsUserOldPasswordMatch(string oldPassword, int id) {
-            var user = _userService.GetUserEntity(id);
+        public JsonResult IsUserOldPasswordMatch(string oldPassword) {
+            var user = _userService.GetUserEntity(CurrentUserEmail);
             var result = user != null && Crypto.VerifyHashedPassword(user.Password, oldPassword);
             return Json(result, JsonRequestBehavior.AllowGet);
         }

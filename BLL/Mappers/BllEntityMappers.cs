@@ -70,21 +70,19 @@ namespace BLL.Mappers {
         }
 
         public static byte[] ImageToByteArray(this Image imageIn) {
-            if (imageIn != null) {
-                var ms = new MemoryStream();
-                imageIn.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
+            if (imageIn == null) return null;
+            using (var mstream = new MemoryStream()) {
+                imageIn.Save(mstream,ImageFormat.Jpeg);
+                mstream.ToArray();
             }
             return null;
         }
 
         public static Image ByteArrayToImage(this byte[] byteArrayIn) {
-            if (byteArrayIn != null) {
-                var ms = new MemoryStream(byteArrayIn);
-                var returnImage = Image.FromStream(ms);
-                return returnImage;
+            if (byteArrayIn == null) return null;
+            using (MemoryStream mstream = new MemoryStream(byteArrayIn)) {
+                return Image.FromStream(mstream);
             }
-            return null;
         }
     }
 }

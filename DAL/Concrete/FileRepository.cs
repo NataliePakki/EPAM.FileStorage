@@ -15,7 +15,7 @@ namespace DAL.Concrete {
             _context = dbContext;
         }
         public IEnumerable<DalFile> GetAll() {
-            return _context.Set<File>().Select(file => file.ToDalFile());
+            return _context.Set<File>().ToList().Select(file => file.ToDalFile());
         }
 
         public DalFile Get(int id) {

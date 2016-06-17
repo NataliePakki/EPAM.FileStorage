@@ -40,6 +40,7 @@ namespace MvcPL.Infrastructure.Mappers {
         public static EditFileViewModel ToEditFileViewModel(this FileEntity fileEntity) {
             return new EditFileViewModel {
                 Id = fileEntity.Id,
+                Name = fileEntity.Name,
                 Description = fileEntity.Description,
                 IsShared = fileEntity.IsShared
             };

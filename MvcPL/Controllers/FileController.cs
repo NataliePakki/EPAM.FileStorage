@@ -123,8 +123,11 @@ namespace MvcPL.Controllers {
         public FileContentResult Download(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file != null) {
-                if (UserIsAdministrator || file.UserId == CurrentUserId || file.IsShared)
-                    return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
+                if (UserIsAdministrator || file.UserId == CurrentUserId || file.IsShared) {
+                    var physicalFile = _fileService.GetPhysicalFile(file.Id);
+                    if (physicalFile != null)
+                        return File(physicalFile, file.ContentType, file.Name);
+                }
             }
             return null;
         }
@@ -145,11 +148,10 @@ namespace MvcPL.Controllers {
 
         [AllowAnonymous]
         public FileContentResult GetShared(int id) {
-            var file = _fileService.GetAllFiles().FirstOrDefault(w => w.Id == id);
-            if (file != null && file.IsShared) {
-                return File(_fileService.GetPhysicalFile(file.Id), file.ContentType, file.Name);
-            }
-            return null;
+            var file = _fileService.GetFileEntity(id);
+            if (file == null || !file.IsShared) return null;
+            var physicalFile = _fileService.GetPhysicalFile(file.Id);
+            return physicalFile == null ? null : File(physicalFile, file.ContentType, file.Name);
         }
         
 
