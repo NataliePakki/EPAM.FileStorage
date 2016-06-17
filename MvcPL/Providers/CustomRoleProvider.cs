@@ -11,31 +11,12 @@ namespace MvcPL.Providers {
 
         public override bool IsUserInRole(string email, string roleName) {
             var user = UserService.GetUserEntity(email);
-
-            if(user == null)
-                return false;
-            var userRoles = RoleService.GetAllRolesByUserId(user.Id);
-            if(userRoles != null) {
-                foreach(RoleEntity role in userRoles) {
-                    if(role != null && role.Name == roleName) {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return user.Roles.Any(role => role != null && role.Name == roleName);
         }
 
         public override string[] GetRolesForUser(string email) {
-            var roles = new string[] { };
             var user = UserService.GetUserEntity(email);
-
-            if(user == null)
-                return roles;
-            var userRoles = RoleService.GetAllRolesByUserId(user.Id);
-            if(userRoles != null) {
-                roles = userRoles.Select(r => r.Name).ToArray();
-            }
-            return roles;
+            return user?.Roles.Select(r => r.Name).ToArray() ?? new string[] {};
         }
 
         public override void CreateRole(string roleName) {

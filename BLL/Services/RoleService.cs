@@ -20,11 +20,11 @@ namespace BLL.Services {
         }
 
         public RoleEntity GetRoleEntity(int id) {
-            return _roleRepository.GetById(id).ToBllRole();
+            return _roleRepository.Get(id).ToBllRole();
         }
 
         public IEnumerable<RoleEntity> GetAllRolesByUserId(int id) {
-            return _roleRepository.GetRolesByUserId(id).ToRoleEntityCollection();
+            return _roleRepository.GetRolesByUserId(id).Select(role => role.ToBllRole());
         }
 
         public void CreateRole(RoleEntity role) {

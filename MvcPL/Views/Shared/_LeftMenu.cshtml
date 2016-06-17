@@ -9,7 +9,6 @@
             @if (@Session["Photo"] == null) {
                 <img src="~/Content/images/default_avatar.png" class="img-responsive" alt=""/>
             } else {
-
                 @Html.Raw("<img class=\"img-responsive\" style = \"height: 200px; width: 200px;\" src=\"data:image/jpeg;base64," + Convert.ToBase64String(((Byte[]) Session["Photo"])) + "\" />")
             }
         </div>
@@ -26,10 +25,9 @@
             </div>
             <div class="profile-usertitle-job">
                 @if (User.IsInRole("User")) {
-                    Html.Label("User");
-                }
-                 else if (User.IsInRole("Admin")) {
-                    Html.Label("Admin");
+                Html.Label("User");
+                } else if (User.IsInRole("Administrator")) {
+                    Html.Label("Administrator");
                 } else {
                      Html.Label("Guest");
                 }
@@ -40,7 +38,7 @@
         <div class="profile-usermenu" id ="menu">
             <ul class="nav">
                 <li>
-                    @Html.ActionLink("Public Files","Index","File")
+                    @Html.ActionLink("Public Files", "Index", "File")
                 </li>
                 @if (User.Identity.IsAuthenticated) {
                     <li>
@@ -52,14 +50,14 @@
                     if (User.IsInRole("Administrator")) {
                         <li>
                         @Html.ActionLink("Users", "Users", "Admin")
-                            </li>
+                        </li>
                     }
-
-                    using(Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"})) {
                         @Html.AntiForgeryToken()
-                            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-               }
-                   
+                        <li>
+                            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                        </li>
+                    }
                 } else {
                     <li>
                         @Html.ActionLink("Login", "Login", "Account")

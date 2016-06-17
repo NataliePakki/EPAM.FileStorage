@@ -9,34 +9,17 @@ using ORM;
 namespace DAL.Concrete {
     public class UserRepository : IUserRepository {
         private readonly DbContext _context;
-        private readonly IRoleRepository _roleRepository;
-        private readonly IFileRepository _fileRepostory;
-        public UserRepository(DbContext dbContext, IRoleRepository roleRepository, IFileRepository fileRepository) {
+
+        public UserRepository(DbContext dbContext) {
             _context = dbContext;
-            _roleRepository = roleRepository;
-            _fileRepostory = fileRepository;
         }
         public IEnumerable<DalUser> GetAll() {
-            var users = _context.Set<User>().ToList().Select(user => user.ToDalUser()).ToList();
-            foreach(var user in users) {
-                user.Roles = _roleRepository.GetRolesByUserId(user.Id);
-            }
-            foreach(var user in users) {
-                user.FileStorage = _fileRepostory.GetFilesByUserId(user.Id);
-            }
-            return users;
+            return _context.Set<User>().ToList().Select(user => user.ToDalUser()).ToList();
 
         }
 
-        public DalUser GetById(int id) {
-            var user = _context.Set<User>().FirstOrDefault(u => u.Id == id);
-            var dalUser = user?.ToDalUser();
-            if(dalUser == null) {
-                return null;
-            }
-            dalUser.Roles = _roleRepository.GetRolesByUserId(dalUser.Id);
-            dalUser.FileStorage = _fileRepostory.GetFilesByUserId(dalUser.Id);
-            return dalUser;
+        public DalUser Get(int id) {
+            return _context.Set<User>().FirstOrDefault(u => u.Id == id)?.ToDalUser();
         }
 
 
@@ -50,8 +33,7 @@ namespace DAL.Concrete {
 
         public void Delete(int id) {
             var user = _context.Set<User>().Single(u => u.Id == id);
-            user.Roles = _roleRepository.GetRolesByUserId(user.Id).ToRoleCollection();
-            _context.Set<User>().Remove(user);
+           _context.Set<User>().Remove(user);
         }
 
         public void Update(DalUser entity) {
@@ -88,11 +70,6 @@ namespace DAL.Concrete {
         public DalUser GetUserByEmail(string email) {
             var user = _context.Set<User>().FirstOrDefault(u => u.Email == email);
             var dalUser = user?.ToDalUser();
-            if(dalUser == null) {
-                return null;
-            }
-            dalUser.Roles = _roleRepository.GetRolesByUserId(user.Id);
-            dalUser.FileStorage = _fileRepostory.GetFilesByUserId(user.Id);
             return dalUser;
         }
         private void AttachRoles(IEnumerable<Role> roles) {

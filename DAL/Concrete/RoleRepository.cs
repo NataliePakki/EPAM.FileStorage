@@ -16,15 +16,12 @@ namespace DAL.Concrete {
         }
 
         public IEnumerable<DalRole> GetAll() {
-            return _context.Set<Role>().Select(role => new DalRole {
-                Id = role.Id,
-                Name = role.Name
-            });
+            return _context.Set<Role>().Select(role => role.ToDalRole());
         }
 
 
-        public DalRole GetById(int id) {
-            var role = _context.Set<Role>().FirstOrDefault(r => r.Id == id);
+        public DalRole Get(int id) {
+            var role = _context.Set<Role>().Find(id);
             return role != null ? new DalRole {
                 Id = role.Id,
                 Name = role.Name
@@ -45,10 +42,10 @@ namespace DAL.Concrete {
             throw new NotImplementedException();
         }
 
-        public ICollection<DalRole> GetRolesByUserId(int id) {
+        public IEnumerable<DalRole> GetRolesByUserId(int id) {
             var roles = _context.Set<User>()
                 .Where(u => u.Id == id)
-                .SelectMany(r => r.Roles).ToDalRoleCollection();
+                .SelectMany(r => r.Roles).Select(r => r.ToDalRole());
             return roles;
         }
 

@@ -18,7 +18,7 @@ namespace BLL.Services {
         }
 
         public FileEntity GetFileEntity(int id) {
-            return _repository.GetById(id).ToBllFile();
+            return _repository.Get(id).ToBllFile();
         }
 
         public IEnumerable<FileEntity> GetFiles(string substring = null, int? userId = null) {
@@ -31,10 +31,6 @@ namespace BLL.Services {
 
         public IEnumerable<FileEntity> GetAllFiles() {
             return _repository.GetAll().Select(f => f.ToBllFile());
-        }
-
-        public IEnumerable<FileEntity> GetAllFiles(string userName) {
-            return _repository.GetFilesByUserEmail(userName).Select(file => file.ToBllFile());
         }
 
         public IEnumerable<FileEntity> GetAllFiles(int userId) {
@@ -67,14 +63,14 @@ namespace BLL.Services {
         }
 
         public void DeleteFile(int id) {
-            var file = _repository.GetById(id).ToBllFile();
+            var file = _repository.Get(id).ToBllFile();
             _repository.Delete(id);
             _uow.Commit();
             DeletePhysicalFile(file);
         }
 
         public byte[] GetPhysicalFile(int id) {
-            var file = _repository.GetById(id);
+            var file = _repository.Get(id);
             return (file == null)
                 ? null
                 : File.ReadAllBytes(FileStorageDirectory(file.Id, file.Name));

@@ -15,23 +15,17 @@ namespace DAL.Concrete {
             _context = dbContext;
         }
         public IEnumerable<DalFile> GetAll() {
-            return _context.Set<File>().ToList().Select(file => file.ToDalFile());
+            return _context.Set<File>().Select(file => file.ToDalFile());
         }
 
-        public DalFile GetById(int id) {
-            return  _context.Set<File>().FirstOrDefault(u => u.Id == id)?.ToDalFile();
+        public DalFile Get(int id) {
+            return  _context.Set<File>().Find(id)?.ToDalFile();
             }
 
-        public ICollection<DalFile> GetFilesByUserEmail(string userEmail) {
-            var files = _context.Set<User>()
-               .Where(u => u.Email == userEmail)
-               .SelectMany(r => r.FileStorage).ToDalFileCollection();
-            return files;
-        }
-        public ICollection<DalFile> GetFilesByUserId(int userId) {
-            var files = _context.Set<User>()
-               .Where(u => u.Id == userId)
-               .SelectMany(r => r.FileStorage).ToDalFileCollection();
+
+        public IEnumerable<DalFile> GetFilesByUserId(int userId) {
+            var files = _context.Set<File>()
+               .Where(u => u.UserId == userId).ToList().Select(file=>file.ToDalFile());
             return files;
         }
 

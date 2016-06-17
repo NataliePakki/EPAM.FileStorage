@@ -5,6 +5,7 @@
     });
 });
 
+
 $(function () {
     $("#searchFiles").keyup(function () {
         var search = $("#searchFiles").val();
@@ -81,10 +82,10 @@ $(document).ready(function () {
 });
 
 $(function() {
-    $('#blockButton').click(function (event) {
+    $("#blockButton").click(function (event) {
         event.preventDefault();
         debugger;
-        var userId = $('#Id').val();
+        var userId = $("#Id").val();
         if ($("#IsBlocked").val() === 'True') {
             $.ajax({
                 type: "Post",
