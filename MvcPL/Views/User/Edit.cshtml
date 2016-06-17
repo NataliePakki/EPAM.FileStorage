@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <input type="submit" id="editEmail" class="btn btn-primary" value="Save"/>
+                                        <input type="submit" id="edit-email" class="btn btn-primary" value="Save"/>
                                     </div>
                                 </div>
                             }
@@ -51,7 +51,10 @@
                                     </div>
                                 </div>
                             }
-                            @using (Html.BeginForm("EditPassword", "User", FormMethod.Post, new {id = "editPasswordForm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
+                            <div class="alert alert-success" style="display: none" id="success-edit-password">
+                                <strong>Success!</strong> Password edited!
+                            </div>
+                            @using (Html.BeginForm("EditPassword", "User", FormMethod.Post, new {id = "form-edit-password", @class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
                                 @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
                                 @Html.AntiForgeryToken()
                                 <div class="form-group">
@@ -71,13 +74,13 @@
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.ConfirmPassword, new {@class = "col-md-3 control-label"})
                                     <div class="col-md-8 form-inline text-left">
-                                        @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control input-lg", style = "width: 450px", id = "NewPasswordConfirm"})
-                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new {id = "confirmMessage", @class = "text-danger"})
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control input-lg", style = "width: 450px"})
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new {@class = "text-danger"})
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <input type="submit" class="btn btn-primary" value="Save"/>
+                                        <input type="submit" id="edit-password" class="btn btn-primary" value="Save"/>
                                     </div>
                                 </div>
                             }

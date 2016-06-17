@@ -7,7 +7,7 @@
 //----UserEdit----
 //EditEmail
 $(function () {
-    $("#editEmail").on("click", function (e) {
+    $("#edit-email").on("click", function (e) {
         e.preventDefault();
         var formData = new FormData($("#form-edit-email").get(0));
         $.ajax({
@@ -26,6 +26,31 @@ $(function () {
             }
         });
       
+    });
+});
+//EditPassword
+$(function () {
+    $("#edit-password").on("click", function (e) {
+        e.preventDefault();
+        var formData = new FormData($("#form-edit-password").get(0));
+        $.ajax({
+            type: "POST",
+            url: "/User/EditPassword",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function () {
+                $("#success-edit-password").css("display", "inline-block");
+                $("#ConfirmPassword").val("");
+                $("#Password").val("");
+                $("#OldPassword").val("");
+                setTimeout(function () {
+                    $("#success-edit-password").css("display", "none");
+                }, 5000);
+            }
+        });
+
     });
 });
 
