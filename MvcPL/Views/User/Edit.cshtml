@@ -12,64 +12,76 @@
                         <h3>Edit profile:</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                                @using (Html.BeginForm("Edit", "User", FormMethod.Post, new {@class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
-                                    @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
-                                    @Html.AntiForgeryToken()
-                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Email, new {@class = "col-md-3 control-label"})
-                                        <div class="col-md-7 form-inline text-left">
-                                            @Html.TextBoxFor(m => m.Email, new {@class = "form-control input-lg" , style = "width: 450px"})
-                                            @Html.ValidationMessageFor(m => m.Email, null, new {@class = "text-danger"})
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Photo, new {@class = "control-label col-md-3"})
-                                        <div class="col-md-8 form-inline text-left">
-                                            <div class="input-group">
-                                                <input class="form-control" type="file" id="inputFile" name="Photo" style = "width: 450px"/>
-                                                @Html.ValidationMessageFor(m => m.Photo, null, new {@class = "text-danger"})
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <input type="submit" class="btn btn-primary" value="Save"/>
-                                        </div>
-                                    </div>
-                                }
-                                @using (Html.BeginForm("EditPassword", "User", FormMethod.Post, new {id = "editPasswordForm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
-                                    @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
-                                    @Html.AntiForgeryToken()
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.OldPassword, new {@class = "col-md-3 control-label"})
-                                        <div class="col-md-8 form-inline text-left">
-                                            @Html.PasswordFor(m => m.OldPassword, new {@class = "form-control input-lg", style = "width: 450px", required = "true"})
-                                            @Html.ValidationMessageFor(m => m.OldPassword, null, new {@class = "text-danger", style = "width: 450px" })
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.Password, new {@class = "col-md-3 control-label"})
-                                        <div class="col-md-8 form-inline text-left">
-                                            @Html.PasswordFor(m => m.Password, new {@class = "form-control input-lg" , style = "width: 450px",required = "true"})
-                                            @Html.ValidationMessageFor(m => m.Password, null, new {@class = "text-danger"})
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(m => m.ConfirmPassword, new {@class = "col-md-3 control-label"})
-                                        <div class="col-md-8 form-inline text-left">
-                                            @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control input-lg", style = "width: 450px", id = "NewPasswordConfirm"})
-                                            @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new {id = "confirmMessage", @class = "text-danger"})
-                                        </div>
-                                    </div>
-                                  <div class="form-group">
-                                        <div class="col-md-12">
-                                            <input type="submit" class="btn btn-primary" value="Save"/>
-                                        </div>
-                                    </div>
-                                }
+                        <div class="row" id="edit">
+                            <div class="alert alert-success" style ="display: none" id ="success-edit-email">
+                                <strong>Success!</strong> Email edited
                             </div>
+                            @using (Html.BeginForm("EditEmail", "User", FormMethod.Post, new {@class = "form-horizontal", role = "form", id = "form-edit-email", enctype = "multipart/form-data"})) {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
+                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email, new {@class = "col-md-3 control-label"})
+                                    <div class="col-md-7 form-inline text-left">
+                                        @Html.TextBoxFor(m => m.Email, new {@class = "form-control input-lg", style = "width: 450px"})
+                                        @Html.ValidationMessageFor(m => m.Email, null, new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="submit" id="editEmail" class="btn btn-primary" value="Save"/>
+                                    </div>
+                                </div>
+                            }
+                            @using (Html.BeginForm("EditPhoto", "User", FormMethod.Post, new {@class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Photo, new {@class = "control-label col-md-3"})
+                                    <div class="col-md-8 form-inline text-left">
+                                        <div class="input-group">
+                                            <input class="form-control" type="file" id="inputFile" name="Photo" style="width: 450px"/>
+                                            @Html.ValidationMessageFor(m => m.Photo, null, new {@class = "text-danger"})
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-primary" value="Save"/>
+                                    </div>
+                                </div>
+                            }
+                            @using (Html.BeginForm("EditPassword", "User", FormMethod.Post, new {id = "editPasswordForm", @class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
+                                @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
+                                @Html.AntiForgeryToken()
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.OldPassword, new {@class = "col-md-3 control-label"})
+                                    <div class="col-md-8 form-inline text-left">
+                                        @Html.PasswordFor(m => m.OldPassword, new {@class = "form-control input-lg", style = "width: 450px", required = "true"})
+                                        @Html.ValidationMessageFor(m => m.OldPassword, null, new {@class = "text-danger", style = "width: 450px"})
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new {@class = "col-md-3 control-label"})
+                                    <div class="col-md-8 form-inline text-left">
+                                        @Html.PasswordFor(m => m.Password, new {@class = "form-control input-lg", style = "width: 450px", required = "true"})
+                                        @Html.ValidationMessageFor(m => m.Password, null, new {@class = "text-danger"})
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new {@class = "col-md-3 control-label"})
+                                    <div class="col-md-8 form-inline text-left">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new {@class = "form-control input-lg", style = "width: 450px", id = "NewPasswordConfirm"})
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new {id = "confirmMessage", @class = "text-danger"})
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-primary" value="Save"/>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                         </div>
                     </div>
             </div>
@@ -78,5 +90,4 @@
 }
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")
-    <script src="~/Scripts/register.js"></script>
 }

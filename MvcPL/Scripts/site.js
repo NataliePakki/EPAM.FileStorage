@@ -4,8 +4,33 @@
         $(this).addClass("active");
     });
 });
+//----UserEdit----
+//EditEmail
+$(function () {
+    $("#editEmail").on("click", function (e) {
+        e.preventDefault();
+        var formData = new FormData($("#form-edit-email").get(0));
+        $.ajax({
+            type: "POST",
+            url: "/User/EditEmail",
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function () {
+                $("#success-edit-email").css("display", "inline-block");
+                $(".profile-usertitle-name").html($("#Email").val());
+                setTimeout(function() {
+                    $("#success-edit-email").css("display", "none"); 
+                }, 5000);
+            }
+        });
+      
+    });
+});
 
-
+//----Files-------
+// Search
 $(function () {
     $("#searchFiles").keyup(function () {
         var search = $("#searchFiles").val();
@@ -25,21 +50,8 @@ $(function () {
         return false;
     });
 });
-$(function() {
-    $(".btn-modal-share").click(function () {
-        $.ajaxSetup({ cache: false });
-        event.preventDefault();
-        debugger;
-        var fileId = $(this).data('id');
-        $.get(this.href, function (data) {
-            $("#dialogContent").html(data);
-            $("#modDialog").modal('show');
-        });
-//        var urlInput = $("#myModal #SharedUrl");
-//        urlInput.val("http://localhost:56448/File/GetShared/" + fileId);
-//            urlInput.show();
-    });
-});
+
+//CreateFile modal dialog
 $(document).ready(function () {
     $("#lnkCreate").on("click", function (e) {
         e.preventDefault();
@@ -80,7 +92,40 @@ $(document).ready(function () {
         $(this).closest(".dialog").dialog("close");
     });
 });
+//Delete
+$(function () {
+    $(".delete").click(function () {
+        var id = $(".delete").id();
+        $.ajax({
+            type: "POST",
+            url: "/File/Delete",
+            data: { "id": id },
+            cache: false,
+            success: function (response) {
+                $("#table").html(response);
+            }
+        });
+        return false;
+    });
+});
 
+// ShareLink model dialog
+$(function() {
+    $(".btn-modal-share").click(function () {
+        $.ajaxSetup({ cache: false });
+        event.preventDefault();
+        debugger;
+        var fileId = $(this).data('id');
+        $.get(this.href, function (data) {
+            $("#dialogContent").html(data);
+            $("#modDialog").modal('show');
+        });
+
+    });
+});
+
+//-----Admin-----
+//BlockUser
 $(function() {
     $("#blockButton").click(function (event) {
         event.preventDefault();
@@ -116,33 +161,4 @@ $(function() {
     });
 });
 
-$(function () {
-    $(".delete").click(function () {
-        var id = $(".delete").id();
-        $.ajax({
-            type: "POST",
-            url: "/File/Delete",
-            data: { "id": id },
-            cache: false,
-            success: function (response) {
-                $("#table").html(response);
-            }
-        });
-        return false;
-    });
-});
-$(function() {
-    $("#searchUserFiles").keyup(function() {
-        var search = $("#searchUserFiles").val();
-        $.ajax({
-            type: "POST",
-            url: "/File/UserFiles",
-            data: { "search": search },
-            cache: false,
-            success: function(response) {
-                $("#userTable").html(response);
-            }
-        });
-        return false;
-    });
-});
+

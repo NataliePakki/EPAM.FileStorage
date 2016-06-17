@@ -32,7 +32,7 @@ namespace MvcPL.Models {
 
         [DataType(DataType.Password)]
         [Display(Name = "Old password")]
-        [Remote("IsUserOldPasswordMatch", "ModelValidation", AdditionalFields = "Id", ErrorMessage = "Incorrect old password.")]
+        [Remote("IsUserOldPasswordMatch", "ModelValidation", ErrorMessage = "Incorrect old password.")]
         public string OldPassword { get; set; }
     }
 }
