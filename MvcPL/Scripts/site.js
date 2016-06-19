@@ -14,15 +14,19 @@ $(function () {
             type: "POST",
             url: "/User/EditEmail",
             data: formData,
+            dataType: "json",
             cache: false,
             processData: false,
             contentType: false,
-            success: function () {
-                $("#success-edit-email").css("display", "inline-block");
-                $(".profile-usertitle-name").html($("#Email").val());
-                setTimeout(function() {
-                    $("#success-edit-email").css("display", "none"); 
-                }, 5000);
+            success: function (data) {
+                if (data) {
+                    $("#success-edit-email").css("display", "inline-block");
+                    $(".profile-usertitle-name").html($("#Email").val());
+                    setTimeout(function() {
+                        $("#success-edit-email").css("display", "none");
+                    }, 3000);
+                }
+                else{}
             }
         });
       
@@ -40,14 +44,16 @@ $(function () {
             cache: false,
             processData: false,
             contentType: false,
-            success: function () {
-                $("#success-edit-password").css("display", "inline-block");
-                $("#ConfirmPassword").val("");
-                $("#Password").val("");
-                $("#OldPassword").val("");
-                setTimeout(function () {
-                    $("#success-edit-password").css("display", "none");
-                }, 5000);
+            success: function (data) {
+                if (data) {
+                    $("#success-edit-password").css("display", "inline-block");
+                    $("#ConfirmPassword").val("");
+                    $("#Password").val("");
+                    $("#OldPassword").val("");
+                    setTimeout(function() {
+                        $("#success-edit-password").css("display", "none");
+                    }, 3000);
+                }
             }
         });
 

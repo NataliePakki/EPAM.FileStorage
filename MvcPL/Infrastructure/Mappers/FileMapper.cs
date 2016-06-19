@@ -99,9 +99,10 @@ namespace MvcPL.Infrastructure.Mappers {
 
             Image image = file.HttpPostedFileBaseToImage();
             if(image != null) {
-                MemoryStream ms = new MemoryStream();
-                image.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
+                using (var ms = new MemoryStream()) {
+                    image.Save(ms, ImageFormat.Jpeg);
+                    return ms.ToArray();
+                }
             }
             return null;
         }
@@ -111,9 +112,10 @@ namespace MvcPL.Infrastructure.Mappers {
 
         public static Byte[] ImageToByteArray(this Image imageIn) {
             if(imageIn != null) {
-                MemoryStream ms = new MemoryStream();
-                imageIn.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
+                using (var ms = new MemoryStream()) {
+                    imageIn.Save(ms, ImageFormat.Jpeg);
+                    return ms.ToArray();
+                }
             }
             return null;
         }
@@ -151,7 +153,7 @@ namespace MvcPL.Infrastructure.Mappers {
 
         private static byte[] ToFileBytes(this HttpPostedFileBase fileBase) {
             byte[] fileBytes;
-            using(MemoryStream ms = new MemoryStream()) {
+            using(var ms = new MemoryStream()) {
                 fileBase.InputStream.CopyTo(ms);
                 fileBytes = ms.ToArray();
             }

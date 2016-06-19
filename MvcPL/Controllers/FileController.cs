@@ -60,8 +60,10 @@ namespace MvcPL.Controllers {
             if (ModelState.IsValid) {
                 if (!UserIsAdministrator)
                     createFileViewModel.UserId = CurrentUserId.Value;
-                var file = createFileViewModel.ToFileEntity(fileBase);
-                _fileService.CreateFile(file);
+                if (fileBase != null) {
+                    var file = createFileViewModel.ToFileEntity(fileBase);
+                    _fileService.CreateFile(file);
+                }
                 return RedirectToAction("Index", "File", new {userId = createFileViewModel.UserId});
             }
             ViewBag.IsDialog = Request.IsAjaxRequest();
@@ -148,10 +150,7 @@ namespace MvcPL.Controllers {
 
         [AllowAnonymous]
         public FileContentResult GetShared(int id) {
-            var file = _fileService.GetFileEntity(id);
-            if (file == null || !file.IsShared) return null;
-            var physicalFile = _fileService.GetPhysicalFile(file.Id);
-            return physicalFile == null ? null : File(physicalFile, file.ContentType, file.Name);
+            return Download(id);
         }
         
 

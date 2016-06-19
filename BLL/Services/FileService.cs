@@ -79,7 +79,7 @@ namespace BLL.Services {
             }
         }
 
-        private static string FileStorageDirectory(int id, string name) => AppDomain.CurrentDomain.BaseDirectory + "/App_Data/Storage/" + id + "_" + name;
+        private static string FileStorageDirectory(int id, string name) => $"{AppDomain.CurrentDomain.BaseDirectory}/App_Data/Storage/{id}_{name}";
 
         private void AddPhysicalFile(FileEntity file) {
             var id = _repository.GetId(file.ToDalFile());

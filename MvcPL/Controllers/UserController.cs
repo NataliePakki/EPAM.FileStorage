@@ -58,7 +58,7 @@ namespace MvcPL.Controllers {
                 _userService.EditEmail(id, newEmail);
                 FormsAuthentication.SetAuthCookie(viewModel.Email, true);
                 if (Request.IsAjaxRequest()) {
-                    return Json("Email edited!", JsonRequestBehavior.AllowGet);
+                    return Json(true,JsonRequestBehavior.AllowGet);
                 }
                 return RedirectToAction("Edit", "User");
             }
@@ -79,11 +79,10 @@ namespace MvcPL.Controllers {
                 var password = Crypto.HashPassword(viewModel.Password);
                 _userService.EditPassword(user.Id, password);
                 if(Request.IsAjaxRequest()) {
-                    return Json("Password edited!", JsonRequestBehavior.AllowGet);
+                    return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 return RedirectToAction("Edit", "User");
-                
-            }
+                }
             return RedirectToAction("Edit", "User");
         }
         [AllowAnonymous]
