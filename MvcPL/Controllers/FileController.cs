@@ -84,7 +84,7 @@ namespace MvcPL.Controllers {
             var file = _fileService.GetFileEntity(id);
             if (file != null) {
                 _fileService.DeleteFile(file.Id);
-                return RedirectToAction("Index", new {userId = file.UserId});
+                return RedirectToAction("Index");
             }
             return RedirectToAction("Index");
         }
@@ -95,7 +95,7 @@ namespace MvcPL.Controllers {
                 return RedirectToAction("Index", "File");
             if (Request.IsAjaxRequest()) {
                 _fileService.DeleteFile(file.Id);
-                return RedirectToAction("Index", "File", new {userId = file.UserId});
+                return RedirectToAction("Index", "File");
             }
             return RedirectToAction("ConfirmDelete", new DeleteViewModel {Id = file.Id, Name = file.Name});
         }
@@ -104,8 +104,11 @@ namespace MvcPL.Controllers {
         public ActionResult Edit(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file != null && (UserIsAdministrator || file.UserId == CurrentUserId)) {
-                    var fvm = file.ToEditFileViewModel();
-                    return View("Edit", fvm);
+                ViewBag.IsDialog = Request.IsAjaxRequest();
+                var fvm = file.ToEditFileViewModel();
+                if(Request.IsAjaxRequest()) 
+                    return PartialView("_EditForm", fvm);
+                 return View("Edit", fvm);
                 }
             return View("Error");
         }

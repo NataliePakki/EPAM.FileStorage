@@ -55,15 +55,16 @@ namespace MvcPL.Infrastructure.Mappers {
 
 
         public static TableViewModel ToTableViewModel(this List<FileEntity> files, int page, string searchString, int? userId = null) {
+            int pageSize = 2;
             var pageInfo = new PageInfo {
                 PageNumber = page,
-                PageSize = 10,
+                PageSize = pageSize,
                 TotalItems = files.Count
             };
             return new TableViewModel() {
                 SearchSubString = searchString,
                 PageInfo = pageInfo,
-                Files = files.Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(10).Select(f => f.ToMvcFile()).ToList(),
+                Files = files.Skip((pageInfo.PageNumber - 1) * pageInfo.PageSize).Take(pageSize).Select(f => f.ToMvcFile()).ToList(),
                 UserId = userId
             };
 

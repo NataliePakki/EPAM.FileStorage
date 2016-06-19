@@ -1,9 +1,26 @@
-﻿$(document).ready(function () {
+﻿$(function () {
     $("#menu li").on("click", function () {
         $("#menu li").removeClass("active");
         $(this).addClass("active");
     });
 });
+// Pagination
+function changePage(userId, page) {
+        $.ajax({
+            type: "POST",
+            url: "File/Index",
+            data: {
+                "userId": userId,
+                "page": page
+            },
+            cache: false,
+            success: function(response) {
+                $("#table").html(response);
+
+            }
+        });
+}
+
 //----UserEdit----
 //EditEmail
 $(function () {
@@ -26,7 +43,6 @@ $(function () {
                         $("#success-edit-email").css("display", "none");
                     }, 3000);
                 }
-                else{}
             }
         });
       
@@ -83,7 +99,7 @@ $(function () {
 });
 
 //CreateFile modal dialog
-$(document).ready(function () {
+$(function () {
     $("#lnkCreate").on("click", function (e) {
         e.preventDefault();
         $("<div id='dialogContent'></div>")
@@ -91,7 +107,7 @@ $(document).ready(function () {
             .appendTo("body")
             .dialog({
                 title: "Create",
-                width: 500,
+                width: 800,
                 height: 400,
                 close: function () { $(this).remove() },
                 modal: true,
@@ -123,22 +139,42 @@ $(document).ready(function () {
         $(this).closest(".dialog").dialog("close");
     });
 });
-//Delete
-$(function () {
-    $(".delete").click(function () {
-        var id = $(".delete").id();
-        $.ajax({
-            type: "POST",
-            url: "/File/Delete",
-            data: { "id": id },
-            cache: false,
-            success: function (response) {
-                $("#table").html(response);
-            }
-        });
-        return false;
-    });
-});
+//EditFile modal dialog
+function editFileModalWindow(id) {
+    $("<div id='dialogContent'></div>")
+        .addClass("dialog")
+        .appendTo("body")
+        .dialog({
+            title: "Edit",
+            width: 800,
+            height: 400,
+            close: function () { $(this).remove() },
+            modal: true,
+            buttons: [
+                {
+                    text: "Save",
+                    click: function () {
+                        var formData = new FormData($("#form-edit").get(0));
+                        $.ajax({
+                            type: "POST",
+                            url: "/File/Edit",
+                            data: formData,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                $("#table").html(response);
+                            }
+                        });
+                        $(this).dialog("close");
+                    }
+                }
+            ]
+        })
+        .load("/File/Edit/" + id) ;
+}
+
+
 
 // ShareLink model dialog
 $(function() {

@@ -1,18 +1,30 @@
-﻿//using System.Text;
-//using System.Web.Mvc;
-//using System.Web.Mvc.Ajax;
-//using MvcPL.Models;
+﻿using System;
+using System.Text;
+using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
+using System.Web.Mvc.Html;
+using MvcPL.Models;
 
-//namespace MvcPL.Infrastructure.Helpers {
-//    public static class PagingHelpers {
-//        public static MvcHtmlString PageLinks(this AjaxHelper html, PageInfo pageInfo, string actionName, string controllerName, string updateTargetId) {
-//            StringBuilder result = new StringBuilder();
-//            for(int i = 1; i <= pageInfo.TotalPages; i++) {
-//                string cl = i == pageInfo.PageNumber ? "btn btn-primary selected" : "btn btn-default";
-//                string link = html.ActionLink(i.ToString(),actionName, controllerName,new {page = i}, new AjaxOptions {UpdateTargetId = updateTargetId}, new {@class = cl}).ToString();
-//                result.Append(link);
-//            }
-//           return MvcHtmlString.Create(result.ToString());
-//        }
-//    }
-//}
+namespace MvcPL.Infrastructure.Helpers {
+
+    public static class PagingHelpers {
+        public static MvcHtmlString PageLinks(this HtmlHelper html,
+            PageInfo pageInfo, Func<int, string> pageUrl, int? userId = null) {
+            StringBuilder result = new StringBuilder();
+            for (int i = 1; i <= pageInfo.TotalPages; i++) {
+                TagBuilder tag = new TagBuilder("a");
+                tag.MergeAttribute("href", pageUrl(i));
+                tag.InnerHtml = i.ToString();
+                tag.AddCssClass("page");
+                if (i == pageInfo.PageNumber) {
+                    tag.AddCssClass("selected");
+                    tag.AddCssClass("btn-primary");
+                }
+                tag.AddCssClass("btn btn-default");
+                tag.MergeAttribute("onClick", $"changePage('{userId}','{i}');return false;");
+                result.Append(tag.ToString());
+            }
+            return MvcHtmlString.Create(result.ToString());
+        }
+    }
+ }

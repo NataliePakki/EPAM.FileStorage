@@ -273,7 +273,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\ssite.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -304,6 +304,7 @@
     <Content Include="Views\File\_CreateForm.cshtml" />
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\_FileTable.cshtml" />
+    <Content Include="Views\File\_EditForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Storage\" />
