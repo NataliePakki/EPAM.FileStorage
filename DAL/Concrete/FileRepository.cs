@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using DAL.Interfacies.DTO;
@@ -59,7 +58,7 @@ namespace DAL.Concrete {
 
         public IEnumerable<DalFile> GetFilesBySubstring(string subsrting) {
             var files = _context.Set<File>()
-                .Where(a => a.Name.Contains(subsrting)).ToList()
+                .Where(a => a.Name.Contains(subsrting) || a.Description.Contains(subsrting)).ToList()
                 .Select(file => file.ToDalFile());
             return files;
         }
