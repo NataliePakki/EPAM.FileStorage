@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Web;
-using BLL.Interfacies.Entities;
+﻿using BLL.Interfacies.Entities;
 using MvcPL.Models;
-using File = ORM.File;
 
 namespace MvcPL.Infrastructure.Mappers {
     public static class UserMapper {
@@ -37,9 +29,6 @@ namespace MvcPL.Infrastructure.Mappers {
                 Photo = userEntity.Photo.ImageToByteArray()
             };
         }
-    
-
-       
     }
 }
-       
+

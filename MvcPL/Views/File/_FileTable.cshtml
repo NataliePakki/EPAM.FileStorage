@@ -58,9 +58,9 @@
                                 @Ajax.ActionLink("Delete ", "Delete", "File", new {id = item.Id, userId = Model.UserId}, new AjaxOptions() {Confirm = "Are you sure?", HttpMethod = "Post", UpdateTargetId = "table"}, new {id = item.Id})
                             }
                             @if (item.IsShared) {
-                                @Html.ActionLink("| Share ", "Share", new {id = item.Id}, new {@class = "btn-modal-share"})
-                            }
 
+                                @Html.ActionLink("| Share ", "Share", new {id = item.Id}, new {@class = "btn-modal-share", id ="lnkShare", onclick= $"shareFileModalWindow(); return false;" })
+                            }
                         </td>
                     </tr>
                 }

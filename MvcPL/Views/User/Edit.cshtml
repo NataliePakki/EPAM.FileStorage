@@ -16,7 +16,7 @@
                             <div class="alert alert-success" style ="display: none" id ="success-edit-email">
                                 <strong>Success!</strong> Email edited
                             </div>
-                            @using (Html.BeginForm("EditEmail", "User", FormMethod.Post, new {@class = "form-horizontal", role = "form", id = "form-edit-email", enctype = "multipart/form-data"})) {
+                            @using(Html.BeginForm("EditEmail", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-edit-email", enctype = "multipart/form-data" })) {
                                 @Html.AntiForgeryToken()
                                 @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
                                 @Html.ValidationSummary(true, "", new {@class = "text-danger"})
@@ -29,11 +29,11 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <input type="submit" id="edit-email" class="btn btn-primary" value="Save"/>
+                                        <input type="submit" class="btn btn-primary" onclick="editEmail(); return false;" value="Save"/>
                                     </div>
                                 </div>
                             }
-                            @using (Html.BeginForm("EditPhoto", "User", FormMethod.Post, new {@class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
+                            @using(Html.BeginForm("EditPhoto", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" })) {
                                 @Html.AntiForgeryToken()
                                 @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
                                 <div class="form-group">
@@ -54,9 +54,9 @@
                             <div class="alert alert-success" style="display: none" id="success-edit-password">
                                 <strong>Success!</strong> Password edited!
                             </div>
-                            @using (Html.BeginForm("EditPassword", "User", FormMethod.Post, new {id = "form-edit-password", @class = "form-horizontal", role = "form", enctype = "multipart/form-data"})) {
-                                @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
+                            @using(Html.BeginForm("EditPassword", "User", FormMethod.Post, new { id = "form-edit-password", @class = "form-horizontal", role = "form", enctype = "multipart/form-data" })) {
                                 @Html.AntiForgeryToken()
+                                 @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.OldPassword, new {@class = "col-md-3 control-label"})
                                     <div class="col-md-8 form-inline text-left">
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                        <input type="submit" id="edit-password" class="btn btn-primary" value="Save"/>
+                                        <input type="submit" onclick="editPassword(); return false;"class="btn btn-primary" value="Save"/>
                                     </div>
                                 </div>
                             }

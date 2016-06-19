@@ -64,7 +64,8 @@ namespace MvcPL.Controllers {
             }
             return View("Edit", viewModel);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult EditPassword(UserEditViewModel viewModel) {
             if(ModelState.IsValid) {
                 var user = CurrentUser;
@@ -85,10 +86,12 @@ namespace MvcPL.Controllers {
                 }
             return RedirectToAction("Edit", "User");
         }
+        [HttpGet]
         [AllowAnonymous]
         public ActionResult UserBlocked() {
             return View();
         }
+        [HttpGet]
         [Authorize(Roles = "Administrator")]
         public ActionResult Details(int userId) {
             var userDetailsModel = _userService.GetUserEntity(userId).ToUserDetailsModel();
