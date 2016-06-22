@@ -1,7 +1,7 @@
 ﻿@using MvcPL.Infrastructure.Helpers
 @model MvcPL.Models.TableViewModel
 
-@if(ViewBag.IsEmpty) {
+@if(Model.Files.Count == 0) {
     <div class="alert alert-info">
         <strong>Info!</strong>
         No files avaible.
@@ -53,7 +53,7 @@
                         </td>
                         <td>
                             @Html.ActionLink("Download", "Download", new {id = item.Id})
-                            @if (item.UserName == User.Identity.Name || User.IsInRole("Administrator")) {
+                            @if (Model.UserId != null && (item.UserEmail == User.Identity.Name || User.IsInRole("Administrator"))) {
                                 @Html.ActionLink(" | Edit | ", "Edit", new {id = item.Id}, new {id = "lnkEdit", onclick = $"editFileModalWindow('{item.Id}');return false;"})
                                 @Ajax.ActionLink("Delete ", "Delete", "File", new {id = item.Id, userId = Model.UserId}, new AjaxOptions() {Confirm = "Are you sure?", HttpMethod = "Post", UpdateTargetId = "table"}, new {id = item.Id})
                             }

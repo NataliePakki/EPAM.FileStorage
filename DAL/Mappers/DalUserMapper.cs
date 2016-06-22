@@ -6,7 +6,8 @@ namespace DAL.Mappers {
         public static DalUser ToDalUser(this User user) {
             if (user == null) return null;
             return new DalUser() {
-                Name = user.Email,
+                Name = user.Name,
+                Email = user.Email,
                 Id = user.Id,
                 Password = user.Password,
                 Photo = user.Photo,
@@ -18,7 +19,8 @@ namespace DAL.Mappers {
         public static User ToUser(this DalUser dalUser) {
             if (dalUser == null) return null;
             return new User() {
-                Email = dalUser.Name,
+                Email = dalUser.Email,
+                Name = dalUser.Name,
                 Id = dalUser.Id,
                 Password = dalUser.Password,
                 Photo = dalUser.Photo,

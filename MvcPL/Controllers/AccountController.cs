@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using BLL.Interfacies.Services;
@@ -11,7 +11,6 @@ namespace MvcPL.Controllers {
     public class AccountController : Controller {
         private readonly IUserService _userService;
 
-
         public AccountController(IUserService userService) {
             _userService = userService;
         }
@@ -20,7 +19,6 @@ namespace MvcPL.Controllers {
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl) {
-
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -33,13 +31,13 @@ namespace MvcPL.Controllers {
         public ActionResult Login(LoginViewModel viewModel, string returnUrl) {
             if(ModelState.IsValid) {
                 if(Membership.ValidateUser(viewModel.Email, viewModel.Password)) {
-
                     var user = _userService.GetUserEntity(viewModel.Email);
                     if (user.IsBlocked) {
                         return RedirectToAction("UserBlocked", "User");
                     }
                     FormsAuthentication.SetAuthCookie(viewModel.Email, viewModel.RememberMe);
                     Session["Photo"] = user.Photo.ImageToByteArray();
+                    Session["Name"] = user.Name;
                     if(Url.IsLocalUrl(returnUrl)) {
                         return Redirect(returnUrl);
                     } else {
@@ -67,15 +65,19 @@ namespace MvcPL.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterViewModel viewModel) {
             if(ModelState.IsValid) {
-                if (viewModel.Photo!=null&&!viewModel.Photo.IsImage()) {
+                if (IsImageCorrect(viewModel.Photo)) {
                     ModelState.AddModelError("", "Select jpg/png image.");
                     return View(viewModel);
                 }
-                var users = _userService.GetAllUserEntities().ToList();
-                var userWithSameLogin = users.Any(user => user.UserEmail.Contains(viewModel.Email));
+                var userName = viewModel.Name;
+                var userEmail = viewModel.Email;
 
-                if(userWithSameLogin) {
-                    ModelState.AddModelError("", "User with this login already exist.");
+                if (IsUserEmailExist(userEmail)) {
+                    ModelState.AddModelError("", "User with this email already exist.");
+                    return View(viewModel);
+                }
+                if(IsUserNameExist(userName)) {
+                    ModelState.AddModelError("", "User with this name already exist.");
                     return View(viewModel);
                 }
 
@@ -85,6 +87,7 @@ namespace MvcPL.Controllers {
                 if(membershipUser != null) {
                     FormsAuthentication.SetAuthCookie(viewModel.Email, false);
                     Session["Photo"] = viewModel.Photo.HttpPostedFileBaseToByteArray();
+                    Session["Name"] = viewModel.Name;
                     return RedirectToAction("Index", "File");
                 } else {
                     ModelState.AddModelError("", "Error registration.");
@@ -92,17 +95,22 @@ namespace MvcPL.Controllers {
             }
             return View(viewModel);
         }
-
-
-
+        
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff() {
             FormsAuthentication.SignOut();
             Session["Photo"] = null;
+            Session["Name"] = null;
             return RedirectToAction("Index", "File");
         }
+
+
+        private bool IsImageCorrect(HttpPostedFileBase photo) => photo != null && !photo.IsImage();
+        private bool IsUserEmailExist(string email) => _userService.IsUserEmailExist(email);
+        private bool IsUserNameExist(string name) => _userService.IsUserNameExist(name);
+
 
     }
 }

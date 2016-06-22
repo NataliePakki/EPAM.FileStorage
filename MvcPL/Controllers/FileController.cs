@@ -17,23 +17,15 @@ namespace MvcPL.Controllers {
             _userService = userService;
         }
 
-        private int? CurrentUserId => CurrentUser?.Id;
-
-        private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
-        private bool UserIsAdministrator => User.IsInRole("Administrator");
-
-
-
         [AllowAnonymous]
         public ActionResult Index(int? userId= null, string search = null, int page = 1) {
-            if ((userId != null && userId != CurrentUserId) && !UserIsAdministrator) {
+            if ((userId != null && !IsCurrentUser(userId)) && !UserIsAdministrator) {
                 userId = CurrentUserId;
             }
-            var files = _fileService.GetFiles(search,userId).ToList();
-            var tvm = files.ToTableViewModel(page, search);
-            tvm.UserId = userId;
 
-            ViewBag.IsEmpty = files.Count == 0;
+            var files = _fileService.GetFiles(search,userId).ToList();
+            var tvm = files.ToTableViewModel(page, search, userId);
+
             if(Request.IsAjaxRequest()) {
                 return PartialView("_FileTable", tvm);
             }
@@ -48,18 +40,19 @@ namespace MvcPL.Controllers {
 
         [HttpGet]
         public ActionResult Create(int userId) {
+            if(!UserIsAdministrator && !IsCurrentUser(userId))
+                userId = CurrentUserId.Value;
             ViewBag.IsDialog = Request.IsAjaxRequest();
+            var cvm = new CreateFileViewModel {UserId = userId, Description = string.Empty};
             if (Request.IsAjaxRequest()) {
-                return PartialView("_CreateForm", new CreateFileViewModel {UserId = userId, Description = string.Empty});
+                return PartialView("_CreateForm", cvm);
             } else
-                return View(new CreateFileViewModel { UserId = userId, Description = string.Empty });
+                return View(cvm);
         }
 
         [HttpPost]
         public ActionResult Create(CreateFileViewModel createFileViewModel, HttpPostedFileBase fileBase) {
             if (ModelState.IsValid) {
-                if (!UserIsAdministrator)
-                    createFileViewModel.UserId = CurrentUserId.Value;
                 if (fileBase != null) {
                     var file = createFileViewModel.ToFileEntity(fileBase);
                     _fileService.CreateFile(file);
@@ -70,42 +63,45 @@ namespace MvcPL.Controllers {
             return View(createFileViewModel);
         }
 
-        [HttpGet]
-        public ActionResult ConfirmDelete(DeleteViewModel dvm) {
-            var file = _fileService.GetFileEntity(dvm.Id);
-            if (file != null && (file.UserId == CurrentUserId || UserIsAdministrator)) {
-                return View(dvm);
-            }
-            return RedirectToAction("Index", new { userId = dvm.UserId });
-        }
-        
+//        [HttpGet]
+//        public ActionResult ConfirmDelete(DeleteFileViewModel dvm) {
+//            var file = _fileService.GetFileEntity(dvm.Id);
+//            if (file != null && (file.UserId == CurrentUserId || UserIsAdministrator)) {
+//                return View("ConfirmDelete", dvm);
+//            }
+//            return RedirectToAction("Index", new { userId = dvm.UserId });
+//        }
+//        
         [HttpPost]
         public ActionResult ConfirmDelete(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file != null) {
                 _fileService.DeleteFile(file.Id);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { userId = file.UserId });
             }
             return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id) {
             var file = _fileService.GetFileEntity(id);
-            if (file == null)
-                return RedirectToAction("Index", "File");
-            if (Request.IsAjaxRequest()) {
-                _fileService.DeleteFile(file.Id);
-                return RedirectToAction("Index", "File");
+            if (file != null && (IsCurrentUser(file.UserId) || UserIsAdministrator)) {
+                if (Request.IsAjaxRequest()) {
+                    _fileService.DeleteFile(file.Id);
+                    return RedirectToAction("Index", "File", new {userId = file.UserId});
+                }
+                return View("ConfirmDelete", file.ToDeleteFileViewModel());
             }
-            return RedirectToAction("ConfirmDelete", new DeleteViewModel {Id = file.Id, Name = file.Name});
+            return RedirectToAction("Index", "File");
         }
+
+
 
         [HttpGet]
         public ActionResult Edit(int id) {
             var file = _fileService.GetFileEntity(id);
-            if (file != null && (UserIsAdministrator || file.UserId == CurrentUserId)) {
-                ViewBag.IsDialog = Request.IsAjaxRequest();
+            if (file != null && (UserIsAdministrator || IsCurrentUser(file.UserId))) {
                 var fvm = file.ToEditFileViewModel();
+                ViewBag.IsDialog = Request.IsAjaxRequest();
                 if(Request.IsAjaxRequest()) 
                     return PartialView("_EditForm", fvm);
                  return View("Edit", fvm);
@@ -116,9 +112,9 @@ namespace MvcPL.Controllers {
         [HttpPost]
         public ActionResult Edit(EditFileViewModel model) {
             if (ModelState.IsValid) {
-                _fileService.UpdateFile(model.ToFileEntity());
-                var userId = _fileService.GetFileEntity(model.Id).UserId;
-                return RedirectToAction("Index", new {userId = userId});
+                var file = model.ToFileEntity();
+                _fileService.UpdateFile(file);
+                return RedirectToAction("Index", new {userId = model.UserId });
             }
             return View("Edit", model);
         }
@@ -128,7 +124,7 @@ namespace MvcPL.Controllers {
         public FileContentResult Download(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file != null) {
-                if (UserIsAdministrator || file.UserId == CurrentUserId || file.IsShared) {
+                if (UserIsAdministrator || IsCurrentUser(file.UserId) || file.IsShared) {
                     var physicalFile = _fileService.GetPhysicalFile(file.Id);
                     if (physicalFile != null)
                         return File(physicalFile, file.ContentType, file.Name);
@@ -155,7 +151,10 @@ namespace MvcPL.Controllers {
         public FileContentResult GetShared(int id) {
             return Download(id);
         }
-        
+        private int? CurrentUserId => CurrentUser?.Id;
+        private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
+        private bool UserIsAdministrator => User.IsInRole("Administrator");
 
+       private bool IsCurrentUser(int? userId) => userId != null && userId == CurrentUserId;
     }
 }

@@ -6,24 +6,18 @@ namespace MvcPL.Infrastructure.Mappers {
         public static UserEditViewModel ToMvcEditUserModel(this UserEntity userEntity) {
             return new UserEditViewModel() {
                 Id = userEntity.Id,
-                Email = userEntity.UserEmail,
+                Name = userEntity.Name,
+                Email = userEntity.Email,
                 OldPhoto = userEntity.Photo,
                 Roles = userEntity.Roles.ToMvcRoleCollection()
-            };
-        }
-        public static UserViewModel ToMvcUser(this UserEntity userEntity) {
-            return new UserViewModel() {
-                Email = userEntity.UserEmail,
-                Roles = userEntity.Roles.ToMvcRoleCollection(),
-                Photo = userEntity.Photo,
-                Files = userEntity.FileStorage.ToMvcFileCollection()
             };
         }
 
         public static UserDetailsViewModel ToUserDetailsModel(this UserEntity userEntity) {
             return new UserDetailsViewModel() {
-                Email = userEntity.UserEmail,
                 Id = userEntity.Id,
+                Name = userEntity.Name,
+                Email = userEntity.Email,
                 IsBlocked = userEntity.IsBlocked,
                 Roles = userEntity.Roles.ToMvcRoleCollection(),
                 Photo = userEntity.Photo.ImageToByteArray()

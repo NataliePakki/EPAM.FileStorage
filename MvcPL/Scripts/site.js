@@ -35,10 +35,32 @@ function editEmail() {
         contentType: false,
         success: function (data) {
             if (data) {
-                $("#success-edit-email").css("display", "inline-block");
-                $(".profile-usertitle-name").html($("#Email").val());
+                $("#info-edit-email").addClass("alert-success").css("display", "inline-block");
+                setTimeout(function() {
+                    $("#info-edit-email").removeClass("alert-success").css("display", "none");
+                    location.reload();
+                }, 3000);
+            } 
+        }
+    });
+}
+//EditName
+function editName() {
+    var form = new FormData($("#form-edit-name").get(0));
+    $.ajax({
+        type: "POST",
+        url: "/User/EditName",
+        data: form,
+        dataType: "json",
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+            if (data) {
+                $("#info-edit-name").addClass("alert-success").css("display", "inline-block");
+                $(".profile-usertitle-name").html($("#Name").val());
                 setTimeout(function () {
-                    $("#success-edit-email").css("display", "none");
+                    $("#info-edit-name").removeClass("alert-success").css("display", "none");
                 }, 3000);
             }
         }
@@ -70,22 +92,7 @@ function editPassword() {
 
 //----Files-------
 // Search
-function searchFiles() {
-    var search = $("#searchFiles").val();
-    var userId = $("#userId").val();
-    $.ajax({
-        type: "POST",
-        url: "/File/Index",
-        data: {
-            "search": search,
-            "userId": userId
-        },
-        cache: false,
-        success: function (response) {
-            $("#table").html(response);
-        }
-    });
-}
+
 
 function createFileModalWindow() {
     var linkCreate = $("#lnkCreate").attr("href");

@@ -10,6 +10,7 @@ namespace BLL.Interfacies.Entities {
         public DateTime TimeAdded { get; set; }
         public byte[] FileBytes { get; set; }
         public bool IsShared { get; set; }
+        public string UserEmail { get; set; }
         public string UserName { get; set; }
         public int UserId { get; set; }
     }

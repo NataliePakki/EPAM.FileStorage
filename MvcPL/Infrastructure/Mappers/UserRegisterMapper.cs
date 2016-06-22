@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Web.Helpers;
 using BLL.Interfacies.Entities;
 using MvcPL.Models;
 
@@ -7,7 +9,8 @@ namespace MvcPL.Infrastructure.Mappers {
     public static  class UserRegisterMapper {
         public static RegisterViewModel ToRegisterMvcUser(this UserEntity userEntity) {
             return new RegisterViewModel() {
-                Email = userEntity.UserEmail,
+                Name = userEntity.Name,
+                Email = userEntity.Email,
                 Password = userEntity.Password,
                 Roles = userEntity.Roles.ToMvcRoleCollection(),
             };
@@ -16,9 +19,11 @@ namespace MvcPL.Infrastructure.Mappers {
 
         public static UserEntity ToBllUser(this RegisterViewModel userViewModel) {
             return new UserEntity() {
-                UserEmail = userViewModel.Email,
-                Password = userViewModel.Password,
-                Roles = userViewModel.Roles.ToRoleEntityCollection(),
+                Name = userViewModel.Name,
+                Email = userViewModel.Email,
+                Password = Crypto.HashPassword(userViewModel.Password),
+                Photo = userViewModel.Photo != null ? Image.FromStream(userViewModel.Photo.InputStream) : null,
+                Roles = userViewModel.Roles.ToRoleEntityCollection()
             };
         }
 

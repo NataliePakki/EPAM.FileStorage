@@ -1,11 +1,11 @@
-﻿@model MvcPL.Models.DeleteViewModel
+﻿@model MvcPL.Models.DeleteFileViewModel
 @{
     ViewBag.Title = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Header{
     <h2>
-        @Html.ActionLink("Home", "AllPublicFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
+        @Html.ActionLink("Home", "Index", "File", null, htmlAttributes: new { @style = "color: #666;" })
         / @Html.ActionLink("My Files", "UserFiles", "File", null, htmlAttributes: new { @style = "color: #666;" })
         / Confirm delete
     </h2>
@@ -16,13 +16,13 @@
     <hr/>
     @using (Html.BeginForm("ConfirmDelete", "File", null, FormMethod.Post, new {enctype = "multipart/form-data" })) { 
     @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
+    @Html.HiddenFor(m => m.UserId, new { Value = Model.UserId })
     <div style="font-size: 30px; margin-bottom: 10px">
         Are you sure to delete "@Model.Name"?
     </div>
         <div class="col-md-12 form-inline">
             <input type="submit" value="Delete" class="btn btn-primary btn-sm"/>
-@*            @Html.ActionLink("Delete", "ConfirmDelete", "File", new {id = @Model.Id}, new {@class = "btn btn-primary btn-sm"})*@
-            @Html.ActionLink("Cancel", "UserFiles", "File", new {@class = "btn btn-primary btn-sm"})
+            @Html.ActionLink("Cancel", "Index", "File",new {userId = Model.UserId}, new {@class = "btn btn-primary btn-sm"})
         </div>
     }
 }

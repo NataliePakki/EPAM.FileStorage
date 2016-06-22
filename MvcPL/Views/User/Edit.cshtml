@@ -13,7 +13,27 @@
                     </div>
                     <div class="panel-body">
                         <div class="row" id="edit">
-                            <div class="alert alert-success" style ="display: none" id ="success-edit-email">
+                            <div class="alert" style="display: none" id="info-edit-name">
+                                <strong>Success!</strong> Name edited
+                            </div>
+                            @using(Html.BeginForm("EditName", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-edit-name", enctype = "multipart/form-data" })) {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(m => m.Id, new { Value = Model.Id })
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Name, new { @class = "col-md-3 control-label" })
+                                    <div class="col-md-7 form-inline text-left">
+                                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control input-lg", style = "width: 450px" })
+                                        @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="submit" class="btn btn-primary" onclick="editName(); return false;" value="Save" />
+                                    </div>
+                                </div>
+                            }
+                            <div class="alert" style="display: none" id="info-edit-email">
                                 <strong>Success!</strong> Email edited
                             </div>
                             @using(Html.BeginForm("EditEmail", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-edit-email", enctype = "multipart/form-data" })) {
@@ -92,5 +112,5 @@
     </div>
 }
 @section Scripts{
-    @Scripts.Render("~/bundles/jqueryval")
+      @Scripts.Render("~/bundles/jqueryval")
 }

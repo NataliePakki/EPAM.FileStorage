@@ -1,15 +1,11 @@
 ﻿@model MvcPL.Models.TableViewModel
 @{
     ViewBag.Title = "Files";
-    AjaxOptions ajaxOptions = new AjaxOptions {
-        UpdateTargetId = "table"
-    };
-
 }
 @section Header {
         @if(Model.UserId.HasValue) {
             <h2 id ="header">
-                User files:
+                User's files:
             </h2>
         } else {
             <h2 id ="header">
@@ -25,7 +21,7 @@
                 @using (Html.BeginForm("Index", "File", FormMethod.Get)) {
                     @Html.HiddenFor(m => m.UserId, new {Value = Model.UserId})
                     <div class="search_form">
-                        <input type="text" id="searchFiles" keyup="searchFiles();" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" value=@Model.SearchSubString>
+                        <input type="text" id="search" onkeyup="searchFiles(); return false;" name="search" class="form-control input-sm" maxlength="64" placeholder="Search" value=@Model.SearchSubString>
                         <button type="submit" id="btnSearch" class="btn btn-primary btn-sm">Search</button>
                     </div>
                 }
@@ -47,8 +43,24 @@
 
 }
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
+    <script>
+        function searchFiles() {
+            var search = $("#search").val();
+            var userId = $("#UserId").val();
+            $.ajax({
+                type: "POST",
+                url: "/File/Index",
+                data: {
+                    "search": search,
+                    "userId": userId
+                },
+                cache: false,
+                success: function (response) {
+                    $("#table").html(response);
+                }
+            });
+        }
+    </script>
 }
 
 

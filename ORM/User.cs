@@ -15,6 +15,9 @@ namespace ORM {
         public int Id { get; set; }
         [Required]
         [MaxLength(200)]
+        public string Name { get; set; }
+        [Required]
+        [MaxLength(200)]
         public string Email { get; set; }
         [Required]
         [MaxLength(100), MinLength(8)]

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Web.Helpers;
 using System.Web.Security;
 using BLL.Interfacies.Services;
@@ -18,8 +17,6 @@ namespace MvcPL.Providers {
             }
             userModel.Roles.Add(Role.User);
             var userEntity = userModel.ToBllUser();
-            userEntity.Password = Crypto.HashPassword(userEntity.Password);
-            userEntity.Photo = userModel.Photo != null ? Image.FromStream(userModel.Photo.InputStream) : null;
             UserService.CreateUser(userEntity);
             membershipUser = GetUser(userModel.Email, false);
             return membershipUser;
@@ -39,7 +36,7 @@ namespace MvcPL.Providers {
             if(user == null)
                 return null;
 
-            var memberUser = new MembershipUser("CustomMembershipProvider", user.UserEmail,
+            var memberUser = new MembershipUser("CustomMembershipProvider", user.Email,
                 null, null, null, null,
                 false, false, DateTime.Now,
                 DateTime.MinValue, DateTime.MinValue,

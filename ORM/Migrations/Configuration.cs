@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Web.Helpers;
+
 namespace ORM.Migrations
 {
     using System.Data.Entity.Migrations;
@@ -11,6 +14,6 @@ namespace ORM.Migrations
         }
 
         protected override void Seed(ORM.EntityModel context) {
-        }
+       }
     }
 }

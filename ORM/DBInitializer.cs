@@ -18,12 +18,14 @@ namespace ORM {
 
             var admin = new User() {
                 Email = "admin@gmail.com",
+                Name = "Admin",
                 Password = Crypto.HashPassword("admin1234")
             };
             admin.Roles.Add(defaultRoles[0]);
 
             var user = new User() {
                 Email = "user@gmail.com",
+                Name = "User",
                 Password = Crypto.HashPassword("user1234")
             };
             user.Roles.Add(defaultRoles[1]);

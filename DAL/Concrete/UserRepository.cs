@@ -59,9 +59,9 @@ namespace DAL.Concrete {
                 var loaded = _context.Set<File>().Find(file.Id);
                 existedUser.Entity.FileStorage.Add(loaded);
             }
-
+            existedUser.Entity.Name = entity.Name;
             existedUser.Entity.Photo = entity.Photo;
-            existedUser.Entity.Email = entity.Name;
+            existedUser.Entity.Email = entity.Email;
             existedUser.Entity.Password = entity.Password;
             existedUser.Entity.IsBlocked = entity.IsBlocked;
         }
@@ -72,6 +72,13 @@ namespace DAL.Concrete {
             var dalUser = user?.ToDalUser();
             return dalUser;
         }
+
+        public DalUser GetUserByName(string name) {
+            var user = _context.Set<User>().FirstOrDefault(u => u.Name == name);
+            var dalUser = user?.ToDalUser();
+            return dalUser;
+        }
+
         private void AttachRoles(IEnumerable<Role> roles) {
             foreach(var role in roles) {
                 var existedRole = _context.Set<Role>().Find(role.Id);

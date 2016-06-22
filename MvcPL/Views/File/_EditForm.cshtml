@@ -2,6 +2,7 @@
 @using(Html.BeginForm("Edit", "File", null, FormMethod.Post, new { enctype = "multipart/form-data", id = "form-edit" })) {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id, new { Value = Model.Id })
+    @Html.HiddenFor(m => m.UserId, new { Value = Model.UserId })
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

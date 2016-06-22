@@ -1,15 +1,15 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 
 namespace MvcPL.Controllers {
     public class ModelValidationController : Controller{
         private readonly IUserService _userService;
-        private string CurrentUserEmail => _userService.GetUserEntity(User.Identity.Name).UserEmail;
+        private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
+        private string CurrentUserEmail => CurrentUser?.Email;
+        private string CurrentUserName => CurrentUser?.Name;
         public ModelValidationController(IUserService userService) {
             _userService = userService;
         }
@@ -18,8 +18,15 @@ namespace MvcPL.Controllers {
         }
 
         public JsonResult IsUserEmailExist(string email) {
-            var userExist = _userService.IsUserExist(email);
+           var userExist = _userService.IsUserEmailExist(email);
             if(string.CompareOrdinal(CurrentUserEmail, email) == 0) {
+                userExist = false;
+            }
+            return Json(!userExist, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult IsUserNameExist(string name) {
+            var userExist = _userService.IsUserNameExist(name);
+            if(string.CompareOrdinal(CurrentUserName, name) == 0) {
                 userExist = false;
             }
             return Json(!userExist, JsonRequestBehavior.AllowGet);

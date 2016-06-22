@@ -28,12 +28,19 @@ namespace BLL.Services {
             return _userRepository.GetUserByEmail(email).Id;
         }
 
+        public string GetPasswod(int id) {
+            return _userRepository.Get(id).Password;
+        }
+
         public IEnumerable<UserEntity> GetAllUserEntities() {
             return _userRepository.GetAll().Select(user => user?.ToBllUser());
         }
 
-        public bool IsUserExist(string email) {
+        public bool IsUserEmailExist(string email) {
             return _userRepository.GetUserByEmail(email) != null;
+        }
+        public bool IsUserNameExist(string name) {
+            return _userRepository.GetUserByName(name) != null;
         }
 
         public void EditPhoto(int id, Image photo) {
@@ -56,8 +63,16 @@ namespace BLL.Services {
         public void EditEmail(int id, string newEmail) {
             var user = _userRepository.Get(id);
             if (user == null) return;
-            user.Name = newEmail;
+            user.Email = newEmail;
            _userRepository.Update(user);
+            _uow.Commit();
+        }
+        public void EditName(int id, string newName) {
+            var user = _userRepository.Get(id);
+            if(user == null)
+                return;
+            user.Name = newName;
+            _userRepository.Update(user);
             _uow.Commit();
         }
 

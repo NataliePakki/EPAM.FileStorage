@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -11,10 +12,6 @@ namespace MvcPL.Controllers {
     [Authorize]
     public class UserController : Controller {
         private readonly IUserService _userService;
-        private string CurrentUserEmail => CurrentUser.UserEmail;
-
-        private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
-
         public UserController(IUserService userService) {
             _userService = userService;
         }
@@ -29,16 +26,17 @@ namespace MvcPL.Controllers {
         public ActionResult EditPhoto(UserEditViewModel viewModel) {
             if(ModelState.IsValid) {
                 var photo = viewModel.Photo;
-                if(photo != null && !photo.IsImage()) {
+                var userId = viewModel.Id;
+                if(IsImageCorrect(photo)) {
                     ModelState.AddModelError("", "Select jpg/png image.");
                     return View("Edit", viewModel);
                 }
-                _userService.EditPhoto(viewModel.Id, photo.HttpPostedFileBaseToImage());
-                Session["Photo"] = photo.HttpPostedFileBaseToByteArray();
+                EditPhoto(userId,photo);
                 return RedirectToAction("Edit", "User");
             }
             return View("Edit", viewModel);
         }
+
 
 
         [HttpPost]
@@ -47,18 +45,44 @@ namespace MvcPL.Controllers {
             if(ModelState.IsValid) {
                 var id = viewModel.Id;
                 var newEmail = viewModel.Email;
-                var userExist = _userService.IsUserExist(viewModel.Email);
-                if(string.CompareOrdinal(CurrentUserEmail, newEmail) == 0) {
-                    userExist = false;
-                }
-                if(userExist) {
+                var userEmailExist = _userService.IsUserEmailExist(newEmail);
+                if(userEmailExist) {
+                    if (Request.IsAjaxRequest()) {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
                     ModelState.AddModelError("", "User with this email already exist.");
                     return View("Edit",viewModel);
                 }
                 _userService.EditEmail(id, newEmail);
-                FormsAuthentication.SetAuthCookie(viewModel.Email, true);
+                FormsAuthentication.SetAuthCookie(newEmail, true);
                 if (Request.IsAjaxRequest()) {
                     return Json(true,JsonRequestBehavior.AllowGet);
+                }
+                return RedirectToAction("Edit", "User");
+            }
+            return View("Edit", viewModel);
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditName(UserEditViewModel viewModel) {
+            if(ModelState.IsValid) {
+                var id = viewModel.Id;
+                var newName = viewModel.Name;
+                var userNameExist = _userService.IsUserNameExist(viewModel.Name);
+                if(userNameExist) {
+                    if(Request.IsAjaxRequest()) {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+                    ModelState.AddModelError("", "User with this name already exist.");
+                    return View("Edit", viewModel);
+                }
+                _userService.EditName(id, newName);
+                Session["Name"] = newName;
+                if(Request.IsAjaxRequest()) {
+                    return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 return RedirectToAction("Edit", "User");
             }
@@ -68,23 +92,25 @@ namespace MvcPL.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult EditPassword(UserEditViewModel viewModel) {
             if(ModelState.IsValid) {
-                var user = CurrentUser;
-                if (String.CompareOrdinal(viewModel.Password, viewModel.ConfirmPassword) != 0) {
+                var newPassword = viewModel.Password;
+                if (String.CompareOrdinal(newPassword, viewModel.ConfirmPassword) != 0) {
                     ModelState.AddModelError("", "Passwords must match.");
                     return View("Edit", viewModel);
                 }
-                if (!Crypto.VerifyHashedPassword(user.Password, viewModel.OldPassword)) {
+                var id = viewModel.Id;
+                var password = _userService.GetPasswod(id);
+                if (!Crypto.VerifyHashedPassword(password, viewModel.OldPassword)) {
                     ModelState.AddModelError("", "Incorrect old password.");
                     return View("Edit", viewModel);
                 }
-                var password = Crypto.HashPassword(viewModel.Password);
-                _userService.EditPassword(user.Id, password);
+                newPassword = Crypto.HashPassword(newPassword);
+                _userService.EditPassword(id, newPassword);
                 if(Request.IsAjaxRequest()) {
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
                 return RedirectToAction("Edit", "User");
                 }
-            return RedirectToAction("Edit", "User");
+            return View("Edit",viewModel);
         }
         [HttpGet]
         [AllowAnonymous]
@@ -97,5 +123,14 @@ namespace MvcPL.Controllers {
             var userDetailsModel = _userService.GetUserEntity(userId).ToUserDetailsModel();
             return View(userDetailsModel);
         }
+        private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
+        private bool IsImageCorrect(HttpPostedFileBase photo) => photo != null && !photo.IsImage();
+
+        private void EditPhoto(int userId, HttpPostedFileBase photo) {
+            var image = photo.HttpPostedFileBaseToImage();
+            _userService.EditPhoto(userId, image);
+            Session["Photo"] = image.ImageToByteArray();
+        }
+
     }
 }

@@ -7,6 +7,10 @@ using System.Web.Mvc;
 namespace MvcPL.Models {
     public class UserEditViewModel {
         public int Id { get; set; }
+        [Display(Name = "Name")]
+        [StringLength(200, ErrorMessage = "Name must contain no more 200 characters.")]
+        [Remote("IsUserNameExist", "ModelValidation", ErrorMessage = "This name has already exist.")]
+        public string Name { get; set; }
 
         [Display(Name = "Email")]
         [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Incorrect E-mail.")]

@@ -7,8 +7,9 @@ namespace MvcPL.Models {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        [Display(Name = "Is Shared??")]
+        [Display(Name = "Is Shared?")]
         public bool IsShared { get; set; }
+        public int UserId { get; set; }
 
     }
 }

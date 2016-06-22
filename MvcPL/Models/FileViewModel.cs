@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web.UI.WebControls;
 
 namespace MvcPL.Models {
         public class FileViewModel {
@@ -13,10 +14,10 @@ namespace MvcPL.Models {
         public String Size { get; set; }
         [Display(Name = "User name")]
         public string UserName { get; set; }
+        public string UserEmail { get; set; }
         [Display(Name = "Date created")]
         public DateTime CreationDate { get; set; }
         public bool IsShared { get; set; }
         public int UserId { get; set; }
-
-        }
+    }
 }

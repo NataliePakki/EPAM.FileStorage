@@ -7,7 +7,8 @@ namespace BLL.Interfacies.Entities {
             Roles = new HashSet<RoleEntity>();
         }
         public int Id { get; set; }
-        public string UserEmail { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public Image Photo { get; set; }
         public bool IsBlocked { get; set; }

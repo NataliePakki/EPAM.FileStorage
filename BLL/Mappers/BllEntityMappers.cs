@@ -13,7 +13,8 @@ namespace BLL.Mappers {
                 return null;
             return new DalUser {
                 Id = userEntity.Id,
-                Name = userEntity.UserEmail,
+                Name = userEntity.Name,
+                Email = userEntity.Email,
                 Password = userEntity.Password,
                 IsBlocked = userEntity.IsBlocked,
                 Roles = userEntity.Roles.ToDalRoleCollection(),
@@ -27,7 +28,8 @@ namespace BLL.Mappers {
                 return null;
             return new UserEntity {
                 Id = dalUser.Id,
-                UserEmail = dalUser.Name,
+                Name = dalUser.Name,
+                Email = dalUser.Email,
                 Password = dalUser.Password,
                 IsBlocked = dalUser.IsBlocked,
                 Photo = dalUser.Photo.ByteArrayToImage(),

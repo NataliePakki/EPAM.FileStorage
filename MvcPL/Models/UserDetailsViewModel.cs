@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations;
 namespace MvcPL.Models {
     public class UserDetailsViewModel {
         public int Id { get; set; }
+        [Display(Name = "Name")]
+        public string Name { get; set; }
         [Display(Name = "Email")]
         public string Email { get; set; }
         public bool IsBlocked { get; set; }

@@ -16,8 +16,8 @@
         <!-- SIDEBAR USER TITLE -->
         <div class="profile-usertitle">
             <div class="profile-usertitle-name">
-                @if (User.Identity.Name != null) {
-                    @User.Identity.Name
+                @if (@Session["Name"] != null) {
+                    @Session["Name"]
                 } else {
                     @Html.Label("Anonim")
                 }
@@ -25,11 +25,11 @@
             </div>
             <div class="profile-usertitle-job">
                 @if (User.IsInRole("User")) {
-                Html.Label("User");
+                @Html.Label("User");
                 } else if (User.IsInRole("Administrator")) {
-                    Html.Label("Administrator");
+                    @Html.Label("Administrator");
                 } else {
-                     Html.Label("Guest");
+                  @Html.Label("Guest");
                 }
             </div>
         </div>
@@ -45,7 +45,7 @@
                         @Html.ActionLink("My Files", "UserFiles", "File")
                     </li>
                     <li>
-                        @Html.ActionLink("User Edit", "Edit", "User")
+                        @Html.ActionLink("Edit Profile", "Edit", "User")
                     </li>
                     if (User.IsInRole("Administrator")) {
                         <li>

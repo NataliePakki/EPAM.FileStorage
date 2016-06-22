@@ -17,6 +17,7 @@ namespace MvcPL.Infrastructure.Mappers {
                 Name = fileEntity.Name,
                 Description = fileEntity.Description,
                 UserName = fileEntity.UserName,
+                UserEmail = fileEntity.UserEmail,
                 CreationDate = fileEntity.TimeAdded,
                 Size = GetSizeString(fileEntity.Size),
                 UserId = fileEntity.UserId,
@@ -36,13 +37,23 @@ namespace MvcPL.Infrastructure.Mappers {
                 FileBytes = fileBase.ToFileBytes(),
             };
         }
+        public static DeleteFileViewModel ToDeleteFileViewModel(this FileEntity fileEntity) {
+            return new DeleteFileViewModel() {
+                Id = fileEntity.Id,
+                Name = fileEntity.Name,
+                UserId = fileEntity.UserId,
+            };
+
+        }
 
         public static EditFileViewModel ToEditFileViewModel(this FileEntity fileEntity) {
             return new EditFileViewModel {
                 Id = fileEntity.Id,
                 Name = fileEntity.Name,
                 Description = fileEntity.Description,
-                IsShared = fileEntity.IsShared
+                IsShared = fileEntity.IsShared,
+                UserId = fileEntity.UserId
+                
             };
         }
         public static FileEntity ToFileEntity(this EditFileViewModel fileViewModel) {
