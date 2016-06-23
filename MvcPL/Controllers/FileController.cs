@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Web;
 using System.Web.Mvc;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
@@ -28,7 +26,7 @@ namespace MvcPL.Controllers {
             var tvm = files.ToTableViewModel(page, search, userId);
 
             if(Request.IsAjaxRequest()) {
-                return PartialView("_FileTable", tvm);
+              return PartialView("_FileTable", tvm);
             }
             return View("Index", tvm);
         }
@@ -73,7 +71,7 @@ namespace MvcPL.Controllers {
                 _fileService.DeleteFile(file.Id);
                 return RedirectToAction("Index", new { userId = file.UserId });
             }
-            return RedirectToAction("Index");
+            return View("FileNotFoundError");
         }
         public ActionResult Delete(int id) {
             var file = _fileService.GetFileEntity(id);
@@ -84,11 +82,9 @@ namespace MvcPL.Controllers {
                 }
                 return View("ConfirmDelete", file.ToDeleteFileViewModel());
             }
-            return RedirectToAction("Index", "File");
+            return View("FileNotFoundError");
         }
-
-
-
+        
         [HttpGet]
         public ActionResult Edit(int id) {
             var file = _fileService.GetFileEntity(id);
@@ -99,7 +95,7 @@ namespace MvcPL.Controllers {
                     return PartialView("_EditForm", fvm);
                  return View("Edit", fvm);
                 }
-            return View("Error");
+            return View("FileNotFoundError");
         }
 
         [HttpPost]
@@ -114,7 +110,7 @@ namespace MvcPL.Controllers {
 
         [AllowAnonymous]
         [HttpGet]
-        public FileContentResult Download(int id) {
+        public ActionResult Download(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file != null) {
                 if (UserIsAdministrator || IsCurrentUser(file.UserId) || file.IsShared) {
@@ -122,6 +118,7 @@ namespace MvcPL.Controllers {
                     if (physicalFile != null)
                         return File(physicalFile, file.ContentType, file.Name);
                 }
+                return View("FileNotFoundError");
             }
             return null;
         }
@@ -137,19 +134,20 @@ namespace MvcPL.Controllers {
                 }
                 return View("ShareLink", fvm);
             }
-            return View("Error");
+            return View("FileNotFoundError");
         }
 
         [AllowAnonymous]
-        public FileContentResult GetShared(int id) {
+        public ActionResult GetShared(int id) {
             return Download(id);
         }
 
         public ActionResult TooLargeFileError() {
             if (Request.IsAjaxRequest())
                 return Json(true,JsonRequestBehavior.AllowGet);
-            return View();
+            return View("TooLargeFileError");
         }
+
         private int? CurrentUserId => CurrentUser?.Id;
         private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
         private bool UserIsAdministrator => User.IsInRole("Administrator");
