@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
@@ -53,7 +51,6 @@ namespace BLL.Services {
         public void CreateFile(FileEntity fileEntity) {
             _repository.Create(fileEntity.ToDalFile());
             _uow.Commit();
-            AddPhysicalFile(fileEntity);
         }
 
 
@@ -63,35 +60,12 @@ namespace BLL.Services {
         }
 
         public void DeleteFile(int id) {
-            var file = _repository.Get(id).ToBllFile();
             _repository.Delete(id);
             _uow.Commit();
-            DeletePhysicalFile(file);
         }
 
         public byte[] GetPhysicalFile(int id) {
-            var file = _repository.Get(id);
-            if (file == null) return null;
-            try {
-                return File.ReadAllBytes(FileStorageDirectory(file.Id, file.Name));
-            } catch (FileNotFoundException) {
-                return null;
-            }
+            return _repository.GetPhysicalFile(id);
         }
-
-        private static string FileStorageDirectory(int id, string name) => $"{AppDomain.CurrentDomain.BaseDirectory}/App_Data/Storage/{id}_{name}";
-
-        private void AddPhysicalFile(FileEntity file) {
-            var id = _repository.GetId(file.ToDalFile());
-            var name = file.Name;
-            var fileBytes = file.FileBytes;
-            File.WriteAllBytes(FileStorageDirectory(id, name), fileBytes);
-        }
-
-        private static void DeletePhysicalFile(FileEntity file) {
-            var id = file.Id;
-            var name = file.Name;
-            File.Delete(FileStorageDirectory(id, name));
-        }
-    }
+   }
 }

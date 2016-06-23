@@ -76,10 +76,6 @@
   <ItemGroup>
     <Compile Include="DBInitializer.cs" />
     <Compile Include="EntityModel.cs" />
-    <Compile Include="Migrations\201606211417229_addName.cs" />
-    <Compile Include="Migrations\201606211417229_addName.Designer.cs">
-      <DependentUpon>201606211417229_addName.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,11 +85,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606211417229_addName.resx">
-      <DependentUpon>201606211417229_addName.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

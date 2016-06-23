@@ -20,6 +20,7 @@ namespace DAL.Mappers {
                 ContentType = file.ContentType,
                 Description = file.Description,
                 Size = file.Size,
+                FileGuid = file.FileGuid
             };
         }
         public static File ToFile(this DalFile dalFile) {
@@ -34,6 +35,7 @@ namespace DAL.Mappers {
                 ContentType = dalFile.ContentType,
                 Description = dalFile.Description,
                 Size = dalFile.Size,
+                FileGuid = dalFile.FileGuid
                 };
         }
         public static ICollection<DalFile> ToDalFileCollection(this IEnumerable<File> files) {

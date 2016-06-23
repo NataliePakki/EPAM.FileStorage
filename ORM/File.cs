@@ -13,6 +13,7 @@ namespace ORM {
         public bool IsShared { get; set; }
         public DateTime TimeAdded { get; set; }
         public int UserId { get; set; }
+        public string FileGuid { get; set; } 
         public virtual User User { get; set; }
     }
 }
