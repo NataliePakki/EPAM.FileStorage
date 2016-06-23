@@ -141,17 +141,9 @@ namespace MvcPL.Controllers {
         public ActionResult GetShared(int id) {
             return Download(id);
         }
-
-        public ActionResult TooLargeFileError() {
-            if (Request.IsAjaxRequest())
-                return Json(true,JsonRequestBehavior.AllowGet);
-            return View("TooLargeFileError");
-        }
-
         private int? CurrentUserId => CurrentUser?.Id;
         private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
         private bool UserIsAdministrator => User.IsInRole("Administrator");
-
-       private bool IsCurrentUser(int? userId) => userId != null && userId == CurrentUserId;
+        private bool IsCurrentUser(int? userId) => userId != null && userId == CurrentUserId;
     }
 }

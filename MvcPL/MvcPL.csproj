@@ -304,7 +304,7 @@
     <Content Include="Views\File\_FileTable.cshtml" />
     <Content Include="Views\File\_EditForm.cshtml" />
     <Content Include="Views\File\FileNotFoundError.cshtml" />
-    <Content Include="Views\File\TooLargeFileError.cshtml" />
+    <Content Include="Views\Error\TooLargeFileError.cshtml" />
     <Content Include="Views\Error\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>

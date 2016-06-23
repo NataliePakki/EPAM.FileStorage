@@ -5,7 +5,6 @@ namespace MvcPL {
     public class RouteConfig {
         public static void RegisterRoutes(RouteCollection routes) {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
@@ -14,6 +13,10 @@ namespace MvcPL {
             routes.MapRoute(
                 name: "Error404",
                 url: "Error/Error404"
+                );
+            routes.MapRoute(
+                name: "TooLargeFileError",
+                url: "Error/TooLargeFileError"
                 );
         }
     }
