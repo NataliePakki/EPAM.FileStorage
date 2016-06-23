@@ -11,6 +11,10 @@ namespace MvcPL {
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "File", action = "Index", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "Error404",
+                url: "Error/Error404"
+                );
         }
     }
 }

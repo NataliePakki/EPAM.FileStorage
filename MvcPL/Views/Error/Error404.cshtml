@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Error404";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Header {
+    <h2>Error.</h2>
+}
+
+@section Body {
+    <div>
+        <hr />
+        <p>Page not found</p>
+        <div class="col-md-12 form-inline">
+            @Html.ActionLink("Back", "Index", "File", null, new { @class = "btn btn-primary btn-sm" })
+        </div>
+    </div>
+}

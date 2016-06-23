@@ -27,5 +27,14 @@ namespace MvcPL {
                 context.Response.Redirect("TooLargeFileError");
             }
         }
+        private void Application_Error(object sender, EventArgs e) {
+            Exception ex = Server.GetLastError();
+            if ((ex as HttpException)?.GetHttpCode() == 404) {
+                Response.Clear();
+                Server.ClearError();
+                Response.RedirectToRoute("Error404");
+
+            }
+        }
     }
 }
