@@ -60,7 +60,7 @@ function editName() {
                 $("#info-edit-name").addClass("alert-success").css("display", "inline-block");
                 $(".profile-usertitle-name").html($("#Name").val());
                 setTimeout(function () {
-                    $("#info-edit-name").removeClass("alert-success").css("display", "none");
+                    $("#info-edit-name").hide();
                 }, 3000);
             }
         }
@@ -83,7 +83,7 @@ function editPassword() {
                 $("#Password").val("");
                 $("#OldPassword").val("");
                 setTimeout(function () {
-                    $("#success-edit-password").css("display", "none");
+                    $("#success-edit-password").hide();
                 }, 3000);
             }
         }
@@ -91,9 +91,7 @@ function editPassword() {
 }
 
 //----Files-------
-// Search
-
-
+// Create File Model Window
 function createFileModalWindow() {
     var linkCreate = $("#lnkCreate").attr("href");
     $("<div id='dialogContent'></div>")
@@ -109,6 +107,9 @@ function createFileModalWindow() {
                    {
                        text: "Create",
                        click: function () {
+                           $("#loadingmessage").show();
+                           $("#info-create-file").hide();
+
                            var formData = new FormData($("#form-create").get(0));
                            $.ajax({
                                type: "POST",
@@ -118,10 +119,24 @@ function createFileModalWindow() {
                                processData: false,
                                contentType: false,
                                success: function (response) {
-                                   $("#table").html(response);
-                               }
+                                   var alertClass = "";
+                                   $("#info-create-file").removeClass("alert-info");
+                                   if (response.toString() === "true") {
+                                       alertClass = "alert-danger";
+                                       $("#info-create-file").addClass(alertClass).html("<strong>Error</strong> Sorry, this file is too large.").show();
+                                       
+                                   } else {
+                                       alertClass = "alert-success";
+                                       $("#info-create-file").addClass(alertClass).html("<strong>Success!</strong> File added.").show();
+                                       $("#table").html(response);
+                                   }
+                                   $("#loadingmessage").hide();
+                                   setTimeout(function () {
+                                       $("#info-create-file").removeClass(alertClass).addClass("alert-info").html("<strong> Info! </strong>File's size < 100 MB");
+                                   }, 5000);
+                                 }
                            });
-                           $(this).dialog("close");
+                          
                        }
                    }
                ]
@@ -134,7 +149,6 @@ $(".close").on("click", function (e) {
 });
 //EditFile modal dialog
 function editFileModalWindow(id) {
-    var link = $("#lnkEdit").attr("href");
     $("<div id='dialogContent'></div>")
         .addClass("dialog")
         .appendTo("body")
@@ -165,10 +179,26 @@ function editFileModalWindow(id) {
                 }
             ]
         })
-        .load(link) ;
+        .load("/File/Edit/" + id) ;
 }
 
-
+//Delete File
+function deleteFile(id, userId) {
+    if(confirm("Are you sure?")) {
+        $.ajax({
+            type: "POST",
+            url: "/File/Delete",
+            data: {
+                "id": id,
+                "userId": userId
+            },
+            cache: false,
+            success: function(response) {
+                    $("#table").html(response);
+            }
+        });
+    }
+}
 
 // ShareLink model dialog
 function shareFileModalWindow() {

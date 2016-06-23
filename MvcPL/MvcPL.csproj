@@ -211,6 +211,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\images\default_avatar.png" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -283,7 +284,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
@@ -302,6 +302,7 @@
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\_FileTable.cshtml" />
     <Content Include="Views\File\_EditForm.cshtml" />
+    <Content Include="Views\File\TooLargeFileError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Storage\" />

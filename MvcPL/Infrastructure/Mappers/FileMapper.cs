@@ -25,7 +25,8 @@ namespace MvcPL.Infrastructure.Mappers {
             };
 
         }
-        public static FileEntity ToFileEntity(this CreateFileViewModel createFileViewModel, HttpPostedFileBase fileBase) {
+        public static FileEntity ToFileEntity(this CreateFileViewModel createFileViewModel) {
+            var fileBase = createFileViewModel.File;
             return new FileEntity() {
                 Name = fileBase.FileName,
                 Description = createFileViewModel.Description,
@@ -66,7 +67,7 @@ namespace MvcPL.Infrastructure.Mappers {
 
 
         public static TableViewModel ToTableViewModel(this List<FileEntity> files, int page, string searchString, int? userId = null) {
-            int pageSize = 2;
+            int pageSize = 10;
             var pageInfo = new PageInfo {
                 PageNumber = page,
                 PageSize = pageSize,

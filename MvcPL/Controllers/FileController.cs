@@ -24,7 +24,7 @@ namespace MvcPL.Controllers {
                 userId = CurrentUserId;
             }
 
-            var files = _fileService.GetFiles(search,userId).ToList();
+            var files = _fileService.GetFiles(search,userId).ToList().OrderByDescending(f => f.TimeAdded).ToList();
             var tvm = files.ToTableViewModel(page, search, userId);
 
             if(Request.IsAjaxRequest()) {
@@ -52,10 +52,11 @@ namespace MvcPL.Controllers {
         }
 
         [HttpPost]
-        public ActionResult Create(CreateFileViewModel createFileViewModel, HttpPostedFileBase fileBase) {
+        public ActionResult Create(CreateFileViewModel createFileViewModel) {
             if (ModelState.IsValid) {
+                var fileBase = createFileViewModel.File;
                 if (fileBase != null) {
-                    var file = createFileViewModel.ToFileEntity(fileBase);
+                    var file = createFileViewModel.ToFileEntity();
                     _fileService.CreateFile(file);
                 }
                 return RedirectToAction("Index", "File", new {userId = createFileViewModel.UserId});
@@ -64,15 +65,7 @@ namespace MvcPL.Controllers {
             return View(createFileViewModel);
         }
 
-//        [HttpGet]
-//        public ActionResult ConfirmDelete(DeleteFileViewModel dvm) {
-//            var file = _fileService.GetFileEntity(dvm.Id);
-//            if (file != null && (file.UserId == CurrentUserId || UserIsAdministrator)) {
-//                return View("ConfirmDelete", dvm);
-//            }
-//            return RedirectToAction("Index", new { userId = dvm.UserId });
-//        }
-//        
+    
         [HttpPost]
         public ActionResult ConfirmDelete(int id) {
             var file = _fileService.GetFileEntity(id);
@@ -82,7 +75,6 @@ namespace MvcPL.Controllers {
             }
             return RedirectToAction("Index");
         }
-
         public ActionResult Delete(int id) {
             var file = _fileService.GetFileEntity(id);
             if (file != null && (IsCurrentUser(file.UserId) || UserIsAdministrator)) {
@@ -151,6 +143,12 @@ namespace MvcPL.Controllers {
         [AllowAnonymous]
         public FileContentResult GetShared(int id) {
             return Download(id);
+        }
+
+        public ActionResult TooLargeFileError() {
+            if (Request.IsAjaxRequest())
+                return Json(true,JsonRequestBehavior.AllowGet);
+            return View();
         }
         private int? CurrentUserId => CurrentUser?.Id;
         private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);

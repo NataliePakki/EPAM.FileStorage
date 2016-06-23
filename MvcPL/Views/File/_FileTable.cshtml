@@ -54,8 +54,8 @@
                         <td>
                             @Html.ActionLink("Download", "Download", new {id = item.Id})
                             @if (Model.UserId != null && (item.UserEmail == User.Identity.Name || User.IsInRole("Administrator"))) {
-                                @Html.ActionLink(" | Edit | ", "Edit", new {id = item.Id}, new {id = "lnkEdit", onclick = $"editFileModalWindow('{item.Id}');return false;"})
-                                @Ajax.ActionLink("Delete ", "Delete", "File", new {id = item.Id, userId = Model.UserId}, new AjaxOptions() {Confirm = "Are you sure?", HttpMethod = "Post", UpdateTargetId = "table"}, new {id = item.Id})
+                                @Html.ActionLink(" | Edit | ", "Edit", new {id = item.Id}, new {onclick = $"editFileModalWindow('{item.Id}');return false;"})
+                                @Html.ActionLink("Delete ", "Delete", "File", new { id = item.Id, userId = Model.UserId }, new {onclick=$"deleteFile('{item.Id}','{item.UserId}'); return false;"})
                             }
                             @if (item.IsShared) {
 

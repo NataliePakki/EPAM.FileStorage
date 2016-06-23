@@ -1,0 +1,19 @@
+﻿@{
+    ViewBag.Title = "Error";
+}
+
+@section Header {
+    <h2>Error.</h2>
+}
+
+@section Body {
+    <div>
+        <hr />
+        <p>Sorry, but file is too large.</p>
+        <div class="col-md-12 form-inline">
+            @Html.ActionLink("Back", "Index", "File", new { @class = "btn btn-primary btn-sm" })
+        </div>
+    </div>
+}
+
+
