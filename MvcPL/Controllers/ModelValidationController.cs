@@ -5,7 +5,7 @@ using BLL.Interfacies.Entities;
 using BLL.Interfacies.Services;
 
 namespace MvcPL.Controllers {
-    public class ModelValidationController : Controller{
+    public class ModelValidationController : Controller {
         private readonly IUserService _userService;
         private UserEntity CurrentUser => _userService.GetUserEntity(User.Identity.Name);
         private string CurrentUserEmail => CurrentUser?.Email;

@@ -48,8 +48,7 @@ namespace DAL.Concrete {
 
 
         public void Update(DalFile entity) {
-            var updatedFile = entity.ToFile();
-            var existedFile = _context.Entry<File>(_context.Set<File>().Find(updatedFile.Id));
+            var existedFile = _context.Entry<File>(_context.Set<File>().Find(entity.Id));
             if(existedFile == null) {
                 return;
             }
@@ -83,7 +82,7 @@ namespace DAL.Concrete {
                 return null;
             }
         }
-        private static string FileStorageDirectory(string quid, string name) => $"{AppDomain.CurrentDomain.BaseDirectory}/App_Data/Storage/{quid}_{name}";
+        private static string FileStorageDirectory(string guid, string name) => $"{AppDomain.CurrentDomain.BaseDirectory}/App_Data/Storage/{guid}_{name}";
 
         private void AddPhysicalFile(DalFile file) {
             var quid = file.FileGuid;

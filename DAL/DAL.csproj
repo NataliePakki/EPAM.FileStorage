@@ -60,9 +60,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\DAL.Interfacies\DAL.Interfacies.csproj">
+    <ProjectReference Include="..\DAL.Interfacies\DAL.Interfaces.csproj">
       <Project>{75EF4420-5DBE-4A80-B3B7-5B0D1C1AD9F5}</Project>
-      <Name>DAL.Interfacies</Name>
+      <Name>DAL.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\ORM\ORM.csproj">
       <Project>{38ee6f66-f085-4670-b2a6-31f5d036a02f}</Project>

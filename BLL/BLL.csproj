@@ -49,13 +49,13 @@
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BLL.Interfacies\BLL.Interfacies.csproj">
+    <ProjectReference Include="..\BLL.Interfacies\BLL.Interfaces.csproj">
       <Project>{2794d561-e50a-40e5-b41f-a075a803c6b0}</Project>
-      <Name>BLL.Interfacies</Name>
+      <Name>BLL.Interfaces</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL.Interfacies\DAL.Interfacies.csproj">
+    <ProjectReference Include="..\DAL.Interfacies\DAL.Interfaces.csproj">
       <Project>{75ef4420-5dbe-4a80-b3b7-5b0d1c1ad9f5}</Project>
-      <Name>DAL.Interfacies</Name>
+      <Name>DAL.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{75EF4420-5DBE-4A80-B3B7-5B0D1C1AD9F5}</ProjectGuid>
+    <ProjectGuid>{2794D561-E50A-40E5-B41F-A075A803C6B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DAL.Interfacies</RootNamespace>
-    <AssemblyName>DAL.Interfacies</AssemblyName>
+    <RootNamespace>BLL.Interfaces</RootNamespace>
+    <AssemblyName>BLL.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,6 +32,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,22 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\DalFile.cs" />
-    <Compile Include="DTO\DalRole.cs" />
-    <Compile Include="DTO\DalUser.cs" />
-    <Compile Include="DTO\IEntity.cs" />
+    <Compile Include="Entities\FileEntity.cs" />
+    <Compile Include="Entities\RoleEntity.cs" />
+    <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\IFileRepository.cs" />
-    <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\IRoleRepository.cs" />
-    <Compile Include="Repository\IUnitOfWork.cs" />
-    <Compile Include="Repository\IUserRepository.cs" />
+    <Compile Include="Services\IFileService.cs" />
+    <Compile Include="Services\IRoleService.cs" />
+    <Compile Include="Services\IUserService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ORM\ORM.csproj">
-      <Project>{38EE6F66-F085-4670-B2A6-31F5D036A02F}</Project>
-      <Name>ORM</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
