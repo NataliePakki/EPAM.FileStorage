@@ -36,6 +36,11 @@ namespace MvcPL.Controllers {
             }
             return View("Edit", viewModel);
         }
+        public ActionResult DeletePhoto(int id) {
+            _userService.DeletePhoto(id);
+            Session["Photo"] = null;
+            return RedirectToAction("Edit", "User");
+        }
 
 
 
@@ -112,6 +117,7 @@ namespace MvcPL.Controllers {
                 }
             return View("Edit",viewModel);
         }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult UserBlocked() {

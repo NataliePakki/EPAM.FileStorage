@@ -44,36 +44,40 @@ namespace BLL.Services {
         }
 
         public void EditPhoto(int id, Image photo) {
-            var user = _userRepository.Get(id);
+            var user = _userRepository.Get(id).ToBllUser();
             if (user == null) return;
-            user.Photo = photo.ImageToByteArray();
-            _userRepository.Update(user);
-            _uow.Commit();
+            user.Photo = photo;
+            UpdateUser(user);
+        }
+
+        public void DeletePhoto(int id) {
+            var user = _userRepository.Get(id).ToBllUser();
+            if(user == null)
+                return;
+            user.Photo = null;
+            UpdateUser(user);
         }
 
         public void EditPassword(int id, string password) {
-            var user = _userRepository.Get(id);
+            var user = _userRepository.Get(id).ToBllUser();
             if(user == null)
                 return;
             user.Password = password;
-            _userRepository.Update(user);
-            _uow.Commit();
+            UpdateUser(user);
         }
 
         public void EditEmail(int id, string newEmail) {
-            var user = _userRepository.Get(id);
+            var user = _userRepository.Get(id).ToBllUser();
             if (user == null) return;
             user.Email = newEmail;
-           _userRepository.Update(user);
-            _uow.Commit();
+            UpdateUser(user);
         }
         public void EditName(int id, string newName) {
-            var user = _userRepository.Get(id);
+            var user = _userRepository.Get(id).ToBllUser();
             if(user == null)
                 return;
             user.Name = newName;
-            _userRepository.Update(user);
-            _uow.Commit();
+            UpdateUser(user);
         }
 
         public void CreateUser(UserEntity user) {

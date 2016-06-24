@@ -39,7 +39,6 @@
                             @using(Html.BeginForm("EditEmail", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-edit-email", enctype = "multipart/form-data" })) {
                                 @Html.AntiForgeryToken()
                                 @Html.HiddenFor(m => m.Id, new {Value = Model.Id})
-                                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
                                 <div class="form-group">
                                     @Html.LabelFor(m => m.Email, new {@class = "col-md-3 control-label"})
                                     <div class="col-md-7 form-inline text-left">
@@ -68,6 +67,7 @@
                                 <div class="form-group">
                                     <div class="col-md-12">
                                         <input type="submit" class="btn btn-primary" value="Save"/>
+                                        @Html.ActionLink("Delete Photo", "DeletePhoto" , "User",new {id = Model.Id}, new { @class = "btn btn-primary" })
                                     </div>
                                 </div>
                             }
