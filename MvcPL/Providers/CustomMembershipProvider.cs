@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Helpers;
 using System.Web.Security;
-using BLL.Interfacies.Services;
+using BLL.Interfaces.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
 

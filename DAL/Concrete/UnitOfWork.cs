@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using DAL.Interfacies.Repository;
+using DAL.Interfaces.Repository;
 
 namespace DAL.Concrete {
     public class UnitOfWork : IUnitOfWork {

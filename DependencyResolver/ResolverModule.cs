@@ -1,8 +1,8 @@
 ﻿using System.Data.Entity;
-using BLL.Interfacies.Services;
+using BLL.Interfaces.Services;
 using BLL.Services;
 using DAL.Concrete;
-using DAL.Interfacies.Repository;
+using DAL.Interfaces.Repository;
 using Ninject;
 using Ninject.Web.Common;
 using ORM;

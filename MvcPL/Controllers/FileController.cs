@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using BLL.Interfacies.Entities;
-using BLL.Interfacies.Services;
+using BLL.Interfaces.Entities;
+using BLL.Interfaces.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
 
@@ -118,9 +118,8 @@ namespace MvcPL.Controllers {
                     if (physicalFile != null)
                         return File(physicalFile, file.ContentType, file.Name);
                 }
-                return View("FileNotFoundError");
             }
-            return null;
+            return View("FileNotFoundError");
         }
 
         [AllowAnonymous]

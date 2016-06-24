@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using BLL.Interfacies.Services;
+using BLL.Interfaces.Services;
 using MvcPL.Infrastructure.Mappers;
 using MvcPL.Models;
 using MvcPL.Providers;
@@ -101,8 +101,7 @@ namespace MvcPL.Controllers {
         [ValidateAntiForgeryToken]
         public ActionResult LogOff() {
             FormsAuthentication.SignOut();
-            Session["Photo"] = null;
-            Session["Name"] = null;
+            Session.Abandon();
             return RedirectToAction("Index", "File");
         }
 

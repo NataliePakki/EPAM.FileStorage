@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
-using DAL.Interfacies.DTO;
+using DAL.Interfaces.DTO;
 using ORM;
 
 namespace DAL.Mappers {

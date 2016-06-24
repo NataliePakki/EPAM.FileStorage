@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BLL.Interfacies.Entities;
+using BLL.Interfaces.Entities;
 
-namespace BLL.Interfacies.Services {
+namespace BLL.Interfaces.Services {
     public interface IFileService {
         FileEntity GetFileEntity(int id);
         IEnumerable<FileEntity> GetFiles(string substring = null, int? userId = null);

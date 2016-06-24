@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BLL.Interfacies.Entities;
+using BLL.Interfaces.Entities;
 
-namespace BLL.Interfacies.Services {
+namespace BLL.Interfaces.Services {
     public interface IRoleService {
         IEnumerable<RoleEntity> GetAllRoleEntities();
         RoleEntity GetRoleEntity(int id);

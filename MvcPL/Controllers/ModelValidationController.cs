@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using BLL.Interfacies.Entities;
-using BLL.Interfacies.Services;
+using BLL.Interfaces.Entities;
+using BLL.Interfaces.Services;
 
 namespace MvcPL.Controllers {
     public class ModelValidationController : Controller {

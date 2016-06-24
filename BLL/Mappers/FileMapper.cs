@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using BLL.Interfacies.Entities;
-using DAL.Interfacies.DTO;
+using BLL.Interfaces.Entities;
+using DAL.Interfaces.DTO;
 
 namespace BLL.Mappers {
     public static class FileMapper {

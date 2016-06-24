@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace BLL.Interfacies.Entities {
+namespace BLL.Interfaces.Entities {
     public class UserEntity {
         public UserEntity() {
             Roles = new HashSet<RoleEntity>();

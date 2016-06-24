@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using BLL.Interfacies.Entities;
+using BLL.Interfaces.Entities;
 
-namespace BLL.Interfacies.Services {
+namespace BLL.Interfaces.Services {
     public interface IUserService {
         UserEntity GetUserEntity(int id);
         UserEntity GetUserEntity(string email);
@@ -13,6 +13,7 @@ namespace BLL.Interfacies.Services {
         bool IsUserEmailExist(string email);
         bool IsUserNameExist(string name);
         void EditPhoto(int id, Image photo);
+        void DeletePhoto(int id);
         void EditPassword(int id, string password);
         void EditEmail(int id, string newEmail);
         void EditName(int id, string newName);

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Security;
-using BLL.Interfacies.Entities;
-using BLL.Interfacies.Services;
+using BLL.Interfaces.Entities;
+using BLL.Interfaces.Services;
 
 namespace MvcPL.Providers {
     public class CustomRoleProvider : RoleProvider {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DAL.Interfacies.DTO;
+using DAL.Interfaces.DTO;
 
 namespace DAL.Interfaces.Repository {
     public interface IFileRepository : IRepository<DalFile> {

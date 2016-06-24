@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using BLL.Interfacies.Entities;
-using BLL.Interfacies.Services;
+using BLL.Interfaces.Entities;
+using BLL.Interfaces.Services;
 using BLL.Mappers;
-using DAL.Interfacies.Repository;
+using DAL.Interfaces.Repository;
 
 namespace BLL.Services {
     public class UserService : IUserService {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using DAL.Interfacies.DTO;
+using DAL.Interfaces.DTO;
 
-namespace DAL.Interfacies.Repository {
+namespace DAL.Interfaces.Repository {
     public interface IRepository<TEntity> where TEntity : IEntity {
         IEnumerable<TEntity> GetAll();
         TEntity Get(int id);
