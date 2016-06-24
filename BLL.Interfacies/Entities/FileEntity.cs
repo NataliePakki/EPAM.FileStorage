@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BLL.Interfacies.Entities {
+namespace BLL.Interfaces.Entities {
     public class FileEntity {
         public int Id { get; set; }
         public string Name { get; set; }

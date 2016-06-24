@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DAL.Interfacies.DTO;
 
-namespace DAL.Interfacies.Repository {
+namespace DAL.Interfaces.Repository {
     public interface IFileRepository : IRepository<DalFile> {
         IEnumerable<DalFile> GetFilesBySubstring(string subsrting);
         IEnumerable<DalFile> GetFilesByUserId(int userId);

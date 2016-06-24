@@ -118,24 +118,26 @@ function createFileModalWindow() {
                                cache: false,
                                processData: false,
                                contentType: false,
-                               success: function (response) {
+                               success: function(response) {
                                    var alertClass = "";
                                    $("#info-create-file").removeClass("alert-info");
                                    if (response.toString() === "true") {
                                        alertClass = "alert-danger";
                                        $("#info-create-file").addClass(alertClass).html("<strong>Error</strong> Sorry, this file is too large.").show();
-                                       
+
                                    } else {
                                        alertClass = "alert-success";
                                        $("#info-create-file").addClass(alertClass).html("<strong>Success!</strong> File added.").show();
                                        $("#table").html(response);
                                    }
                                    $("#loadingmessage").hide();
-                                   setTimeout(function () {
+                                   setTimeout(function() {
                                        $("#info-create-file").removeClass(alertClass).addClass("alert-info").html("<strong> Info! </strong>File's size < 100 MB");
                                    }, 5000);
-                                 }
-                           });
+                                   $("#Description").html("");
+                               }
+                               
+                       });
                           
                        }
                    }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using DAL.Interfacies.DTO;
-using DAL.Interfacies.Repository;
+using DAL.Interfaces.DTO;
+using DAL.Interfaces.Repository;
 using DAL.Mappers;
 using ORM;
 

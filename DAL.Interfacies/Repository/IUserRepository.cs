@@ -1,6 +1,6 @@
-﻿using DAL.Interfacies.DTO;
+﻿using DAL.Interfaces.DTO;
 
-namespace DAL.Interfacies.Repository {
+namespace DAL.Interfaces.Repository {
     public interface IUserRepository : IRepository<DalUser> {
         DalUser GetUserByEmail(string email);
         DalUser GetUserByName(string name);

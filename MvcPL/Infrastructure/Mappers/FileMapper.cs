@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
-using BLL.Interfacies.Entities;
+using BLL.Interfaces.Entities;
 using MvcPL.Models;
 using File = ORM.File;
 

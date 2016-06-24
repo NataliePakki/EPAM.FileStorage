@@ -3,8 +3,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using BLL.Interfacies.Entities;
-using DAL.Interfacies.DTO;
+using BLL.Interfaces.Entities;
+using DAL.Interfaces.DTO;
 
 namespace BLL.Mappers {
     public static class BllEntityMappers {

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 using System.Web.Helpers;
-using BLL.Interfacies.Entities;
+using BLL.Interfaces.Entities;
 using MvcPL.Models;
 
 namespace MvcPL.Infrastructure.Mappers {

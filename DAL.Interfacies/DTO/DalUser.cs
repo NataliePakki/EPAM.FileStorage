@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.Interfacies.DTO {
+namespace DAL.Interfaces.DTO {
     public class DalUser : IEntity {
         public DalUser() {
             Roles = new HashSet<DalRole>();

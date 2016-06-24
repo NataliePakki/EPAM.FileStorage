@@ -1,4 +1,4 @@
-﻿using BLL.Interfacies.Entities;
+﻿using BLL.Interfaces.Entities;
 using MvcPL.Models;
 
 namespace MvcPL.Infrastructure.Mappers {
